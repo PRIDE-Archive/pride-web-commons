@@ -47,3 +47,9 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Purge jsDelivr CDN Cache
+        run: |
+          echo "Purging jsDelivr edge cache for main branch..."
+          curl -s -f "https://purge.jsdelivr.net/gh/PRIDE-Archive/pride-web-commons@main/dist/pride-web-commons.js" || true
+          curl -s -f "https://purge.jsdelivr.net/gh/PRIDE-Archive/pride-web-commons@main/dist/pride-web-commons.umd.cjs" || true
