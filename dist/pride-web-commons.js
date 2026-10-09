@@ -680,22 +680,29 @@ ul#global-nav.menu li.search .show-for-small-only {
   display: block;
 }
 
+/* closed: slid fully off-canvas and hidden, so it adds no scroll width and its
+   links are not reachable by keyboard; visibility flips after the slide-out */
 .drawer-panel {
   position: fixed;
   top: 0;
-  right: -300px;
+  right: 0;
   width: 280px;
+  max-width: 85vw;
+  transform: translateX(100%);
+  visibility: hidden;
   height: 100%;
   background: #fff;
   z-index: 2001;
   box-shadow: -2px 0 8px rgba(0,0,0,0.15);
-  transition: right 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), visibility 0s linear 0.3s;
   display: flex;
   flex-direction: column;
 }
 
 .drawer-panel.is-open {
-  right: 0;
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), visibility 0s;
 }
 
 .drawer-header {
@@ -784,13 +791,34 @@ ul#global-nav.menu li.search .show-for-small-only {
   }
 }
 
-@media (max-width: 640px) {
-  .masthead-black-bar nav ul.menu li:not(.home):not(.embl-selector) {
+/* The full black bar needs ~725px. Below that it keeps EMBL-EBI home, the
+   campus selector and search; the selector needs the #global-nav id to
+   outrank the base "ul#global-nav.menu li" rule. */
+@media (max-width: 767px) {
+  ul#global-nav.menu li:not(.home):not(.embl-selector):not(.search) {
     display: none;
   }
   .embl-selector .button {
     padding-left: 90px;
     font-size: 11px;
+  }
+}
+
+@media (max-width: 479px) {
+  .masthead-row,
+  .compact .masthead-row {
+    padding-left: 16px;
+    padding-right: 16px;
+    gap: 12px;
+  }
+  .pride-brand {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+  .pride-brand-logo {
+    height: auto;
+    max-height: 40px;
+    max-width: 100%;
   }
 }
 `, u = "pride-web-commons-icon-fonts", p = "https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2", h = (r) => `
@@ -902,8 +930,8 @@ class c extends HTMLElement {
   disconnectedCallback() {
     window.removeEventListener("scroll", this._onScroll), document.removeEventListener("click", this._onDocumentClick), document.removeEventListener("keydown", this._onKeyDown);
   }
-  attributeChangedCallback(e, t, o) {
-    t !== o && this.shadowRoot && this.shadowRoot.innerHTML && (e === "active-section" ? this._updateActiveSection() : this.render());
+  attributeChangedCallback(e, t, i) {
+    t !== i && this.shadowRoot && this.shadowRoot.innerHTML && (e === "active-section" ? this._updateActiveSection() : this.render());
   }
   _onScroll() {
     const e = window.pageYOffset || document.documentElement.scrollTop || 0, t = this.shadowRoot.querySelector(".pride-masthead");
@@ -923,8 +951,8 @@ class c extends HTMLElement {
   _toggleDropdown(e) {
     const t = this.shadowRoot.getElementById(e);
     if (!t) return;
-    const o = t.classList.contains("is-open");
-    this._closeAllDropdowns(), o || (t.classList.add("is-open"), this._openDropdown = e);
+    const i = t.classList.contains("is-open");
+    this._closeAllDropdowns(), i || (t.classList.add("is-open"), this._openDropdown = e);
   }
   _openDrawer() {
     const e = this.shadowRoot.querySelector(".drawer-backdrop"), t = this.shadowRoot.querySelector(".drawer-panel");
@@ -938,35 +966,35 @@ class c extends HTMLElement {
     try {
       const e = await fetch(this.bannerUrl);
       if (!e.ok) return;
-      const t = await e.text(), o = (typeof t == "string" ? t : "").replace(/<!--[\s\S]*?-->/g, "").trim();
-      if (o) {
-        this._bannerContent = o;
+      const t = await e.text(), i = (typeof t == "string" ? t : "").replace(/<!--[\s\S]*?-->/g, "").trim();
+      if (i) {
+        this._bannerContent = i;
         const n = this.shadowRoot.querySelector(".pride-banner-container"), l = this.shadowRoot.querySelector(".banner");
-        n && l && (l.innerHTML = o, n.style.display = "block");
+        n && l && (l.innerHTML = i, n.style.display = "block");
       }
     } catch {
     }
   }
   _handleSearch(e) {
     e.preventDefault();
-    const t = this.shadowRoot.querySelector(".quick-search-input"), o = t ? t.value.trim() : "";
-    if (!o) return;
+    const t = this.shadowRoot.querySelector(".quick-search-input"), i = t ? t.value.trim() : "";
+    if (!i) return;
     const n = new CustomEvent("pride-search", {
       bubbles: !0,
       composed: !0,
       cancelable: !0,
-      detail: { query: o }
+      detail: { query: i }
     });
-    this.dispatchEvent(n) && (/^(PXD|PRD|PAD|RPXD)\d+$/i.test(o) ? window.location.href = `${this.baseUrl}/archive/projects/${o.toUpperCase()}` : window.location.href = `${this.baseUrl}/archive?keyword=${encodeURIComponent(o)}`);
+    this.dispatchEvent(n) && (/^(PXD|PRD|PAD|RPXD)\d+$/i.test(i) ? window.location.href = `${this.baseUrl}/archive/projects/${i.toUpperCase()}` : window.location.href = `${this.baseUrl}/archive?keyword=${encodeURIComponent(i)}`);
   }
   _handleNavigate(e, t) {
-    const o = new CustomEvent("pride-navigate", {
+    const i = new CustomEvent("pride-navigate", {
       bubbles: !0,
       composed: !0,
       cancelable: !0,
       detail: { href: t }
     });
-    this.dispatchEvent(o) || e.preventDefault();
+    this.dispatchEvent(i) || e.preventDefault();
   }
   _handleLogout(e) {
     e.preventDefault(), localStorage.removeItem("username"), localStorage.removeItem("token"), localStorage.removeItem("logintype"), localStorage.removeItem("type");
@@ -984,7 +1012,7 @@ class c extends HTMLElement {
     });
   }
   render() {
-    const e = this.baseUrl, t = this.activeSection, o = this.username, n = !!(o && this.token);
+    const e = this.baseUrl, t = this.activeSection, i = this.username, n = !!(i && this.token);
     this.shadowRoot.innerHTML = `
       <style>${m}</style>
 
@@ -1164,10 +1192,10 @@ class c extends HTMLElement {
               ${n ? `
                 <li class="dropdown" id="menu-user">
                   <button type="button" class="dropdown-trigger" aria-haspopup="true">
-                    ${a.person} <span class="account-email">${o}</span> ${a.chevronDown}
+                    ${a.person} <span class="account-email">${i}</span> ${a.chevronDown}
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a href="${e}/profile/${encodeURIComponent(o.split("@")[0])}" class="dropdown-item">Profile</a></li>
+                    <li><a href="${e}/profile/${encodeURIComponent(i.split("@")[0])}" class="dropdown-item">Profile</a></li>
                     <li><a href="#" class="dropdown-item logout-link">Log out</a></li>
                   </ul>
                 </li>
@@ -1224,8 +1252,8 @@ class c extends HTMLElement {
 
             <li class="drawer-group">Account</li>
             ${n ? `
-              <li><a href="${e}/profile/${encodeURIComponent(o.split("@")[0])}">Profile</a></li>
-              <li><a href="#" class="logout-link">Log out (${o})</a></li>
+              <li><a href="${e}/profile/${encodeURIComponent(i.split("@")[0])}">Profile</a></li>
+              <li><a href="#" class="logout-link">Log out (${i})</a></li>
             ` : `
               <li><a href="${e}/login">Log in</a></li>
               <li><a href="${e}/register">Register</a></li>
@@ -1237,31 +1265,31 @@ class c extends HTMLElement {
   }
   _attachEventListeners() {
     const e = this.shadowRoot, t = e.getElementById("blackbar-search-btn");
-    t && t.addEventListener("click", (i) => {
-      i.preventDefault(), this._toggleDropdown("search-global-dropdown");
+    t && t.addEventListener("click", (o) => {
+      o.preventDefault(), this._toggleDropdown("search-global-dropdown");
     });
-    const o = e.getElementById("blackbar-embl-btn");
-    o && o.addEventListener("click", (i) => {
-      i.preventDefault(), this._toggleDropdown("embl-dropdown");
-    }), e.querySelectorAll(".dropdown-trigger").forEach((i) => {
-      i.addEventListener("click", (s) => {
+    const i = e.getElementById("blackbar-embl-btn");
+    i && i.addEventListener("click", (o) => {
+      o.preventDefault(), this._toggleDropdown("embl-dropdown");
+    }), e.querySelectorAll(".dropdown-trigger").forEach((o) => {
+      o.addEventListener("click", (s) => {
         s.stopPropagation();
-        const d = i.closest(".dropdown");
+        const d = o.closest(".dropdown");
         d && d.id && this._toggleDropdown(d.id);
       });
     });
     const n = e.querySelector(".quick-search");
-    n && n.addEventListener("submit", (i) => this._handleSearch(i));
+    n && n.addEventListener("submit", (o) => this._handleSearch(o));
     const l = e.querySelector(".menu-toggle");
     l && l.addEventListener("click", () => this._openDrawer());
     const b = e.querySelector(".drawer-close");
     b && b.addEventListener("click", () => this._closeDrawer());
     const f = e.querySelector(".drawer-backdrop");
-    f && f.addEventListener("click", () => this._closeDrawer()), e.querySelectorAll(".logout-link").forEach((i) => {
-      i.addEventListener("click", (s) => this._handleLogout(s));
-    }), e.querySelectorAll("a[href]").forEach((i) => {
-      const s = i.getAttribute("href");
-      !s || s === "#" || s.startsWith("javascript:") || i.hasAttribute("target") || i.addEventListener("click", (d) => this._handleNavigate(d, s));
+    f && f.addEventListener("click", () => this._closeDrawer()), e.querySelectorAll(".logout-link").forEach((o) => {
+      o.addEventListener("click", (s) => this._handleLogout(s));
+    }), e.querySelectorAll("a[href]").forEach((o) => {
+      const s = o.getAttribute("href");
+      !s || s === "#" || s.startsWith("javascript:") || o.hasAttribute("target") || o.addEventListener("click", (d) => this._handleNavigate(d, s));
     });
   }
 }
@@ -1534,8 +1562,8 @@ class A extends HTMLElement {
   connectedCallback() {
     this.render();
   }
-  attributeChangedCallback(e, t, o) {
-    t !== o && this.render();
+  attributeChangedCallback(e, t, i) {
+    t !== i && this.render();
   }
   render() {
     const e = (/* @__PURE__ */ new Date()).getFullYear();
