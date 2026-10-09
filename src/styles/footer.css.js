@@ -1,7 +1,7 @@
 export const FOOTER_CSS = `
 :host {
   display: block;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
   box-sizing: border-box;
   width: 100%;
 }
@@ -19,6 +19,7 @@ export const FOOTER_CSS = `
   background-color: #656665;
   color: #ffffff;
   clear: both;
+  font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
 }
 
 .elixir-ribbon .row {
@@ -64,9 +65,10 @@ export const FOOTER_CSS = `
   padding: 0;
   margin: 0;
   display: inline-block;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.4;
   color: #ffffff;
+  font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
 }
 
 .elixir-ribbon .elixir-banner-name {
@@ -99,6 +101,7 @@ export const FOOTER_CSS = `
   color: #666666;
   font-size: 0.85rem;
   line-height: 1.5;
+  font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
 }
 
 .global-footer .row {
@@ -111,6 +114,7 @@ export const FOOTER_CSS = `
 
 .global-nav-expanded {
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .global-nav-expanded .columns {
@@ -135,15 +139,17 @@ export const FOOTER_CSS = `
 }
 
 .global-footer h5 {
-  font-size: 0.95rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  font-weight: 700;
-  line-height: 1.3;
+  font-size: 1.15rem;
+  margin-top: 1.25rem;
+  margin-bottom: 8px;
+  font-weight: 400;
+  line-height: 1.4;
+  font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
 }
 
 .global-footer h5 a {
   text-decoration: none;
+  font-weight: 500;
 }
 
 .global-footer h5.services a,
@@ -175,12 +181,12 @@ export const FOOTER_CSS = `
   list-style: none;
   margin: 0;
   padding: 0;
-  font-size: 0.85rem;
+  font-size: 13.6px;
+  line-height: 1.5;
 }
 
 .global-footer ul li {
-  margin-bottom: 0.35rem;
-  line-height: 1.35;
+  margin-bottom: 0.4rem;
 }
 
 .global-footer a {
@@ -193,15 +199,17 @@ export const FOOTER_CSS = `
 .global-footer a:focus,
 .global-footer a:active {
   color: #222222;
-  border-bottom: 1px dashed #cccccc;
+  border-bottom: 1px dashed #999999;
 }
 
 .ebi-footer-meta {
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid #eeeeee;
   padding-top: 1rem;
-  font-size: 0.85rem;
+  padding-bottom: 1.5rem;
+  font-size: 13px;
   color: #666666;
   width: 100%;
+  line-height: 1.5;
 }
 
 .ebi-footer-meta .columns {
@@ -217,15 +225,20 @@ export const FOOTER_CSS = `
 
 .ebi-footer-meta a {
   color: #666666;
+  text-decoration: none;
 }
 
 .ebi-footer-meta a:hover {
   color: #222222;
-  border-bottom: 1px dashed #cccccc;
+  border-bottom: 1px dashed #999999;
 }
 
 .ebi-footer-meta .float-right {
   float: right;
+}
+
+.ebi-footer-meta .readmore.float-right:after {
+  content: " >";
 }
 
 @media (max-width: 1024px) {

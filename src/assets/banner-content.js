@@ -1,0 +1,36 @@
+/**
+ * Default PRIDE alert banner content.
+ * Bundled inside the package so that all consumers display the active
+ * announcement immediately with zero latency and zero CORS dependencies.
+ */
+export const DEFAULT_BANNER_CONTENT = `
+<div style="font-family: Arial, sans-serif; max-width: 1300px; margin: auto; margin-bottom:-1px; display: flex; flex-direction: column; gap: 10px;">
+
+  <div style="background-color:#fff3cd; padding: 2px 12px; border-radius: 8px;">
+    <div style="display: flex; align-items: flex-start; gap: 12px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#664d03" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 3px; flex-shrink: 0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div>
+        <p style="font-size: 16px; font-weight: 600; color: #b48806; margin: 4px 0;">
+          <strong>Scheduled Maintenance from 12-October-2026 to 15-October-2026.</strong>
+          During this time you will not be able to submit new data, add files to existing datasets, or make datasets public.
+          Browsing public and private datasets won't be affected.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div style="background-color:#e7f1ff; padding: 2px 12px; border-radius: 8px;">
+    <div style="display: flex; align-items: flex-start; gap: 12px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#084298" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 3px; flex-shrink: 0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      <div>
+        <p style="font-size: 16px; font-weight: 600; margin: 4px 0;">
+          <strong>A new beta version of the PRIDE Submission Tool is now available!</strong>
+          You can <a href="https://github.com/PRIDE-Archive/px-submission-tool/releases/download/v0.1.2-beta-javafx/px-submission-tool-javafx-latest.zip" target="_blank" style="text-decoration: underline;">download it here</a> and test it.
+          See the <a href="https://www.ebi.ac.uk/pride/markdownpage/pridesubmissiontooljavafx" target="_blank" style="text-decoration: underline;">step-by-step guide</a> for details.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+`.trim()

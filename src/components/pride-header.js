@@ -2,6 +2,7 @@ import { HEADER_CSS } from '../styles/header.css.js'
 import { ICONS } from '../assets/icons.js'
 import { PRIDE_LOGO_DATA_URI } from '../assets/logo.js'
 import { HERO_BANNER_DATA_URI } from '../assets/banner-image.js'
+import { DEFAULT_BANNER_CONTENT } from '../assets/banner-content.js'
 
 export class PrideHeader extends HTMLElement {
   static get observedAttributes() {
@@ -11,7 +12,8 @@ export class PrideHeader extends HTMLElement {
   constructor() {
     super()
     this.attachShadow({ mode: 'open' })
-    this._bannerContent = ''
+    // Pre-populate with bundled production banner so it renders immediately with 0 latency & no CORS dependency
+    this._bannerContent = DEFAULT_BANNER_CONTENT
     this._isCompact = false
     this._openDropdown = null
     this._onScroll = this._onScroll.bind(this)
@@ -101,7 +103,7 @@ export class PrideHeader extends HTMLElement {
 
   _closeAllDropdowns() {
     if (!this.shadowRoot) return
-    this.shadowRoot.querySelectorAll('.dropdown.is-open, .ebi-dropdown-pane.is-open').forEach(el => {
+    this.shadowRoot.querySelectorAll('.dropdown.is-open, #embl-dropdown.is-open, #search-global-dropdown.is-open').forEach(el => {
       el.classList.remove('is-open')
     })
     this._openDropdown = null
@@ -156,7 +158,7 @@ export class PrideHeader extends HTMLElement {
         }
       }
     } catch (e) {
-      // Banner file not found or network error; fail silently
+      // Keep bundled default banner content on network or CORS errors
     }
   }
 
@@ -236,65 +238,90 @@ export class PrideHeader extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>${HEADER_CSS}</style>
 
-      <!-- 1. EBI Global Black Bar -->
-      <div class="ebi-global-bar">
-        <div class="skip-to">
+      <!-- 1. EMBL-EBI Global Black Bar (DefaultNav.vue / ebi-global.css) -->
+      <div class="nav-container ebi-global-bar">
+        <div id="skip-to">
           <a href="#content">Skip to main content</a>
         </div>
-        <div class="ebi-row">
-          <div class="ebi-nav-left">
-            <a href="https://www.ebi.ac.uk" class="ebi-logo-link" title="EMBL-EBI Homepage">
-              ${ICONS.ebiLogo}
-            </a>
-            <ul class="ebi-nav-links">
-              <li><a href="https://www.ebi.ac.uk/services">Services</a></li>
-              <li><a href="https://www.ebi.ac.uk/research">Research</a></li>
-              <li><a href="https://www.ebi.ac.uk/training">Training</a></li>
-              <li><a href="https://www.ebi.ac.uk/about">About us</a></li>
+        <header id="masthead-black-bar" class="clearfix masthead-black-bar">
+          <nav class="row">
+            <ul id="global-nav" class="menu">
+              <li class="home-mobile"><a href="https://www.ebi.ac.uk"></a></li>
+              <li class="home active">
+                <a href="https://www.ebi.ac.uk">${ICONS.ebiHome} EMBL-EBI</a>
+              </li>
+              <li class="services">
+                <a href="https://www.ebi.ac.uk/services">${ICONS.ebiServices} Services</a>
+              </li>
+              <li class="research">
+                <a href="https://www.ebi.ac.uk/research">${ICONS.ebiResearch} Research</a>
+              </li>
+              <li class="training">
+                <a href="https://www.ebi.ac.uk/training">${ICONS.ebiTraining} Training</a>
+              </li>
+              <li class="about">
+                <a href="https://www.ebi.ac.uk/about">${ICONS.ebiAbout} About us</a>
+              </li>
+              <li class="search">
+                <a href="#" id="blackbar-search-btn" aria-label="Search all of EMBL-EBI">
+                  ${ICONS.search} <span class="show-for-small-only">Search</span>
+                </a>
+                <div id="search-global-dropdown" class="dropdown-pane">
+                  <form id="global-search" name="global-search" action="https://www.ebi.ac.uk/ebisearch/search.ebi" method="GET" target="_blank">
+                    <fieldset>
+                      <div class="input-group">
+                        <input type="text" name="query" id="global-searchbox" placeholder="Search all of EMBL-EBI">
+                        <input type="hidden" name="db" value="allebi">
+                        <input type="hidden" name="requestFrom" value="masthead-black-bar">
+                        <input type="submit" name="submit" value="Search">
+                      </div>
+                    </fieldset>
+                  </form>
+                </div>
+              </li>
+              <li class="float-right embl-selector">
+                <button class="button float-right" type="button" id="blackbar-embl-btn">Hinxton</button>
+                <div id="embl-dropdown" class="embl-dropdown dropdown-pane bottom">
+                  <p>EMBL-EBI in Hinxton, Cambridge is one of <br/>six EMBL locations across europe.<br/> <a href="https://www.ebi.ac.uk/about" class="small readmore" target="_blank">More about EMBL-EBI</a></p>
+                  <h6>Connect to another EMBL location</h6>
+                  <div class="small-collapse">
+                    <div>
+                      <a href="https://www.embl.org/sites/heidelberg/" target="_blank">Heidelberg</a>
+                      <div class="small">Main laboratory</div>
+                    </div>
+                    <div>
+                      <a href="https://www.embl.org/sites/barcelona/" target="_blank">Barcelona</a>
+                      <div class="small">Tissue biology and disease modelling</div>
+                    </div>
+                    <div>
+                      <a href="https://www.embl.org/sites/grenoble/" target="_blank">Grenoble</a>
+                      <div class="small">Structural biology</div>
+                    </div>
+                    <div>
+                      <a href="https://www.embl.org/sites/hamburg/" target="_blank">Hamburg</a>
+                      <div class="small">Structural biology</div>
+                    </div>
+                    <div>
+                      <a href="https://www.embl.org/sites/rome/" target="_blank">Rome</a>
+                      <div class="small">Epigenetics and neurobiology</div>
+                    </div>
+                    <div>
+                      <a href="https://www.embl.org/" class="readmore" target="_blank">More about EMBL</a>
+                    </div>
+                  </div>
+                </div>
+              </li>
             </ul>
-          </div>
-          <div class="ebi-nav-right">
-            <button type="button" class="ebi-btn" id="ebi-search-btn" aria-label="Search all of EMBL-EBI">
-              ${ICONS.search} <span>Search</span>
-            </button>
-            <button type="button" class="ebi-btn" id="ebi-campus-btn">
-              <span>Hinxton</span> ${ICONS.chevronDown}
-            </button>
-
-            <!-- Search Dropdown Pane -->
-            <div id="ebi-search-pane" class="ebi-dropdown-pane ebi-search-pane">
-              <form class="ebi-search-form" action="https://www.ebi.ac.uk/ebisearch/search.ebi" method="GET" target="_blank">
-                <input type="hidden" name="db" value="allebi">
-                <input type="search" name="query" class="ebi-search-input" placeholder="Search all of EMBL-EBI..." required>
-                <button type="submit" class="ebi-search-submit">Search</button>
-              </form>
-            </div>
-
-            <!-- Campus Dropdown Pane -->
-            <div id="ebi-campus-pane" class="ebi-dropdown-pane">
-              <h4>EMBL Sites</h4>
-              <ul class="ebi-campus-list">
-                <li><a href="https://www.embl.org/sites/barcelona/" target="_blank">Barcelona</a></li>
-                <li><a href="https://www.embl.org/sites/grenoble/" target="_blank">Grenoble</a></li>
-                <li><a href="https://www.embl.org/sites/hamburg/" target="_blank">Hamburg</a></li>
-                <li><a href="https://www.embl.org/sites/heidelberg/" target="_blank">Heidelberg</a></li>
-                <li><a href="https://www.ebi.ac.uk" target="_blank" style="font-weight:700;color:#5bc0be">Hinxton (EMBL-EBI)</a></li>
-                <li><a href="https://www.embl.org/sites/rome/" target="_blank">Rome</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+          </nav>
+        </header>
       </div>
 
-      <!-- 2. PRIDE Main Masthead & Navigation (with background image and announcement banner on top) -->
+      <!-- 2. PRIDE Main Masthead & Navigation (with background image and alert announcement banner) -->
       <header class="pride-masthead ${this._isCompact ? 'compact' : ''}" style="background-image: url('${this.bgImage}');">
-        <!-- Banner on top of header part -->
+        <!-- Banner on top of header part matching View UI Plus Alert warning -->
         <div class="pride-banner-container" style="display: ${this._bannerContent ? 'block' : 'none'};">
-          <div class="pride-banner-inner">
-            <div class="banner">${this._bannerContent}</div>
-            <button type="button" class="banner-close" aria-label="Close notification">
-              ${ICONS.close}
-            </button>
+          <div class="ivu-alert ivu-alert-warning ivu-alert-with-banner">
+            <span class="banner">${this._bannerContent}</span>
           </div>
         </div>
 
@@ -341,11 +368,11 @@ export class PrideHeader extends HTMLElement {
                 <ul class="dropdown-menu">
                   <li><a href="${base}/markdownpage/pridesubmissiontool" class="dropdown-item">Submission tool</a></li>
                   <li><a href="${base}/filesspecification" class="dropdown-item">Submission Files Requirements</a></li>
-                  <li><a href="${base}/archive/affinity-qc" class="dropdown-item">Affinity QC Generator <span class="nav-new-pill">New</span></a></li>
-                  <li><a href="https://www.ebi.ac.uk/pride/services/pmultiqc/" class="dropdown-item" target="_blank" rel="noopener">pMultiQC ${ICONS.externalLink}</a></li>
-                  <li><a href="https://www.ebi.ac.uk/pride/ws/archive/v3/webjars/swagger-ui/index.html" class="dropdown-item" target="_blank" rel="noopener">Web service API ${ICONS.externalLink}</a></li>
-                  <li><a href="https://www.ebi.ac.uk/pride/services/sdrf-editor/" class="dropdown-item" target="_blank" rel="noopener">SDRF editor ${ICONS.externalLink}</a></li>
-                  <li><a href="https://www.ebi.ac.uk/pride/services/sdrf-validator" class="dropdown-item" target="_blank" rel="noopener">SDRF validator ${ICONS.externalLink}</a></li>
+                  <li><a href="${base}/archive/affinity-qc" class="dropdown-item">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
+                  <li><a href="https://www.ebi.ac.uk/pride/services/pmultiqc/" class="dropdown-item" target="_blank" rel="noopener">pMultiQC <span class="ext">${ICONS.externalLink}</span></a></li>
+                  <li><a href="https://www.ebi.ac.uk/pride/ws/archive/v3/webjars/swagger-ui/index.html" class="dropdown-item" target="_blank" rel="noopener">Web service API <span class="ext">${ICONS.externalLink}</span></a></li>
+                  <li><a href="https://www.ebi.ac.uk/pride/services/sdrf-editor/" class="dropdown-item" target="_blank" rel="noopener">SDRF editor <span class="ext">${ICONS.externalLink}</span></a></li>
+                  <li><a href="https://www.ebi.ac.uk/pride/services/sdrf-validator" class="dropdown-item" target="_blank" rel="noopener">SDRF validator <span class="ext">${ICONS.externalLink}</span></a></li>
                 </ul>
               </li>
 
@@ -357,7 +384,7 @@ export class PrideHeader extends HTMLElement {
                 <ul class="dropdown-menu">
                   <li><a href="${base}/markdownpage/documentationpage" class="dropdown-item">Documentation</a></li>
                   <li><a href="${base}/markdownpage/controlledaccess" class="dropdown-item">Controlled-access submissions</a></li>
-                  <li><a href="https://www.ebi.ac.uk/pride/chatbot" class="dropdown-item" target="_blank" rel="noopener">PRIDE Assistant ${ICONS.externalLink}</a></li>
+                  <li><a href="https://www.ebi.ac.uk/pride/chatbot" class="dropdown-item" target="_blank" rel="noopener">PRIDE Assistant <span class="ext">${ICONS.externalLink}</span></a></li>
                 </ul>
               </li>
 
@@ -374,27 +401,27 @@ export class PrideHeader extends HTMLElement {
               </li>
             </ul>
 
-            <!-- Quick Search Form -->
+            <!-- Quick Accession Search -->
             ${!this.hideSearch ? `
-              <form class="quick-search-form" role="search">
-                <span class="search-icon">${ICONS.search}</span>
+              <form class="quick-search" role="search">
+                <span class="quick-search-icon">${ICONS.search}</span>
                 <input type="search" class="quick-search-input" placeholder="PXD accession or keyword" aria-label="Search PRIDE Archive">
               </form>
             ` : ''}
 
-            <!-- User Account / Sign In -->
+            <!-- Account / User Menu -->
             <ul class="pride-account">
               ${!isLoggedIn ? `
-                <li><a href="${base}/login" class="account-link">Log in</a></li>
-                <li><a href="${base}/register" class="account-link register">Register</a></li>
+                <li><a href="${base}/login" class="menu-item-link">Log in</a></li>
+                <li><a href="${base}/register" class="register">Register</a></li>
               ` : `
                 <li class="dropdown" id="menu-user">
-                  <button type="button" class="account-link dropdown-trigger" aria-haspopup="true">
-                    ${ICONS.person} <span>${user}</span> ${ICONS.chevronDown}
+                  <button type="button" class="dropdown-trigger" aria-haspopup="true">
+                    ${ICONS.person} <span class="account-email">${user}</span> ${ICONS.chevronDown}
                   </button>
-                  <ul class="dropdown-menu account-dropdown-menu">
-                    <li><a href="${base}/profile/${user.split('@')[0]}" class="dropdown-item">Profile</a></li>
-                    <li><a href="#" class="dropdown-item logout-btn">Log out</a></li>
+                  <ul class="dropdown-menu">
+                    <li><a href="${base}/profile" class="dropdown-item">Profile</a></li>
+                    <li><a href="#" class="dropdown-item logout-link">Log out</a></li>
                   </ul>
                 </li>
               `}
@@ -408,130 +435,129 @@ export class PrideHeader extends HTMLElement {
         </div>
       </header>
 
-      <!-- 3. Mobile Sliding Drawer -->
+      <!-- Narrow Screens: Off-canvas Drawer -->
       <div class="drawer-backdrop"></div>
-      <aside class="drawer-panel" aria-label="Mobile Navigation">
+      <div class="drawer-panel">
         <div class="drawer-header">
-          <span class="drawer-title">Navigation</span>
+          <h3>Menu</h3>
           <button type="button" class="drawer-close" aria-label="Close menu">${ICONS.close}</button>
         </div>
         <div class="drawer-body">
-          <a href="${base}/" class="drawer-link" style="font-weight:600">Home</a>
+          <ul class="drawer-menu">
+            <li><a href="${base}/">Home</a></li>
+            <li class="drawer-group">Archive</li>
+            <li><a href="${base}/archive">Datasets</a></li>
+            <li><a href="${base}/archive/affinity-proteomics">Affinity proteomics</a></li>
+            <li><a href="${base}/archive/crosslinking">Crosslinking</a></li>
+            <li><a href="${base}/spectrumlibrary">Spectral libraries</a></li>
+            <li><a href="${base}/archive/proteins">Proteins</a></li>
+            <li><a href="${base}/archive/usi">USI</a></li>
 
-          <div class="drawer-group-title">Archive</div>
-          <a href="${base}/archive" class="drawer-link">Datasets</a>
-          <a href="${base}/archive/affinity-proteomics" class="drawer-link">Affinity proteomics</a>
-          <a href="${base}/archive/crosslinking" class="drawer-link">Crosslinking</a>
-          <a href="${base}/spectrumlibrary" class="drawer-link">Spectral libraries</a>
-          <a href="${base}/archive/proteins" class="drawer-link">Proteins</a>
-          <a href="${base}/archive/usi" class="drawer-link">USI Viewer</a>
+            <li class="drawer-group">Tools</li>
+            <li><a href="${base}/markdownpage/pridesubmissiontool">Submission tool</a></li>
+            <li><a href="${base}/filesspecification">Submission Files Requirements</a></li>
+            <li><a href="${base}/archive/affinity-qc">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
+            <li><a href="https://www.ebi.ac.uk/pride/services/pmultiqc/" target="_blank" rel="noopener">pMultiQC</a></li>
+            <li><a href="https://www.ebi.ac.uk/pride/ws/archive/v3/webjars/swagger-ui/index.html" target="_blank" rel="noopener">Web service API</a></li>
+            <li><a href="https://www.ebi.ac.uk/pride/services/sdrf-editor/" target="_blank" rel="noopener">SDRF editor</a></li>
+            <li><a href="https://www.ebi.ac.uk/pride/services/sdrf-validator" target="_blank" rel="noopener">SDRF validator</a></li>
 
-          <div class="drawer-group-title">Tools</div>
-          <a href="${base}/markdownpage/pridesubmissiontool" class="drawer-link">Submission tool</a>
-          <a href="${base}/filesspecification" class="drawer-link">Submission Files Requirements</a>
-          <a href="https://www.ebi.ac.uk/pride/services/pmultiqc/" class="drawer-link" target="_blank">pMultiQC</a>
-          <a href="https://www.ebi.ac.uk/pride/ws/archive/v3/webjars/swagger-ui/index.html" class="drawer-link" target="_blank">Web service API</a>
-          <a href="https://www.ebi.ac.uk/pride/services/sdrf-editor/" class="drawer-link" target="_blank">SDRF editor</a>
-          <a href="https://www.ebi.ac.uk/pride/services/sdrf-validator" class="drawer-link" target="_blank">SDRF validator</a>
+            <li class="drawer-group">Help</li>
+            <li><a href="${base}/markdownpage/documentationpage">Documentation</a></li>
+            <li><a href="${base}/markdownpage/controlledaccess">Controlled-access submissions</a></li>
+            <li><a href="https://www.ebi.ac.uk/pride/chatbot" target="_blank" rel="noopener">PRIDE Assistant</a></li>
 
-          <div class="drawer-group-title">Help & About</div>
-          <a href="${base}/markdownpage/documentationpage" class="drawer-link">Documentation</a>
-          <a href="https://www.ebi.ac.uk/pride/chatbot" class="drawer-link" target="_blank">PRIDE Assistant</a>
-          <a href="${base}/markdownpage/citationpage" class="drawer-link">About PRIDE</a>
-          <a href="${base}/markdownpage/license" class="drawer-link">License</a>
-          <a href="${base}/markdownpage/contact" class="drawer-link">Contact</a>
+            <li class="drawer-group">About</li>
+            <li><a href="${base}/markdownpage/citationpage">About PRIDE</a></li>
+            <li><a href="${base}/markdownpage/license">License</a></li>
+            <li><a href="${base}/markdownpage/contact">Contact</a></li>
 
-          <div class="drawer-group-title">Account</div>
-          ${!isLoggedIn ? `
-            <a href="${base}/login" class="drawer-link">Log in</a>
-            <a href="${base}/register" class="drawer-link" style="color:#0284c7;font-weight:600">Register</a>
-          ` : `
-            <a href="${base}/profile/${user.split('@')[0]}" class="drawer-link">Profile (${user})</a>
-            <a href="#" class="drawer-link logout-btn">Log out</a>
-          `}
+            <li class="drawer-group">Account</li>
+            ${!isLoggedIn ? `
+              <li><a href="${base}/login">Log in</a></li>
+              <li><a href="${base}/register">Register</a></li>
+            ` : `
+              <li><a href="${base}/profile">Profile</a></li>
+              <li><a href="#" class="logout-link">Log out (${user})</a></li>
+            `}
+          </ul>
         </div>
-      </aside>
+      </div>
     `
 
-    this._bindEvents()
+    this._attachEventListeners()
   }
 
-  _bindEvents() {
+  _attachEventListeners() {
     const root = this.shadowRoot
+
+    // Black bar search dropdown
+    const blackbarSearchBtn = root.getElementById('blackbar-search-btn')
+    if (blackbarSearchBtn) {
+      blackbarSearchBtn.addEventListener('click', (e) => {
+        e.preventDefault()
+        this._toggleDropdown('search-global-dropdown')
+      })
+    }
+
+    // Black bar Hinxton campus dropdown
+    const blackbarEmblBtn = root.getElementById('blackbar-embl-btn')
+    if (blackbarEmblBtn) {
+      blackbarEmblBtn.addEventListener('click', (e) => {
+        e.preventDefault()
+        this._toggleDropdown('embl-dropdown')
+      })
+    }
 
     // Dropdown triggers
     root.querySelectorAll('.dropdown-trigger').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation()
         const parent = btn.closest('.dropdown')
-        if (parent) {
-          const wasOpen = parent.classList.contains('is-open')
-          this._closeAllDropdowns()
-          if (!wasOpen) parent.classList.add('is-open')
+        if (parent && parent.id) {
+          this._toggleDropdown(parent.id)
         }
       })
     })
 
-    // EBI Bar Dropdowns
-    const searchBtn = root.getElementById('ebi-search-btn')
-    if (searchBtn) {
-      searchBtn.addEventListener('click', (e) => {
-        e.stopPropagation()
-        this._toggleDropdown('ebi-search-pane')
-        const input = root.querySelector('.ebi-search-input')
-        if (input && root.getElementById('ebi-search-pane').classList.contains('is-open')) {
-          setTimeout(() => input.focus(), 50)
-        }
-      })
-    }
-
-    const campusBtn = root.getElementById('ebi-campus-btn')
-    if (campusBtn) {
-      campusBtn.addEventListener('click', (e) => {
-        e.stopPropagation()
-        this._toggleDropdown('ebi-campus-pane')
-      })
-    }
-
-    // Banner close button
-    const bannerClose = root.querySelector('.banner-close')
-    if (bannerClose) {
-      bannerClose.addEventListener('click', () => {
-        this._bannerContent = ''
-        const bannerWrap = root.querySelector('.pride-banner-container')
-        if (bannerWrap) bannerWrap.style.display = 'none'
-      })
-    }
-
-    // Search form submission
-    const searchForm = root.querySelector('.quick-search-form')
+    // Quick search form
+    const searchForm = root.querySelector('.quick-search')
     if (searchForm) {
       searchForm.addEventListener('submit', (e) => this._handleSearch(e))
     }
 
-    // Mobile drawer triggers
-    const toggleBtn = root.querySelector('.menu-toggle')
-    if (toggleBtn) toggleBtn.addEventListener('click', () => this._openDrawer())
+    // Mobile drawer
+    const menuToggle = root.querySelector('.menu-toggle')
+    if (menuToggle) {
+      menuToggle.addEventListener('click', () => this._openDrawer())
+    }
 
-    const closeBtn = root.querySelector('.drawer-close')
-    if (closeBtn) closeBtn.addEventListener('click', () => this._closeDrawer())
+    const drawerClose = root.querySelector('.drawer-close')
+    if (drawerClose) {
+      drawerClose.addEventListener('click', () => this._closeDrawer())
+    }
 
-    const backdrop = root.querySelector('.drawer-backdrop')
-    if (backdrop) backdrop.addEventListener('click', () => this._closeDrawer())
+    const drawerBackdrop = root.querySelector('.drawer-backdrop')
+    if (drawerBackdrop) {
+      drawerBackdrop.addEventListener('click', () => this._closeDrawer())
+    }
 
-    // Logout buttons
-    root.querySelectorAll('.logout-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => this._handleLogout(e))
+    // Logout handlers
+    root.querySelectorAll('.logout-link').forEach(link => {
+      link.addEventListener('click', (e) => this._handleLogout(e))
     })
 
-    // Navigation interceptor for SPA support
-    root.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"])').forEach(a => {
-      a.addEventListener('click', (e) => {
-        const href = a.getAttribute('href')
-        if (href && !href.startsWith('javascript:')) {
-          this._handleNavigate(e, href)
-        }
-      })
+    // Navigation interception
+    root.querySelectorAll('a[href]').forEach(a => {
+      const href = a.getAttribute('href')
+      if (!href || href === '#' || href.startsWith('javascript:')) return
+      if (!a.hasAttribute('target')) {
+        a.addEventListener('click', (e) => this._handleNavigate(e, href))
+      }
     })
   }
+}
+
+if (!customElements.get('pride-header')) {
+  customElements.define('pride-header', PrideHeader)
 }
