@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PRIDE Web Commons - host isolation check</title>
+  <!--
+    Deliberately hostile host styles. The header and footer must look the same
+    here as on index.html; if they do not, a style is leaking in from the host.
+    - root font-size 137.5% mirrors MkDocs Material (pmultiqc docs)
+    - body font, size and line-height differ from the PRIDE defaults
+    - no EBI icon-font stylesheet is loaded on this page
+  -->
+  <style>
+    html { font-size: 137.5%; }
+    body { margin: 0; font-family: Georgia, serif; font-size: 0.8rem; line-height: 2; color: #900; }
+    main { padding: 2rem; min-height: 300px; }
+  </style>
+  <script type="module" crossorigin src="./assets/index-BLiawuVn.js"></script>
+</head>
+<body>
+  <pride-header active-section="tools"></pride-header>
+  <main>
+    <h1>Host isolation check</h1>
+    <p>This page uses a 137.5% root font size, a serif body font and no EBI icon fonts.
+      The header and footer above and below should be identical to the <a href="./index.html">main demo</a>.</p>
+  </main>
+  <pride-footer></pride-footer>
+</body>
+</html>

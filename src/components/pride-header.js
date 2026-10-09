@@ -1,4 +1,5 @@
 import { HEADER_CSS } from '../styles/header.css.js'
+import { ensureIconFonts } from '../styles/fonts.js'
 import { ICONS } from '../assets/icons.js'
 import { PRIDE_LOGO_DATA_URI } from '../assets/logo.js'
 import { HERO_BANNER_DATA_URI } from '../assets/banner-image.js'
@@ -51,6 +52,7 @@ export class PrideHeader extends HTMLElement {
   }
 
   connectedCallback() {
+    ensureIconFonts()
     this.render()
     this.fetchBanner()
     window.addEventListener('scroll', this._onScroll, { passive: true })

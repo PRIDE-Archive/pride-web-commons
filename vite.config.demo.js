@@ -6,7 +6,10 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: false,
     rollupOptions: {
-      input: 'index.html'
+      input: {
+        main: 'index.html',
+        isolation: 'isolation.html'
+      }
     }
   }
 })
