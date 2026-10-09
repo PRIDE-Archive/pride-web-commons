@@ -248,39 +248,22 @@ export class PrideHeader extends HTMLElement {
             <ul id="global-nav" class="menu">
               <li class="home-mobile"><a href="https://www.ebi.ac.uk"></a></li>
               <li class="home active">
-                <a href="https://www.ebi.ac.uk">${ICONS.ebiHome} EMBL-EBI</a>
+                <a href="https://www.ebi.ac.uk">EMBL-EBI</a>
               </li>
               <li class="services">
-                <a href="https://www.ebi.ac.uk/services">${ICONS.ebiServices} Services</a>
+                <a href="https://www.ebi.ac.uk/services">Services</a>
               </li>
               <li class="research">
-                <a href="https://www.ebi.ac.uk/research">${ICONS.ebiResearch} Research</a>
+                <a href="https://www.ebi.ac.uk/research">Research</a>
               </li>
               <li class="training">
-                <a href="https://www.ebi.ac.uk/training">${ICONS.ebiTraining} Training</a>
+                <a href="https://www.ebi.ac.uk/training">Training</a>
               </li>
               <li class="about">
-                <a href="https://www.ebi.ac.uk/about">${ICONS.ebiAbout} About us</a>
+                <a href="https://www.ebi.ac.uk/about">About us</a>
               </li>
-              <li class="search">
-                <a href="#" id="blackbar-search-btn" aria-label="Search all of EMBL-EBI">
-                  ${ICONS.search} <span class="show-for-small-only">Search</span>
-                </a>
-                <div id="search-global-dropdown" class="dropdown-pane">
-                  <form id="global-search" name="global-search" action="https://www.ebi.ac.uk/ebisearch/search.ebi" method="GET" target="_blank">
-                    <fieldset>
-                      <div class="input-group">
-                        <input type="text" name="query" id="global-searchbox" placeholder="Search all of EMBL-EBI">
-                        <input type="hidden" name="db" value="allebi">
-                        <input type="hidden" name="requestFrom" value="masthead-black-bar">
-                        <input type="submit" name="submit" value="Search">
-                      </div>
-                    </fieldset>
-                  </form>
-                </div>
-              </li>
-              <li class="float-right embl-selector">
-                <button class="button float-right" type="button" id="blackbar-embl-btn">Hinxton</button>
+              <li class="embl-selector">
+                <button class="button" type="button" id="blackbar-embl-btn">Hinxton</button>
                 <div id="embl-dropdown" class="embl-dropdown dropdown-pane bottom">
                   <p>EMBL-EBI in Hinxton, Cambridge is one of <br/>six EMBL locations across europe.<br/> <a href="https://www.ebi.ac.uk/about" class="small readmore" target="_blank">More about EMBL-EBI</a></p>
                   <h6>Connect to another EMBL location</h6>
@@ -309,6 +292,23 @@ export class PrideHeader extends HTMLElement {
                       <a href="https://www.embl.org/" class="readmore" target="_blank">More about EMBL</a>
                     </div>
                   </div>
+                </div>
+              </li>
+              <li class="search">
+                <a href="#" id="blackbar-search-btn" aria-label="Search all of EMBL-EBI">
+                  <span class="show-for-small-only">Search</span>
+                </a>
+                <div id="search-global-dropdown" class="dropdown-pane">
+                  <form id="global-search" name="global-search" action="https://www.ebi.ac.uk/ebisearch/search.ebi" method="GET" target="_blank">
+                    <fieldset>
+                      <div class="input-group">
+                        <input type="text" name="query" id="global-searchbox" placeholder="Search all of EMBL-EBI">
+                        <input type="hidden" name="db" value="allebi">
+                        <input type="hidden" name="requestFrom" value="masthead-black-bar">
+                        <input type="submit" name="submit" value="Search">
+                      </div>
+                    </fieldset>
+                  </form>
                 </div>
               </li>
             </ul>

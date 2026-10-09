@@ -3,219 +3,655 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PRIDE Web Commons - Reusable Header & Footer</title>
+  <title>PRIDE - PRoteomics IDEntifications Database</title>
+  <link rel="icon" type="image/x-icon" href="https://ebi.emblstatic.net/web_guidelines/EBI-Framework/v1.2/images/logos/EMBL-EBI/favicons/favicon.ico">
   <link rel="icon" type="image/png" href="https://ebi.emblstatic.net/web_guidelines/EBI-Framework/v1.2/images/logos/EMBL-EBI/favicons/favicon-32x32.png">
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #f8fafc;
-      color: #1e293b;
+      font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
+      background-color: #ffffff;
+      color: #2f3644;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
-    main {
-      flex: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 24px;
+
+    /* PRIDE Landing Page Resource & Hero Section */
+    .landing-resource-panel {
+      background: linear-gradient(180deg, #eef8f8 0%, #ffffff 100%);
+      border-bottom: 1px solid #e3e6ea;
       width: 100%;
-      box-sizing: border-box;
+      flex: 1;
     }
+
+    .resource-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 48px 24px 40px;
+    }
+
     .hero {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 32px;
-      margin-bottom: 32px;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      text-align: center;
     }
-    .hero h1 {
-      margin-top: 0;
-      color: #0f172a;
-      font-size: 28px;
-    }
-    .hero p {
-      font-size: 16px;
-      color: #475569;
-      line-height: 1.6;
-    }
-    .badge {
-      display: inline-block;
-      background: #e0f2fe;
-      color: #0369a1;
-      font-size: 12px;
+
+    .hero-title {
+      font-size: 34px;
       font-weight: 700;
-      padding: 4px 10px;
+      color: #17233d;
+      margin: 0 0 10px;
+      letter-spacing: -.01em;
+    }
+
+    .hero-lead {
+      font-size: 17px;
+      color: #515a6e;
+      max-width: 720px;
+      margin: 0 auto 28px;
+      line-height: 1.5;
+    }
+
+    .hero-search {
+      display: flex;
+      align-items: center;
+      max-width: 820px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 2px solid #5bc0be;
       border-radius: 999px;
-      margin-bottom: 12px;
+      padding: 0 6px 0 18px;
+      height: 56px;
+      box-shadow: 0 6px 24px rgba(91,192,190,.18);
+      transition: box-shadow .2s;
     }
-    .card-grid {
+
+    .hero-search:focus-within {
+      box-shadow: 0 6px 28px rgba(91,192,190,.32);
+    }
+
+    .hero-search-icon {
+      font-size: 20px;
+      color: #808695;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-search-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      box-shadow: none;
+      font-size: 16px;
+      color: #17233d;
+      background: none;
+      height: 50px;
+      margin: 0;
+      padding: 0;
+      font-family: inherit;
+    }
+
+    .hero-search-input::placeholder {
+      color: #808695;
+    }
+
+    .hero-search-button {
+      height: 44px;
+      padding: 0 26px;
+      border: none;
+      border-radius: 999px;
+      background: #5bc0be;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background-color .15s;
+    }
+
+    .hero-search-button:hover {
+      background: #4aa9a7;
+    }
+
+    .hero-examples {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #6b7280;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .example-chip {
+      background: #ffffff;
+      border: 1px dashed #5bc0be;
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-family: inherit;
+      font-size: 12px;
+      color: #17233d;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all .15s;
+    }
+
+    .example-chip:hover {
+      background: #eef8f8;
+      border-style: solid;
+    }
+
+    .hero-browse {
+      position: relative;
+      margin-left: 22px;
+      color: #444444;
+      border: none;
+      border-bottom: 1px dotted currentColor;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .hero-browse:hover {
+      color: #5bc0be;
+      border-bottom: 1px dotted currentColor;
+    }
+
+    .hero-browse::before {
+      content: '';
+      position: absolute;
+      left: -14px;
+      top: 2px;
+      bottom: 2px;
+      border-left: 1px solid #dcdee2;
+    }
+
+    /* KPI Headline Figures Strip */
+    .hero-kpis {
+      margin: 36px auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px 40px;
+    }
+
+    .kpi {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: none;
+      color: inherit;
+      min-width: 120px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color .15s;
+    }
+
+    .kpi:hover {
+      background: rgba(91,192,190,.12);
+    }
+
+    .kpi-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #17233d;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .kpi-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    /* 4 Resource Cards */
+    .resources {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 24px;
-      margin-bottom: 32px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 44px;
     }
-    .card {
-      background: white;
-      border: 1px solid #e2e8f0;
+
+    .resource-card {
+      --accent: #5bc0be;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      padding: 20px 18px 18px;
+      background: #ffffff;
+      border: 1px solid #e3e6ea;
+      border-radius: 10px;
+      color: inherit;
+      text-align: left;
+      text-decoration: none;
+      transition: transform .15s, box-shadow .15s, border-color .15s;
+    }
+
+    .resource-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 4px;
+      border-radius: 10px 10px 0 0;
+      background: var(--accent);
+    }
+
+    .resource-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(23,35,61,.10);
+      border-color: var(--accent);
+    }
+
+    .resource-icon {
+      width: 48px;
+      height: 48px;
       border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      background: #f0f2f5;
     }
-    .card h3 {
-      margin-top: 0;
-      font-size: 18px;
-      color: #0f172a;
+
+    .resource-body {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .resource-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #17233d;
+    }
+
+    .resource-desc {
+      font-size: 13px;
+      color: #515a6e;
+      line-height: 1.45;
+    }
+
+    .resource-arrow {
+      position: absolute;
+      right: 16px;
+      top: 22px;
+      color: #c5c8ce;
+      transition: color .15s, transform .15s;
+    }
+
+    .resource-card:hover .resource-arrow {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+
+    @media (max-width: 991px) {
+      .resources {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .hero-title {
+        font-size: 28px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .resources {
+        grid-template-columns: 1fr;
+      }
+      .hero-search {
+        height: 48px;
+      }
+    }
+
+    /* Floating Developer Controls Drawer Trigger */
+    .dev-trigger-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #17233d;
+      color: #ffffff;
+      border: 1px solid #334155;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,.2);
+      z-index: 9999;
       display: flex;
       align-items: center;
       gap: 8px;
+      transition: all .2s;
+      font-family: inherit;
     }
+
+    .dev-trigger-btn:hover {
+      background: #007c82;
+      transform: translateY(-2px);
+    }
+
+    /* Developer Drawer Panel */
+    .dev-drawer-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,.5);
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .2s ease;
+    }
+
+    .dev-drawer-backdrop.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .dev-drawer-panel {
+      position: fixed;
+      top: 0;
+      right: -480px;
+      width: 460px;
+      max-width: 90vw;
+      height: 100vh;
+      background: #ffffff;
+      box-shadow: -4px 0 24px rgba(0,0,0,.15);
+      z-index: 10001;
+      transition: right .3s ease;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 24px;
+    }
+
+    .dev-drawer-panel.is-open {
+      right: 0;
+    }
+
+    .dev-drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    .dev-drawer-header h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #0f172a;
+    }
+
+    .dev-close-btn {
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #64748b;
+    }
+
+    .dev-section {
+      margin-bottom: 24px;
+    }
+
+    .dev-section h4 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: #334155;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
     .btn-group {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin: 16px 0;
+      gap: 6px;
     }
+
     button.btn {
-      background: #0f172a;
-      color: white;
-      border: none;
-      padding: 8px 14px;
+      background: #f1f5f9;
+      color: #1e293b;
+      border: 1px solid #cbd5e1;
+      padding: 6px 12px;
       border-radius: 6px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
       cursor: pointer;
+      font-family: inherit;
       transition: background 0.15s;
     }
+
     button.btn:hover {
-      background: #334155;
+      background: #e2e8f0;
     }
-    button.btn.btn-teal {
-      background: #5bc0be;
-      color: #0f172a;
-      font-weight: 600;
+
+    button.btn.btn-primary {
+      background: #007c82;
+      color: #ffffff;
+      border-color: #007c82;
     }
-    button.btn.btn-teal:hover {
-      background: #48a6a4;
+
+    button.btn.btn-primary:hover {
+      background: #006065;
     }
-    button.btn.btn-outline {
-      background: transparent;
-      border: 1px solid #cbd5e1;
-      color: #334155;
-    }
-    button.btn.btn-outline:hover {
-      background: #f1f5f9;
-    }
+
     pre {
       background: #0f172a;
       color: #f8fafc;
-      padding: 16px;
-      border-radius: 8px;
+      padding: 12px;
+      border-radius: 6px;
       overflow-x: auto;
-      font-size: 13px;
+      font-size: 12px;
       line-height: 1.5;
     }
+
     .console-box {
       background: #1e293b;
       color: #38bdf8;
       font-family: monospace;
-      font-size: 13px;
-      padding: 12px;
+      font-size: 12px;
+      padding: 10px;
       border-radius: 6px;
-      min-height: 48px;
-      margin-top: 12px;
+      min-height: 40px;
+      margin-top: 8px;
       white-space: pre-wrap;
     }
   </style>
-  <script type="module" crossorigin src="./assets/index-iXldSJGj.js"></script>
+  <script type="module" crossorigin src="./assets/index-COOAfWMc.js"></script>
 </head>
 <body>
 
-  <!-- PRIDE Shared Header -->
-  <pride-header id="main-header" active-section="tools"></pride-header>
+  <!-- 1. PRIDE Shared Header (EMBL-EBI Black Bar + Alert Announcement Banner + PRIDE Masthead) -->
+  <pride-header id="main-header" active-section="home" hide-search="true"></pride-header>
 
-  <!-- Main Demo Content -->
-  <main id="content">
-    <div class="hero">
-      <span class="badge">Web Component · Custom Elements v1</span>
-      <h1>PRIDE Web Commons Demo & Documentation</h1>
-      <p>
-        A lightweight, framework-agnostic shared shell containing the <strong>EMBL-EBI Global Bar</strong>, 
-        <strong>PRIDE Announcement Alert Banner</strong>, <strong>PRIDE Main Navigation</strong>, and 
-        <strong>ELIXIR / EMBL-EBI Global Footer</strong>.
-      </p>
-      <p>
-        Zero dependencies. Encapsulated in Shadow DOM so styles never clash with host applications. 
-        Drop into plain HTML, Vue, Angular, React, MkDocs, or backend templates.
-      </p>
-    </div>
+  <!-- 2. Authentic PRIDE Landing Page Hero & Resource Section -->
+  <main id="content" class="landing-resource-panel">
+    <div class="resource-container">
+      <section class="hero">
+        <h1 class="hero-title">The PRoteomics IDEntifications database</h1>
+        <p class="hero-lead">Find, share and reuse mass-spectrometry proteomics data — the ProteomeXchange founding member and an ELIXIR Core Data Resource.</p>
 
-    <div class="card-grid">
-      <!-- Interactive Controller Card -->
-      <div class="card">
-        <h3>Live Interactive Controls</h3>
-        <p style="font-size: 14px; color: #64748b;">Click below to test dynamic updates on the header above:</p>
-        
-        <label style="font-size: 13px; font-weight: 600; display: block; margin-top: 12px;">Active Section:</label>
-        <div class="btn-group">
-          <button class="btn btn-outline" onclick="setSection('home')">Home</button>
-          <button class="btn btn-outline" onclick="setSection('archive')">Archive</button>
-          <button class="btn btn-outline" onclick="setSection('proteins')">Proteins</button>
-          <button class="btn btn-outline" onclick="setSection('usi')">USI</button>
-          <button class="btn btn-teal" onclick="setSection('tools')">Tools</button>
-          <button class="btn btn-outline" onclick="setSection('help')">Help</button>
-          <button class="btn btn-outline" onclick="setSection('about')">About</button>
+        <form class="hero-search" role="search" id="hero-search-form">
+          <span class="hero-search-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </span>
+          <input id="search-bar-pride" type="search" class="hero-search-input"
+                 placeholder="Search datasets by accession, keyword, protein, organism, disease…" aria-label="Search PRIDE Archive">
+          <button type="submit" class="hero-search-button">Search</button>
+        </form>
+
+        <div class="hero-examples">
+          <span>Try:</span>
+          <a href="https://www.ebi.ac.uk/pride/archive/projects/PXD005011" class="example-chip">PXD005011</a>
+          <a href="https://www.ebi.ac.uk/pride/archive?keyword=cancer" class="example-chip">cancer</a>
+          <a href="https://www.ebi.ac.uk/pride/archive?keyword=human" class="example-chip">human</a>
+          <a href="https://www.ebi.ac.uk/pride/archive?keyword=P02768" class="example-chip">P02768</a>
+          <a href="https://www.ebi.ac.uk/pride/archive" class="hero-browse">or browse all datasets →</a>
         </div>
 
-        <label style="font-size: 13px; font-weight: 600; display: block; margin-top: 12px;">Search Bar:</label>
-        <div class="btn-group">
-          <button class="btn btn-outline" onclick="toggleSearch()">Toggle Hide / Show Search</button>
+        <div class="hero-kpis">
+          <a href="https://www.ebi.ac.uk/pride/archive" class="kpi" title="Browse all public datasets">
+            <span class="kpi-value" id="kpi-datasets">42,022</span>
+            <span class="kpi-label">public datasets</span>
+          </a>
+          <a href="https://www.ebi.ac.uk/pride/archive" class="kpi" title="Files in the archive">
+            <span class="kpi-value" id="kpi-files">1.8 M</span>
+            <span class="kpi-label">files</span>
+          </a>
+          <a href="https://www.ebi.ac.uk/pride/statisticsdetails" class="kpi" title="Total volume submitted">
+            <span class="kpi-value" id="kpi-bytes">1.2 PB</span>
+            <span class="kpi-label">of data</span>
+          </a>
+          <a href="https://www.ebi.ac.uk/pride/statisticsdetails" class="kpi" title="Submitting countries">
+            <span class="kpi-value" id="kpi-countries">84</span>
+            <span class="kpi-label">countries</span>
+          </a>
+          <a href="https://www.ebi.ac.uk/pride/statisticsdetails" class="kpi" title="Submissions in the latest complete month">
+            <span class="kpi-value" id="kpi-month">873</span>
+            <span class="kpi-label" id="kpi-month-label">datasets in Sep 2026</span>
+          </a>
         </div>
+      </section>
 
-        <label style="font-size: 13px; font-weight: 600; display: block; margin-top: 12px;">Simulate User Session:</label>
-        <div class="btn-group">
-          <button class="btn btn-outline" onclick="mockLogin('jane.doe@ebi.ac.uk')">Sign in as Jane Doe</button>
-          <button class="btn btn-outline" onclick="mockLogout()">Sign out</button>
-        </div>
+      <section class="resources">
+        <a href="https://www.ebi.ac.uk/pride/archive" class="resource-card" style="--accent: #5bc0be;">
+          <span class="resource-icon" style="background: rgba(91,192,190,0.14); color: #5bc0be;">
+            <svg viewBox="0 0 512 512" width="26" height="26" fill="currentColor"><path d="M416 144H96c-17.7 0-32 14.3-32 32v240c0 17.7 14.3 32 32 32h320c17.7 0 32-14.3 32-32V176c0-17.7-14.3-32-32-32z"/><path d="M384 96H128c-17.7 0-32 14.3-32 32h320c0-17.7-14.3-32-32-32z" opacity=".5"/><path d="M352 48H160c-17.7 0-32 14.3-32 32h256c0-17.7-14.3-32-32-32z" opacity=".3"/></svg>
+          </span>
+          <span class="resource-body">
+            <span class="resource-title">PRIDE Archive</span>
+            <span class="resource-desc">Public mass-spectrometry datasets: raw files, results, metadata and sample annotations.</span>
+          </span>
+          <span class="resource-arrow">→</span>
+        </a>
 
-        <div class="console-box" id="event-log">Listening for CustomEvents (pride-search, pride-navigate, pride-logout)...</div>
-      </div>
+        <a href="https://www.ebi.ac.uk/pride/archive/affinity-proteomics" class="resource-card" style="--accent: #e87830;">
+          <span class="resource-icon" style="background: rgba(232,120,48,0.14); color: #e87830;">
+            <svg viewBox="0 0 512 512" width="26" height="26" fill="currentColor"><path d="M432 416H80a16 16 0 01-16-16V96a16 16 0 0132 0v288h336a16 16 0 010 32z"/><path d="M144 320a16 16 0 01-11.3-27.3l80-80a16 16 0 0122.6 0l48 48 96-96a16 16 0 0122.6 22.6l-107.3 107.3a16 16 0 01-22.6 0L224 246.6l-68.7 68.7A16 16 0 01144 320z"/></svg>
+          </span>
+          <span class="resource-body">
+            <span class="resource-title">Affinity Proteomics</span>
+            <span class="resource-desc">Olink, SomaScan and other affinity-based proteomics datasets.</span>
+          </span>
+          <span class="resource-arrow">→</span>
+        </a>
 
-      <!-- Quick Installation Card -->
-      <div class="card">
-        <h3>Integration Guide</h3>
-        <p style="font-size: 14px; color: #64748b;">Include via CDN in any webpage:</p>
-        <pre><code>&lt;!-- Load via jsDelivr CDN (or GitHub Pages) --&gt;
-&lt;script type="module" src="https://cdn.jsdelivr.net/gh/PRIDE-Archive/pride-web-commons@main/dist/pride-web-commons.js"&gt;&lt;/script&gt;
+        <a href="https://www.ebi.ac.uk/pride/spectrumlibrary" class="resource-card" style="--accent: #2d8cf0;">
+          <span class="resource-icon" style="background: rgba(45,140,240,0.14); color: #2d8cf0;">
+            <svg viewBox="0 0 512 512" width="26" height="26" fill="currentColor"><path d="M256 48C141.1 48 48 141.1 48 256c0 49.3 17.2 94.7 46 130.6l24.4-19.6C94.2 336.5 80 297.9 80 256c0-97 79-176 176-176s176 79 176 176c0 41.9-14.2 80.5-38.4 111l24.4 19.6c28.8-35.9 46-81.3 46-130.6 0-114.9-93.1-208-208-208z"/><circle cx="256" cy="256" r="32"/></svg>
+          </span>
+          <span class="resource-body">
+            <span class="resource-title">Universal Spectrum Identifier</span>
+            <span class="resource-desc">Look up and visualise any spectrum in the archive by its USI.</span>
+          </span>
+          <span class="resource-arrow">→</span>
+        </a>
 
-&lt;!-- Top Navigation --&gt;
-&lt;pride-header active-section="tools"&gt;&lt;/pride-header&gt;
-
-&lt;!-- Your Application Content --&gt;
-&lt;main id="content"&gt;
-  ...
-&lt;/main&gt;
-
-&lt;!-- Footer --&gt;
-&lt;pride-footer&gt;&lt;/pride-footer&gt;</code></pre>
-      </div>
+        <a href="https://www.ebi.ac.uk/pride/archive/crosslinking" class="resource-card" style="--accent: #8e6cc0;">
+          <span class="resource-icon" style="background: rgba(142,108,192,0.14); color: #8e6cc0;">
+            <svg viewBox="0 0 512 512" width="26" height="26" fill="currentColor"><circle cx="160" cy="160" r="48"/><circle cx="352" cy="160" r="48"/><circle cx="256" cy="352" r="48"/><path d="M192 184l40 120m80-120l-40 120M192 160h128" stroke="currentColor" stroke-width="32" stroke-linecap="round"/></svg>
+          </span>
+          <span class="resource-body">
+            <span class="resource-title">Crosslinking</span>
+            <span class="resource-desc">Crosslinking mass-spectrometry datasets and interaction views.</span>
+          </span>
+          <span class="resource-arrow">→</span>
+        </a>
+      </section>
     </div>
   </main>
 
-  <!-- PRIDE Shared Footer -->
+  <!-- 3. PRIDE Shared Footer (ELIXIR Ribbon + EMBL-EBI Global Footer) -->
   <pride-footer></pride-footer>
 
-  <!-- Load component script -->
+  <!-- Floating Developer Drawer Trigger -->
+  <button class="dev-trigger-btn" onclick="toggleDevDrawer()" title="Open Developer Sandbox & Controls">
+    <span>⚙️</span> Developer Sandbox
+  </button>
+
+  <!-- Developer Slide-Over Drawer -->
+  <div class="dev-drawer-backdrop" id="dev-backdrop" onclick="toggleDevDrawer()"></div>
+  <div class="dev-drawer-panel" id="dev-panel">
+    <div class="dev-drawer-header">
+      <h3>🛠️ Developer Sandbox</h3>
+      <button class="dev-close-btn" onclick="toggleDevDrawer()">&times;</button>
+    </div>
+
+    <div class="dev-section">
+      <h4>Header Section Switcher</h4>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="setSection('home')">Home</button>
+        <button class="btn" onclick="setSection('archive')">Archive</button>
+        <button class="btn" onclick="setSection('proteins')">Proteins</button>
+        <button class="btn" onclick="setSection('usi')">USI</button>
+        <button class="btn" onclick="setSection('tools')">Tools</button>
+        <button class="btn" onclick="setSection('help')">Help</button>
+        <button class="btn" onclick="setSection('about')">About</button>
+      </div>
+    </div>
+
+    <div class="dev-section">
+      <h4>Header Quick Search</h4>
+      <div class="btn-group">
+        <button class="btn" onclick="toggleSearch()">Toggle Hide / Show Search</button>
+      </div>
+    </div>
+
+    <div class="dev-section">
+      <h4>User Session Simulation</h4>
+      <div class="btn-group">
+        <button class="btn" onclick="mockLogin('pride-curator@ebi.ac.uk')">Sign in (Curator)</button>
+        <button class="btn" onclick="mockLogout()">Sign out</button>
+      </div>
+    </div>
+
+    <div class="dev-section">
+      <h4>jsDelivr CDN Snippet</h4>
+      <pre><code>&lt;!-- Include in any HTML/Vue/Angular app --&gt;
+&lt;script type="module" src="https://cdn.jsdelivr.net/gh/PRIDE-Archive/pride-web-commons@main/dist/pride-web-commons.js"&gt;&lt;/script&gt;
+
+&lt;pride-header active-section="home"&gt;&lt;/pride-header&gt;
+
+&lt;!-- App content --&gt;
+
+&lt;pride-footer&gt;&lt;/pride-footer&gt;</code></pre>
+    </div>
+
+    <div class="dev-section">
+      <h4>CustomEvent Console</h4>
+      <div class="console-box" id="event-log">Listening for events...</div>
+    </div>
+  </div>
+
+  <!-- Load component bundle -->
 
   <script>
     const header = document.getElementById('main-header');
     const logEl = document.getElementById('event-log');
+    const backdrop = document.getElementById('dev-backdrop');
+    const panel = document.getElementById('dev-panel');
+
+    function toggleDevDrawer() {
+      backdrop.classList.toggle('is-open');
+      panel.classList.toggle('is-open');
+    }
 
     function log(msg) {
-      logEl.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+      if (logEl) logEl.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
     }
 
     function setSection(sec) {
@@ -225,7 +661,7 @@
 
     function toggleSearch() {
       const current = header.getAttribute('hide-search');
-      const next = (current === null || current === 'false') ? 'true' : 'false';
+      const next = (current === 'true') ? 'false' : 'true';
       header.setAttribute('hide-search', next);
       log(`hide-search set to: ${next}`);
     }
@@ -245,6 +681,18 @@
       header.removeAttribute('token');
       log(`Mock logged out`);
     }
+
+    // Hero search handler
+    document.getElementById('hero-search-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = document.getElementById('search-bar-pride').value.trim();
+      if (!val) return;
+      if (/^(PXD|PRD|PAD|RPXD)\d+$/i.test(val)) {
+        window.location.href = `https://www.ebi.ac.uk/pride/archive/projects/${val.toUpperCase()}`;
+      } else {
+        window.location.href = `https://www.ebi.ac.uk/pride/archive?keyword=${encodeURIComponent(val)}`;
+      }
+    });
 
     // Event listeners
     window.addEventListener('pride-search', (e) => {

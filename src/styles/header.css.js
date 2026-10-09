@@ -1,4 +1,21 @@
 export const HEADER_CSS = `
+@font-face {
+  font-family: 'EBI-Generic';
+  src: url('https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2/EBI-Generic/fonts/EBI-Generic.woff2') format('woff2'),
+       url('https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2/EBI-Generic/fonts/EBI-Generic.woff') format('woff'),
+       url('https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2/EBI-Generic/fonts/EBI-Generic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'EBI-Functional';
+  src: url('https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2/EBI-Functional/fonts/EBI-Functional.woff2') format('woff2'),
+       url('https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2/EBI-Functional/fonts/EBI-Functional.woff') format('woff'),
+       url('https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2/EBI-Functional/fonts/EBI-Functional.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :host {
   display: block;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -40,16 +57,17 @@ export const HEADER_CSS = `
 }
 
 .masthead-black-bar {
-  background-color: #111;
+  background-color: #111111;
   height: 37px;
   line-height: 37px;
   font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
-  color: #fff;
+  color: #ffffff;
   position: relative;
+  width: 100%;
 }
 
 .masthead-black-bar a {
-  color: #fff;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -68,37 +86,38 @@ ul#global-nav.menu {
   margin: 0;
   padding: 0;
   display: flex;
-  align-items: stretch;
+  align-items: center;
   height: 37px;
-  width: 100%;
+  width: auto;
 }
 
 ul#global-nav.menu li {
   display: inline-flex;
   align-items: center;
   position: relative;
-  height: 100%;
+  height: 37px;
+  line-height: 37px;
+  margin: 0;
+  padding: 0;
 }
 
 ul#global-nav.menu li a {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
   padding: 0 0.85rem;
-  height: 100%;
-  color: #fff;
+  height: 37px;
+  line-height: 37px;
+  color: #ffffff;
   font-size: 13px;
   font-weight: 400;
   text-decoration: none;
   border-bottom: none;
-  line-height: 1;
   transition: background-color .15s ease;
 }
 
-ul#global-nav.menu li a svg {
-  width: 14px;
-  height: 14px;
-  opacity: 0.9;
+ul#global-nav.menu li a::before {
+  display: inline-block;
+  padding-right: 0.4rem;
 }
 
 ul#global-nav.menu li.home-mobile {
@@ -106,46 +125,88 @@ ul#global-nav.menu li.home-mobile {
 }
 
 ul#global-nav.menu li.home.active a {
-  background-color: #000;
+  background-color: #000000;
   font-weight: 700;
+}
+
+ul#global-nav.menu li.home a::before {
+  font-family: 'EBI-Generic';
+  content: 'H';
+  font-weight: normal;
 }
 
 ul#global-nav.menu li.home a:hover {
   background-color: #007c82;
 }
 
+ul#global-nav.menu li.services a::before {
+  font-family: 'EBI-Generic';
+  content: '(';
+  font-weight: normal;
+}
+
 ul#global-nav.menu li.services a:hover {
   background-color: #389198;
+}
+
+ul#global-nav.menu li.research a::before {
+  font-family: 'EBI-Generic';
+  content: ')';
+  font-weight: normal;
 }
 
 ul#global-nav.menu li.research a:hover {
   background-color: #6dab49;
 }
 
+ul#global-nav.menu li.training a::before {
+  font-family: 'EBI-Generic';
+  content: 't';
+  font-weight: normal;
+}
+
 ul#global-nav.menu li.training a:hover {
   background-color: #e9b400;
+}
+
+ul#global-nav.menu li.about a::before {
+  font-family: 'EBI-Generic';
+  content: 'i';
+  font-weight: normal;
 }
 
 ul#global-nav.menu li.about a:hover {
   background-color: #389198;
 }
 
-ul#global-nav.menu li.search a:hover {
-  background-color: #389198;
+ul#global-nav.menu li.search a {
+  padding: 0 0.75rem;
 }
 
-ul#global-nav.menu li.float-right.embl-selector {
-  margin-left: auto;
+ul#global-nav.menu li.search a::before {
+  font-family: 'EBI-Functional';
+  content: '1';
+  font-size: 14px;
+  padding-right: 0;
+  font-weight: normal;
+}
+
+ul#global-nav.menu li.search a:hover {
+  background-color: #222222;
+}
+
+ul#global-nav.menu li.search .show-for-small-only {
+  display: none;
 }
 
 .embl-selector .button {
-  background: #333 no-repeat 8px 50% url("https://ebi.emblstatic.net/web_guidelines/EBI-Framework/v1.2/images/logos/EMBL-EBI/EMBL_EBI_Logo_white.svg");
+  background: transparent no-repeat 4px 50% url("https://ebi.emblstatic.net/web_guidelines/EBI-Framework/v1.2/images/logos/EMBL-EBI/EMBL_EBI_Logo_white.svg");
   background-size: 100px;
-  padding-left: 114px;
-  padding-right: 24px;
+  padding-left: 108px;
+  padding-right: 14px;
   height: 37px;
   line-height: 37px;
-  color: #fff;
+  color: #ffffff;
   border: none;
   font-size: 13px;
   cursor: pointer;
@@ -153,25 +214,13 @@ ul#global-nav.menu li.float-right.embl-selector {
   font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
   display: inline-flex;
   align-items: center;
+  margin: 0;
   transition: background-color .15s ease;
 }
 
 .embl-selector .button:hover,
 .embl-selector .button:focus {
-  background-color: #444;
-}
-
-.embl-selector .button::after {
-  content: '';
-  display: block;
-  width: 0;
-  height: 0;
-  border: inset 4px;
-  border-color: #fff transparent transparent;
-  border-top-style: solid;
-  position: absolute;
-  top: 17px;
-  right: 8px;
+  background-color: #888888;
 }
 
 /* Hinxton Campus Dropdown */

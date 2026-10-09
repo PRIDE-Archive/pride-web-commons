@@ -127,15 +127,13 @@ export const FOOTER_CSS = `
 .global-footer .ebi-logo {
   display: block;
   height: 53px;
-  width: 100%;
-  max-width: 140px;
-  margin-top: 4px;
-}
-
-.global-footer .ebi-logo svg {
-  width: 100%;
-  height: auto;
-  max-height: 53px;
+  width: 140px;
+  background-image: url("https://ebi.emblstatic.net/web_guidelines/EBI-Framework/v1.2/images/logos/EMBL-EBI/EMBL_EBI_Logo_black.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-left: -.25rem;
+  position: relative;
+  top: 8px;
 }
 
 .global-footer h5 {
@@ -154,22 +152,22 @@ export const FOOTER_CSS = `
 
 .global-footer h5.services a,
 .global-footer .services-color {
-  color: #048880;
+  color: #389198;
 }
 
 .global-footer h5.research a,
 .global-footer .research-color {
-  color: #405466;
+  color: #6dab49;
 }
 
 .global-footer h5.training a,
 .global-footer .training-color {
-  color: #55758a;
+  color: #e9b400;
 }
 
 .global-footer h5.industry a,
 .global-footer .industry-color {
-  color: #647f93;
+  color: #0086b4;
 }
 
 .global-footer h5.about a,
