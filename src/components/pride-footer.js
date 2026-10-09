@@ -14,8 +14,18 @@ export class PrideFooter extends HTMLElement {
     return this.getAttribute('show-elixir') !== 'false'
   }
 
+  set showElixir(val) {
+    if (val === false || val === 'false') this.setAttribute('show-elixir', 'false')
+    else this.removeAttribute('show-elixir')
+  }
+
   get showEbiFooter() {
     return this.getAttribute('show-ebi-footer') !== 'false'
+  }
+
+  set showEbiFooter(val) {
+    if (val === false || val === 'false') this.setAttribute('show-ebi-footer', 'false')
+    else this.removeAttribute('show-ebi-footer')
   }
 
   connectedCallback() {

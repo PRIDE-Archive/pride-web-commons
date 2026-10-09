@@ -855,24 +855,45 @@ class c extends HTMLElement {
   get baseUrl() {
     return this.getAttribute("base-url") || "https://www.ebi.ac.uk/pride";
   }
+  set baseUrl(e) {
+    e ? this.setAttribute("base-url", e) : this.removeAttribute("base-url");
+  }
   get bannerUrl() {
     return this.getAttribute("banner-url") || `${this.baseUrl}/banner/index.txt`;
+  }
+  set bannerUrl(e) {
+    e ? this.setAttribute("banner-url", e) : this.removeAttribute("banner-url");
   }
   get bgImage() {
     return this.getAttribute("bg-image") || x;
   }
+  set bgImage(e) {
+    e ? this.setAttribute("bg-image", e) : this.removeAttribute("bg-image");
+  }
   get activeSection() {
     return (this.getAttribute("active-section") || "").toLowerCase();
+  }
+  set activeSection(e) {
+    e ? this.setAttribute("active-section", e) : this.removeAttribute("active-section");
   }
   get hideSearch() {
     const e = this.getAttribute("hide-search");
     return e !== null && e !== "false";
   }
+  set hideSearch(e) {
+    e != null && e !== !1 && e !== "false" ? this.setAttribute("hide-search", "true") : this.removeAttribute("hide-search");
+  }
   get username() {
     return this.getAttribute("username") || localStorage.getItem("username") || "";
   }
+  set username(e) {
+    e ? this.setAttribute("username", e) : this.removeAttribute("username");
+  }
   get token() {
     return this.getAttribute("token") || localStorage.getItem("token") || "";
+  }
+  set token(e) {
+    e ? this.setAttribute("token", e) : this.removeAttribute("token");
   }
   connectedCallback() {
     w(), this.render(), this.fetchBanner(), window.addEventListener("scroll", this._onScroll, { passive: !0 }), document.addEventListener("click", this._onDocumentClick), document.addEventListener("keydown", this._onKeyDown);
@@ -880,12 +901,12 @@ class c extends HTMLElement {
   disconnectedCallback() {
     window.removeEventListener("scroll", this._onScroll), document.removeEventListener("click", this._onDocumentClick), document.removeEventListener("keydown", this._onKeyDown);
   }
-  attributeChangedCallback(e, o, i) {
-    o !== i && this.shadowRoot && this.shadowRoot.innerHTML && (e === "active-section" ? this._updateActiveSection() : this.render());
+  attributeChangedCallback(e, t, o) {
+    t !== o && this.shadowRoot && this.shadowRoot.innerHTML && (e === "active-section" ? this._updateActiveSection() : this.render());
   }
   _onScroll() {
-    const e = window.pageYOffset || document.documentElement.scrollTop || 0, o = this.shadowRoot.querySelector(".pride-masthead");
-    o && (!this._isCompact && e > 120 ? (this._isCompact = !0, o.classList.add("compact")) : this._isCompact && e < 40 && (this._isCompact = !1, o.classList.remove("compact")));
+    const e = window.pageYOffset || document.documentElement.scrollTop || 0, t = this.shadowRoot.querySelector(".pride-masthead");
+    t && (!this._isCompact && e > 120 ? (this._isCompact = !0, t.classList.add("compact")) : this._isCompact && e < 40 && (this._isCompact = !1, t.classList.remove("compact")));
   }
   _onDocumentClick(e) {
     this.contains(e.target) || this._closeAllDropdowns();
@@ -899,70 +920,70 @@ class c extends HTMLElement {
     }), this._openDropdown = null);
   }
   _toggleDropdown(e) {
-    const o = this.shadowRoot.getElementById(e);
-    if (!o) return;
-    const i = o.classList.contains("is-open");
-    this._closeAllDropdowns(), i || (o.classList.add("is-open"), this._openDropdown = e);
+    const t = this.shadowRoot.getElementById(e);
+    if (!t) return;
+    const o = t.classList.contains("is-open");
+    this._closeAllDropdowns(), o || (t.classList.add("is-open"), this._openDropdown = e);
   }
   _openDrawer() {
-    const e = this.shadowRoot.querySelector(".drawer-backdrop"), o = this.shadowRoot.querySelector(".drawer-panel");
-    e && o && (e.classList.add("is-open"), o.classList.add("is-open"));
+    const e = this.shadowRoot.querySelector(".drawer-backdrop"), t = this.shadowRoot.querySelector(".drawer-panel");
+    e && t && (e.classList.add("is-open"), t.classList.add("is-open"));
   }
   _closeDrawer() {
-    const e = this.shadowRoot.querySelector(".drawer-backdrop"), o = this.shadowRoot.querySelector(".drawer-panel");
-    e && o && (e.classList.remove("is-open"), o.classList.remove("is-open"));
+    const e = this.shadowRoot.querySelector(".drawer-backdrop"), t = this.shadowRoot.querySelector(".drawer-panel");
+    e && t && (e.classList.remove("is-open"), t.classList.remove("is-open"));
   }
   async fetchBanner() {
     try {
       const e = await fetch(this.bannerUrl);
       if (!e.ok) return;
-      const o = await e.text(), i = (typeof o == "string" ? o : "").replace(/<!--[\s\S]*?-->/g, "").trim();
-      if (i) {
-        this._bannerContent = i;
+      const t = await e.text(), o = (typeof t == "string" ? t : "").replace(/<!--[\s\S]*?-->/g, "").trim();
+      if (o) {
+        this._bannerContent = o;
         const n = this.shadowRoot.querySelector(".pride-banner-container"), l = this.shadowRoot.querySelector(".banner");
-        n && l && (l.innerHTML = i, n.style.display = "block");
+        n && l && (l.innerHTML = o, n.style.display = "block");
       }
     } catch {
     }
   }
   _handleSearch(e) {
     e.preventDefault();
-    const o = this.shadowRoot.querySelector(".quick-search-input"), i = o ? o.value.trim() : "";
-    if (!i) return;
+    const t = this.shadowRoot.querySelector(".quick-search-input"), o = t ? t.value.trim() : "";
+    if (!o) return;
     const n = new CustomEvent("pride-search", {
       bubbles: !0,
       composed: !0,
       cancelable: !0,
-      detail: { query: i }
+      detail: { query: o }
     });
-    this.dispatchEvent(n) && (/^(PXD|PRD|PAD|RPXD)\d+$/i.test(i) ? window.location.href = `${this.baseUrl}/archive/projects/${i.toUpperCase()}` : window.location.href = `${this.baseUrl}/archive?keyword=${encodeURIComponent(i)}`);
+    this.dispatchEvent(n) && (/^(PXD|PRD|PAD|RPXD)\d+$/i.test(o) ? window.location.href = `${this.baseUrl}/archive/projects/${o.toUpperCase()}` : window.location.href = `${this.baseUrl}/archive?keyword=${encodeURIComponent(o)}`);
   }
-  _handleNavigate(e, o) {
-    const i = new CustomEvent("pride-navigate", {
+  _handleNavigate(e, t) {
+    const o = new CustomEvent("pride-navigate", {
       bubbles: !0,
       composed: !0,
       cancelable: !0,
-      detail: { href: o }
+      detail: { href: t }
     });
-    this.dispatchEvent(i) || e.preventDefault();
+    this.dispatchEvent(o) || e.preventDefault();
   }
   _handleLogout(e) {
     e.preventDefault(), localStorage.removeItem("username"), localStorage.removeItem("token"), localStorage.removeItem("logintype"), localStorage.removeItem("type");
-    const o = new CustomEvent("pride-logout", {
+    const t = new CustomEvent("pride-logout", {
       bubbles: !0,
       composed: !0,
       cancelable: !0
     });
-    this.dispatchEvent(o) ? window.location.href = `${this.baseUrl}/archive` : this.render();
+    this.dispatchEvent(t) ? window.location.href = `${this.baseUrl}/archive` : this.render();
   }
   _updateActiveSection() {
     const e = this.activeSection;
-    this.shadowRoot.querySelectorAll(".pride-menu > li").forEach((o) => {
-      o.getAttribute("data-section") === e ? o.classList.add("active") : o.classList.remove("active");
+    this.shadowRoot.querySelectorAll(".pride-menu > li").forEach((t) => {
+      t.getAttribute("data-section") === e ? t.classList.add("active") : t.classList.remove("active");
     });
   }
   render() {
-    const e = this.baseUrl, o = this.activeSection, i = this.username, n = !!(i && this.token);
+    const e = this.baseUrl, t = this.activeSection, o = this.username, n = !!(o && this.token);
     this.shadowRoot.innerHTML = `
       <style>${m}</style>
 
@@ -1061,12 +1082,12 @@ class c extends HTMLElement {
           <nav class="pride-nav" aria-label="Main Navigation">
             <ul class="pride-menu">
               <!-- Home -->
-              <li data-section="home" class="${o === "home" ? "active" : ""}">
+              <li data-section="home" class="${t === "home" ? "active" : ""}">
                 <a href="${e}/" class="menu-item-link">Home</a>
               </li>
 
               <!-- Archive Dropdown -->
-              <li data-section="archive" class="dropdown ${o === "archive" ? "active" : ""}" id="menu-archive">
+              <li data-section="archive" class="dropdown ${t === "archive" ? "active" : ""}" id="menu-archive">
                 <button type="button" class="dropdown-trigger" aria-haspopup="true">
                   Archive ${a.chevronDown}
                 </button>
@@ -1079,17 +1100,17 @@ class c extends HTMLElement {
               </li>
 
               <!-- Proteins -->
-              <li data-section="proteins" class="${o === "proteins" ? "active" : ""}">
+              <li data-section="proteins" class="${t === "proteins" ? "active" : ""}">
                 <a href="${e}/archive/proteins" class="menu-item-link">Proteins</a>
               </li>
 
               <!-- USI -->
-              <li data-section="usi" class="${o === "usi" ? "active" : ""}">
+              <li data-section="usi" class="${t === "usi" ? "active" : ""}">
                 <a href="${e}/archive/usi" class="menu-item-link" title="Universal Spectrum Identifier viewer">USI</a>
               </li>
 
               <!-- Tools Dropdown -->
-              <li data-section="tools" class="dropdown ${o === "tools" ? "active" : ""}" id="menu-tools">
+              <li data-section="tools" class="dropdown ${t === "tools" ? "active" : ""}" id="menu-tools">
                 <button type="button" class="dropdown-trigger" aria-haspopup="true">
                   Tools ${a.chevronDown}
                 </button>
@@ -1105,7 +1126,7 @@ class c extends HTMLElement {
               </li>
 
               <!-- Help Dropdown -->
-              <li data-section="help" class="dropdown ${o === "help" ? "active" : ""}" id="menu-help">
+              <li data-section="help" class="dropdown ${t === "help" ? "active" : ""}" id="menu-help">
                 <button type="button" class="dropdown-trigger" aria-haspopup="true">
                   Help ${a.chevronDown}
                 </button>
@@ -1117,7 +1138,7 @@ class c extends HTMLElement {
               </li>
 
               <!-- About Dropdown -->
-              <li data-section="about" class="dropdown ${o === "about" ? "active" : ""}" id="menu-about">
+              <li data-section="about" class="dropdown ${t === "about" ? "active" : ""}" id="menu-about">
                 <button type="button" class="dropdown-trigger" aria-haspopup="true">
                   About ${a.chevronDown}
                 </button>
@@ -1142,10 +1163,10 @@ class c extends HTMLElement {
               ${n ? `
                 <li class="dropdown" id="menu-user">
                   <button type="button" class="dropdown-trigger" aria-haspopup="true">
-                    ${a.person} <span class="account-email">${i}</span> ${a.chevronDown}
+                    ${a.person} <span class="account-email">${o}</span> ${a.chevronDown}
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a href="${e}/profile/${encodeURIComponent(i.split("@")[0])}" class="dropdown-item">Profile</a></li>
+                    <li><a href="${e}/profile/${encodeURIComponent(o.split("@")[0])}" class="dropdown-item">Profile</a></li>
                     <li><a href="#" class="dropdown-item logout-link">Log out</a></li>
                   </ul>
                 </li>
@@ -1202,8 +1223,8 @@ class c extends HTMLElement {
 
             <li class="drawer-group">Account</li>
             ${n ? `
-              <li><a href="${e}/profile/${encodeURIComponent(i.split("@")[0])}">Profile</a></li>
-              <li><a href="#" class="logout-link">Log out (${i})</a></li>
+              <li><a href="${e}/profile/${encodeURIComponent(o.split("@")[0])}">Profile</a></li>
+              <li><a href="#" class="logout-link">Log out (${o})</a></li>
             ` : `
               <li><a href="${e}/login">Log in</a></li>
               <li><a href="${e}/register">Register</a></li>
@@ -1214,32 +1235,32 @@ class c extends HTMLElement {
     `, this._attachEventListeners();
   }
   _attachEventListeners() {
-    const e = this.shadowRoot, o = e.getElementById("blackbar-search-btn");
-    o && o.addEventListener("click", (t) => {
-      t.preventDefault(), this._toggleDropdown("search-global-dropdown");
+    const e = this.shadowRoot, t = e.getElementById("blackbar-search-btn");
+    t && t.addEventListener("click", (i) => {
+      i.preventDefault(), this._toggleDropdown("search-global-dropdown");
     });
-    const i = e.getElementById("blackbar-embl-btn");
-    i && i.addEventListener("click", (t) => {
-      t.preventDefault(), this._toggleDropdown("embl-dropdown");
-    }), e.querySelectorAll(".dropdown-trigger").forEach((t) => {
-      t.addEventListener("click", (s) => {
+    const o = e.getElementById("blackbar-embl-btn");
+    o && o.addEventListener("click", (i) => {
+      i.preventDefault(), this._toggleDropdown("embl-dropdown");
+    }), e.querySelectorAll(".dropdown-trigger").forEach((i) => {
+      i.addEventListener("click", (s) => {
         s.stopPropagation();
-        const d = t.closest(".dropdown");
+        const d = i.closest(".dropdown");
         d && d.id && this._toggleDropdown(d.id);
       });
     });
     const n = e.querySelector(".quick-search");
-    n && n.addEventListener("submit", (t) => this._handleSearch(t));
+    n && n.addEventListener("submit", (i) => this._handleSearch(i));
     const l = e.querySelector(".menu-toggle");
     l && l.addEventListener("click", () => this._openDrawer());
     const b = e.querySelector(".drawer-close");
     b && b.addEventListener("click", () => this._closeDrawer());
     const f = e.querySelector(".drawer-backdrop");
-    f && f.addEventListener("click", () => this._closeDrawer()), e.querySelectorAll(".logout-link").forEach((t) => {
-      t.addEventListener("click", (s) => this._handleLogout(s));
-    }), e.querySelectorAll("a[href]").forEach((t) => {
-      const s = t.getAttribute("href");
-      !s || s === "#" || s.startsWith("javascript:") || t.hasAttribute("target") || t.addEventListener("click", (d) => this._handleNavigate(d, s));
+    f && f.addEventListener("click", () => this._closeDrawer()), e.querySelectorAll(".logout-link").forEach((i) => {
+      i.addEventListener("click", (s) => this._handleLogout(s));
+    }), e.querySelectorAll("a[href]").forEach((i) => {
+      const s = i.getAttribute("href");
+      !s || s === "#" || s.startsWith("javascript:") || i.hasAttribute("target") || i.addEventListener("click", (d) => this._handleNavigate(d, s));
     });
   }
 }
@@ -1500,14 +1521,20 @@ class A extends HTMLElement {
   get showElixir() {
     return this.getAttribute("show-elixir") !== "false";
   }
+  set showElixir(e) {
+    e === !1 || e === "false" ? this.setAttribute("show-elixir", "false") : this.removeAttribute("show-elixir");
+  }
   get showEbiFooter() {
     return this.getAttribute("show-ebi-footer") !== "false";
+  }
+  set showEbiFooter(e) {
+    e === !1 || e === "false" ? this.setAttribute("show-ebi-footer", "false") : this.removeAttribute("show-ebi-footer");
   }
   connectedCallback() {
     this.render();
   }
-  attributeChangedCallback(e, o, i) {
-    o !== i && this.render();
+  attributeChangedCallback(e, t, o) {
+    t !== o && this.render();
   }
   render() {
     const e = (/* @__PURE__ */ new Date()).getFullYear();

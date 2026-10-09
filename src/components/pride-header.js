@@ -26,16 +26,36 @@ export class PrideHeader extends HTMLElement {
     return this.getAttribute('base-url') || 'https://www.ebi.ac.uk/pride'
   }
 
+  set baseUrl(val) {
+    if (val) this.setAttribute('base-url', val)
+    else this.removeAttribute('base-url')
+  }
+
   get bannerUrl() {
     return this.getAttribute('banner-url') || `${this.baseUrl}/banner/index.txt`
+  }
+
+  set bannerUrl(val) {
+    if (val) this.setAttribute('banner-url', val)
+    else this.removeAttribute('banner-url')
   }
 
   get bgImage() {
     return this.getAttribute('bg-image') || HERO_BANNER_DATA_URI
   }
 
+  set bgImage(val) {
+    if (val) this.setAttribute('bg-image', val)
+    else this.removeAttribute('bg-image')
+  }
+
   get activeSection() {
     return (this.getAttribute('active-section') || '').toLowerCase()
+  }
+
+  set activeSection(val) {
+    if (val) this.setAttribute('active-section', val)
+    else this.removeAttribute('active-section')
   }
 
   get hideSearch() {
@@ -43,12 +63,30 @@ export class PrideHeader extends HTMLElement {
     return val !== null && val !== 'false'
   }
 
+  set hideSearch(val) {
+    if (val !== undefined && val !== null && val !== false && val !== 'false') {
+      this.setAttribute('hide-search', 'true')
+    } else {
+      this.removeAttribute('hide-search')
+    }
+  }
+
   get username() {
     return this.getAttribute('username') || localStorage.getItem('username') || ''
   }
 
+  set username(val) {
+    if (val) this.setAttribute('username', val)
+    else this.removeAttribute('username')
+  }
+
   get token() {
     return this.getAttribute('token') || localStorage.getItem('token') || ''
+  }
+
+  set token(val) {
+    if (val) this.setAttribute('token', val)
+    else this.removeAttribute('token')
   }
 
   connectedCallback() {
