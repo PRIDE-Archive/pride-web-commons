@@ -1,26 +1,12 @@
 export const HEADER_CSS = `
-@font-face {
-  font-family: 'EBI-Generic';
-  src: url('https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2/EBI-Generic/fonts/EBI-Generic.woff2') format('woff2'),
-       url('https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2/EBI-Generic/fonts/EBI-Generic.woff') format('woff'),
-       url('https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2/EBI-Generic/fonts/EBI-Generic.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'EBI-Functional';
-  src: url('https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2/EBI-Functional/fonts/EBI-Functional.woff2') format('woff2'),
-       url('https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2/EBI-Functional/fonts/EBI-Functional.woff') format('woff'),
-       url('https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2/EBI-Functional/fonts/EBI-Functional.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
 :host {
   display: block;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
+  font-size: 14px;
   color: #2f3644;
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
   width: 100%;
 }
@@ -57,7 +43,7 @@ export const HEADER_CSS = `
 }
 
 .masthead-black-bar {
-  background-color: #111111;
+  background-color: #333333;
   height: 37px;
   line-height: 37px;
   font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
@@ -75,9 +61,9 @@ export const HEADER_CSS = `
   margin: 0 auto;
   display: flex;
   align-items: center;
-  max-width: 150rem !important;
+  max-width: 2400px !important;
   height: 37px;
-  padding: 0 1rem;
+  padding: 0 16px;
   position: relative;
 }
 
@@ -104,11 +90,11 @@ ul#global-nav.menu li {
 ul#global-nav.menu li a {
   display: inline-flex;
   align-items: center;
-  padding: 0 0.85rem;
+  padding: 0 16px;
   height: 37px;
   line-height: 37px;
   color: #ffffff;
-  font-size: 13px;
+  font-size: 14.4px;
   font-weight: 400;
   text-decoration: none;
   border-bottom: none;
@@ -117,7 +103,7 @@ ul#global-nav.menu li a {
 
 ul#global-nav.menu li a::before {
   display: inline-block;
-  padding-right: 0.4rem;
+  padding-right: 6.4px;
 }
 
 ul#global-nav.menu li.home-mobile {
@@ -180,7 +166,7 @@ ul#global-nav.menu li.about a:hover {
 }
 
 ul#global-nav.menu li.search a {
-  padding: 0 0.75rem;
+  padding: 0 12px;
 }
 
 ul#global-nav.menu li.search a::before {
@@ -208,7 +194,7 @@ ul#global-nav.menu li.search .show-for-small-only {
   line-height: 37px;
   color: #ffffff;
   border: none;
-  font-size: 13px;
+  font-size: 14.4px;
   cursor: pointer;
   position: relative;
   font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
@@ -296,7 +282,7 @@ ul#global-nav.menu li.search .show-for-small-only {
   left: 0;
   width: 100%;
   background: #222;
-  padding: 12px 1rem;
+  padding: 12px 16px;
   box-sizing: border-box;
   z-index: 1001;
   box-shadow: 0 4px 12px rgba(0,0,0,.3);

@@ -2,6 +2,10 @@ export const FOOTER_CSS = `
 :host {
   display: block;
   font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
   width: 100%;
 }
@@ -15,7 +19,7 @@ export const FOOTER_CSS = `
    Matches official EBI/ELIXIR styling with data-color="#656665"
    ========================================================== */
 .elixir-ribbon {
-  padding: 1rem 0;
+  padding: 16px 0;
   background-color: #656665;
   color: #ffffff;
   clear: both;
@@ -25,7 +29,7 @@ export const FOOTER_CSS = `
 .elixir-ribbon .row {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 16px;
 }
 
 .elixir-ribbon .row::before,
@@ -52,7 +56,7 @@ export const FOOTER_CSS = `
   background: 80% 58% url("https://ebi.emblstatic.net/web_guidelines/EBI-Framework/v1.2/images/logos/assorted/elixir_kitemark-60px.png") no-repeat;
   position: relative;
   top: -5px;
-  margin: 0 1rem -.5rem 0;
+  margin: 0 16px -8px 0;
   height: 60px;
   width: 60px;
   display: inline-block;
@@ -61,18 +65,18 @@ export const FOOTER_CSS = `
 }
 
 .elixir-ribbon h5 {
-  font-size: 1.3rem;
+  font-size: 20.8px;
   padding: 0;
   margin: 0;
   display: inline-block;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.4;
   color: #ffffff;
   font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
 }
 
 .elixir-ribbon .elixir-banner-name {
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .elixir-banner-info {
@@ -80,7 +84,7 @@ export const FOOTER_CSS = `
 }
 
 .elixir-banner-info small {
-  font-size: 0.875rem;
+  font-size: 11.2px;
   color: #ffffff;
 }
 
@@ -96,31 +100,31 @@ export const FOOTER_CSS = `
 .global-footer {
   background-color: #ffffff;
   border-top: 0 !important;
-  padding-top: 1.5rem;
-  padding-bottom: 2rem;
+  padding-top: 24px;
+  padding-bottom: 32px;
   color: #666666;
-  font-size: 0.85rem;
-  line-height: 1.5;
+  font-size: 11.9px;
+  line-height: 1.6;
   font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
 }
 
 .global-footer .row {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 16px;
   display: flex;
   flex-wrap: wrap;
 }
 
 .global-nav-expanded {
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
   width: 100%;
 }
 
 .global-nav-expanded .columns {
   flex: 0 0 16.66667%;
   max-width: 16.66667%;
-  padding: 0 0.75rem;
+  padding: 0 12px;
   box-sizing: border-box;
 }
 
@@ -131,14 +135,14 @@ export const FOOTER_CSS = `
   background-image: url("https://ebi.emblstatic.net/web_guidelines/EBI-Framework/v1.2/images/logos/EMBL-EBI/EMBL_EBI_Logo_black.svg");
   background-size: contain;
   background-repeat: no-repeat;
-  margin-left: -.25rem;
+  margin-left: -4px;
   position: relative;
   top: 8px;
 }
 
 .global-footer h5 {
-  font-size: 1.15rem;
-  margin-top: 1.25rem;
+  font-size: 20px;
+  margin-top: 20px;
   margin-bottom: 8px;
   font-weight: 400;
   line-height: 1.4;
@@ -147,44 +151,24 @@ export const FOOTER_CSS = `
 
 .global-footer h5 a {
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 400;
 }
 
-.global-footer h5.services a,
-.global-footer .services-color {
-  color: #389198;
-}
-
-.global-footer h5.research a,
-.global-footer .research-color {
-  color: #6dab49;
-}
-
-.global-footer h5.training a,
-.global-footer .training-color {
-  color: #e9b400;
-}
-
-.global-footer h5.industry a,
-.global-footer .industry-color {
-  color: #0086b4;
-}
-
-.global-footer h5.about a,
-.global-footer .ebi-color {
-  color: #007c82;
+/* The live PRIDE footer (theme-embl-petrol) renders column headings in grey */
+.global-footer h5 a {
+  color: #666666;
 }
 
 .global-footer ul {
   list-style: none;
   margin: 0;
   padding: 0;
-  font-size: 13.6px;
-  line-height: 1.5;
+  font-size: 11.9px;
+  line-height: 1.6;
 }
 
 .global-footer ul li {
-  margin-bottom: 0.4rem;
+  margin-bottom: 6.4px;
 }
 
 .global-footer a {
@@ -202,9 +186,9 @@ export const FOOTER_CSS = `
 
 .ebi-footer-meta {
   border-top: 1px solid #eeeeee;
-  padding-top: 1rem;
-  padding-bottom: 1.5rem;
-  font-size: 13px;
+  padding-top: 16px;
+  padding-bottom: 24px;
+  font-size: 11.9px;
   color: #666666;
   width: 100%;
   line-height: 1.5;
@@ -213,7 +197,7 @@ export const FOOTER_CSS = `
 .ebi-footer-meta .columns {
   flex: 0 0 100%;
   max-width: 100%;
-  padding: 0 0.75rem;
+  padding: 0 12px;
   box-sizing: border-box;
 }
 
@@ -243,7 +227,7 @@ export const FOOTER_CSS = `
   .global-nav-expanded .columns {
     flex: 0 0 33.33333%;
     max-width: 33.33333%;
-    margin-bottom: 1.5rem;
+    margin-bottom: 24px;
   }
 }
 
@@ -251,7 +235,7 @@ export const FOOTER_CSS = `
   .global-nav-expanded .columns {
     flex: 0 0 50%;
     max-width: 50%;
-    margin-bottom: 1.25rem;
+    margin-bottom: 20px;
   }
   .ebi-footer-meta .float-right {
     float: none;
