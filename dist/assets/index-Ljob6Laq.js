@@ -58,12 +58,13 @@
 }
 
 .masthead-black-bar .row {
-  margin: 0 auto;
+  margin: 0;
   display: flex;
   align-items: center;
-  max-width: 2400px !important;
+  max-width: 100% !important;
+  width: 100%;
   height: 37px;
-  padding: 0 16px;
+  padding: 0 16px 0 0;
   position: relative;
 }
 
@@ -112,7 +113,7 @@ ul#global-nav.menu li.home-mobile {
 
 ul#global-nav.menu li.home.active a {
   background-color: #000000;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 ul#global-nav.menu li.home a::before {
@@ -1223,8 +1224,8 @@ ul#global-nav.menu li.search .show-for-small-only {
 
 .global-footer h5 {
   font-size: 20px;
-  margin-top: 20px;
-  margin-bottom: 8px;
+  margin-top: 16px;
+  margin-bottom: 6px;
   font-weight: 400;
   line-height: 1.4;
   font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
@@ -1245,28 +1246,28 @@ ul#global-nav.menu li.search .show-for-small-only {
   margin: 0;
   padding: 0;
   font-size: 11.9px;
-  line-height: 1.6;
+  line-height: 1.35;
 }
 
 .global-footer ul li {
-  margin-bottom: 6.4px;
+  margin-bottom: 3px;
 }
 
 .global-footer a {
   color: #666666;
   text-decoration: none;
-  transition: color 0.15s ease, border-bottom 0.15s ease;
+  transition: color 0.15s ease;
 }
 
 .global-footer a:hover,
 .global-footer a:focus,
 .global-footer a:active {
   color: #222222;
-  border-bottom: 1px dashed #999999;
+  text-decoration: underline;
 }
 
 .ebi-footer-meta {
-  border-top: 1px solid #eeeeee;
+  border-top: none;
   padding-top: 16px;
   padding-bottom: 24px;
   font-size: 11.9px;
@@ -1293,7 +1294,7 @@ ul#global-nav.menu li.search .show-for-small-only {
 
 .ebi-footer-meta a:hover {
   color: #222222;
-  border-bottom: 1px dashed #999999;
+  text-decoration: underline;
 }
 
 .ebi-footer-meta .float-right {

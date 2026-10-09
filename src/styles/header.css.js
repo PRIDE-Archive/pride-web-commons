@@ -58,12 +58,13 @@ export const HEADER_CSS = `
 }
 
 .masthead-black-bar .row {
-  margin: 0 auto;
+  margin: 0;
   display: flex;
   align-items: center;
-  max-width: 2400px !important;
+  max-width: 100% !important;
+  width: 100%;
   height: 37px;
-  padding: 0 16px;
+  padding: 0 16px 0 0;
   position: relative;
 }
 
@@ -112,7 +113,7 @@ ul#global-nav.menu li.home-mobile {
 
 ul#global-nav.menu li.home.active a {
   background-color: #000000;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 ul#global-nav.menu li.home a::before {
