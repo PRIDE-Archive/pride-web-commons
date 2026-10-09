@@ -30,7 +30,6 @@ export class PrideHeader extends HTMLElement {
     // Pre-populate with bundled production banner so it renders immediately with 0 latency & no CORS dependency
     this._bannerContent = DEFAULT_BANNER_CONTENT
     this._isBannerCollapsed = getSessionStorage('pride_banner_collapsed') === 'true'
-    this._isBannerDismissed = getSessionStorage('pride_banner_dismissed') === 'true'
     this._isCompact = false
     this._openDropdown = null
     this._onScroll = this._onScroll.bind(this)
@@ -219,22 +218,12 @@ export class PrideHeader extends HTMLElement {
     }))
   }
 
-  _dismissBanner() {
-    this._isBannerDismissed = true
-    setSessionStorage('pride_banner_dismissed', 'true')
-    this._updateBannerVisibility()
-    this.dispatchEvent(new CustomEvent('pride-banner-dismiss', {
-      bubbles: true,
-      composed: true
-    }))
-  }
-
   _updateBannerVisibility() {
     if (!this.shadowRoot) return
     const bannerContainer = this.shadowRoot.querySelector('.pride-banner-container')
     if (!bannerContainer) return
 
-    if (!this._bannerContent || this._isBannerDismissed) {
+    if (!this._bannerContent) {
       bannerContainer.style.display = 'none'
       return
     }
@@ -430,7 +419,7 @@ export class PrideHeader extends HTMLElement {
       <!-- 2. PRIDE Main Masthead & Navigation (with background image and alert announcement banner) -->
       <header class="pride-masthead ${this._isCompact ? 'compact' : ''}" style="background-image: url('${this.bgImage}');">
         <!-- Banner on top of header part matching View UI Plus Alert warning -->
-        <div class="pride-banner-container" style="display: ${this._bannerContent && !this._isBannerDismissed ? 'block' : 'none'};">
+        <div class="pride-banner-container" style="display: ${this._bannerContent ? 'block' : 'none'};">
           <div class="banner-expanded-wrapper" style="display: ${this._isBannerCollapsed ? 'none' : 'block'};">
             <div class="ivu-alert ivu-alert-warning ivu-alert-with-banner">
               <span class="banner">${this._bannerContent}</span>
@@ -453,12 +442,6 @@ export class PrideHeader extends HTMLElement {
                 <span>Expand</span>
                 <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-              </button>
-              <button type="button" class="banner-dismiss-btn" id="banner-dismiss-btn" title="Dismiss banner" aria-label="Dismiss banner">
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
               </button>
             </div>
@@ -645,14 +628,6 @@ export class PrideHeader extends HTMLElement {
       expandBtn.addEventListener('click', (e) => {
         e.preventDefault()
         this._toggleBannerCollapse()
-      })
-    }
-
-    const dismissBtn = root.getElementById('banner-dismiss-btn')
-    if (dismissBtn) {
-      dismissBtn.addEventListener('click', (e) => {
-        e.preventDefault()
-        this._dismissBanner()
       })
     }
 

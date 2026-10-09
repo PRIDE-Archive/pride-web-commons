@@ -469,25 +469,7 @@ ul#global-nav.menu li.search .show-for-small-only {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-.banner-dismiss-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  padding: 0;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  color: #999;
-  cursor: pointer;
-  transition: all .15s ease-in-out;
-}
 
-.banner-dismiss-btn:hover {
-  background: rgba(0, 0, 0, 0.06);
-  color: #454548;
-}
 
 .banner p {
   color: #454548 !important;
