@@ -21,7 +21,7 @@ function setSessionStorage(key, val) {
 
 export class PrideHeader extends HTMLElement {
   static get observedAttributes() {
-    return ['active-section', 'hide-search', 'base-url', 'banner-url', 'bg-image', 'username', 'token', 'banner-collapsed']
+    return ['active-section', 'hide-search', 'base-url', 'banner-url', 'bg-image', 'username', 'token', 'banner-collapsed', 'hide-chat', 'chat-type']
   }
 
   constructor() {
@@ -113,10 +113,33 @@ export class PrideHeader extends HTMLElement {
     else this.removeAttribute('banner-collapsed')
   }
 
+  get hideChat() {
+    const val = this.getAttribute('hide-chat')
+    return val !== null && val !== 'false'
+  }
+
+  set hideChat(val) {
+    if (val !== undefined && val !== null && val !== false && val !== 'false') {
+      this.setAttribute('hide-chat', 'true')
+    } else {
+      this.removeAttribute('hide-chat')
+    }
+  }
+
+  get chatType() {
+    return this.getAttribute('chat-type') || (this.activeSection === 'archive' ? 'search' : 'assistant')
+  }
+
+  set chatType(val) {
+    if (val) this.setAttribute('chat-type', val)
+    else this.removeAttribute('chat-type')
+  }
+
   connectedCallback() {
     ensureIconFonts()
     this.render()
     this.fetchBanner()
+    this._setupChatWidget()
     window.addEventListener('scroll', this._onScroll, { passive: true })
     document.addEventListener('click', this._onDocumentClick)
     document.addEventListener('keydown', this._onKeyDown)
@@ -132,12 +155,42 @@ export class PrideHeader extends HTMLElement {
     if (oldValue !== newValue && this.shadowRoot && this.shadowRoot.innerHTML) {
       if (name === 'active-section') {
         this._updateActiveSection()
+        const chat = document.querySelector('pride-chat')
+        if (chat && !this.hasAttribute('chat-type')) {
+          chat.setAttribute('type', newValue === 'archive' ? 'search' : 'assistant')
+        }
       } else if (name === 'banner-collapsed') {
         this._isBannerCollapsed = newValue !== null && newValue !== 'false'
         this._updateBannerVisibility()
+      } else if (name === 'hide-chat') {
+        const chat = document.querySelector('pride-chat')
+        if (chat && this.hideChat) {
+          chat.remove()
+        } else if (!chat && !this.hideChat) {
+          this._setupChatWidget()
+        }
+      } else if (name === 'chat-type') {
+        const chat = document.querySelector('pride-chat')
+        if (chat) {
+          chat.setAttribute('type', this.chatType)
+        }
       } else {
         this.render()
       }
+    }
+  }
+
+  _setupChatWidget() {
+    if (this.hideChat) return
+    if (typeof document === 'undefined') return
+    // Auto-mount pride-chat onto document body if not already present
+    if (!document.querySelector('pride-chat')) {
+      const chat = document.createElement('pride-chat')
+      if (this.hasAttribute('base-url')) {
+        chat.setAttribute('base-url', this.baseUrl)
+      }
+      chat.setAttribute('type', this.chatType)
+      document.body.appendChild(chat)
     }
   }
 

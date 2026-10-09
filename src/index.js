@@ -1,7 +1,8 @@
 import { PrideHeader } from './components/pride-header.js'
 import { PrideFooter } from './components/pride-footer.js'
+import { PrideChat } from './components/pride-chat.js'
 
-export { PrideHeader, PrideFooter }
+export { PrideHeader, PrideFooter, PrideChat }
 
 /**
  * Automatically register the Web Components if running in browser
@@ -14,6 +15,9 @@ export function registerPrideWebCommons() {
     if (!customElements.get('pride-footer')) {
       customElements.define('pride-footer', PrideFooter)
     }
+    if (!customElements.get('pride-chat')) {
+      customElements.define('pride-chat', PrideChat)
+    }
 
     // Convenience aliases
     if (!customElements.get('pride-navbar')) {
@@ -25,6 +29,9 @@ export function registerPrideWebCommons() {
     if (!customElements.get('pride-web-footer')) {
       customElements.define('pride-web-footer', class extends PrideFooter {})
     }
+    if (!customElements.get('pride-chatbot')) {
+      customElements.define('pride-chatbot', class extends PrideChat {})
+    }
   }
 }
 
@@ -34,5 +41,6 @@ registerPrideWebCommons()
 export default {
   PrideHeader,
   PrideFooter,
+  PrideChat,
   register: registerPrideWebCommons
 }
