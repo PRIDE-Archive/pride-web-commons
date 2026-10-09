@@ -1,0 +1,33 @@
+{
+  "name": "pride-web-commons",
+  "version": "1.0.0",
+  "description": "Shared PRIDE header, announcement banner, and footer Web Components for all PRIDE services",
+  "main": "dist/pride-web-commons.umd.cjs",
+  "module": "dist/pride-web-commons.js",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && vite build --config vite.config.demo.js",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "pride",
+    "embl-ebi",
+    "web-components",
+    "header",
+    "footer",
+    "micro-frontends"
+  ],
+  "author": "PRIDE Team <pride-support@ebi.ac.uk>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/PRIDE-Archive/pride-web-commons.git"
+  },
+  "devDependencies": {
+    "vite": "^6.2.0"
+  }
+}
