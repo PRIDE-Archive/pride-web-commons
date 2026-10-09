@@ -103,37 +103,37 @@ export const HEADER_CSS = `
 
 .ebi-btn {
   background: none;
-  border: 1px solid #374151;
-  color: #e5e7eb;
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 4px;
-  cursor: pointer;
+  border: none;
+  color: #d1d5db;
+  font-size: 13px;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .ebi-btn:hover {
-  background: #1f2937;
+  background: #374151;
   color: #ffffff;
-  border-color: #4b5563;
 }
 
-/* EBI Dropdowns */
+/* EBI Dropdown Panes */
 .ebi-dropdown-pane {
   position: absolute;
   top: 100%;
   right: 0;
+  margin-top: 6px;
   background: #1f2937;
   border: 1px solid #374151;
   border-radius: 6px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
   padding: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  display: none;
-  z-index: 1001;
   min-width: 220px;
+  display: none;
+  z-index: 1050;
 }
 
 .ebi-dropdown-pane.is-open {
@@ -210,80 +210,82 @@ export const HEADER_CSS = `
 }
 
 /* ==========================================================
-   Announcement Banner
+   PRIDE Main Masthead & Navigation
    ========================================================== */
-.pride-alert-banner {
+.pride-masthead {
+  background-color: #f5f7f8;
+  background-size: cover;
+  background-position: center;
+  border-bottom: 1px solid #e3e6ea;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s ease;
+  position: relative;
+}
+
+.pride-masthead.compact {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* ==========================================================
+   Announcement Banner inside Masthead (top of header)
+   ========================================================== */
+.pride-banner-container {
+  width: 100%;
   background-color: #fffbe6;
   border-bottom: 1px solid #ffe58f;
-  color: #5c3c00;
-  padding: 10px 24px;
-  display: none;
-  align-items: center;
-  justify-content: center;
   position: relative;
+  z-index: 10;
+}
+
+.pride-banner-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 8px 48px 8px 24px;
+  position: relative;
+}
+
+.banner {
   font-size: 14px;
-  z-index: 990;
+  line-height: 1.5;
 }
 
-.pride-alert-banner.is-visible {
-  display: flex;
+.banner p {
+  color: #454548 !important;
+  font-size: 16px;
+  margin: 0;
 }
 
-.banner-content {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  max-width: 1400px;
-  text-align: center;
-  line-height: 1.4;
-}
-
-.banner-content a {
-  color: #1d4ed8;
-  font-weight: 600;
+.banner a {
+  color: #454548 !important;
   text-decoration: underline;
 }
 
 .banner-close {
-  background: none;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
   border: none;
-  color: #8c6b00;
   cursor: pointer;
-  padding: 4px 8px;
-  margin-left: 16px;
-  border-radius: 4px;
+  color: #999;
+  padding: 6px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: color 0.15s, background-color 0.15s;
 }
 
 .banner-close:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-/* ==========================================================
-   PRIDE Main Masthead & Navigation
-   ========================================================== */
-.pride-masthead {
-  background-color: #f8fafc;
-  background-image: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(248,250,252,0.95) 100%), url('https://www.ebi.ac.uk/pride/image/hero-beta-banner.webp');
-  background-size: cover;
-  background-position: center;
-  border-bottom: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: all 0.2s ease;
-  position: sticky;
-  top: 0;
-  z-index: 900;
-}
-
-.pride-masthead.compact {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  color: #454548;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .masthead-row {
   max-width: 1600px;
   margin: 0 auto;
-  padding: 12px 24px;
+  padding: 14px 24px;
   display: flex;
   align-items: center;
   gap: 28px;
@@ -298,18 +300,23 @@ export const HEADER_CSS = `
   display: inline-flex;
   align-items: center;
   text-decoration: none;
+  border: none;
   flex-shrink: 0;
 }
 
+.pride-brand:hover {
+  border: none;
+}
+
 .pride-brand-logo {
-  height: 44px;
+  height: 46px;
   width: auto;
   display: block;
   transition: height 0.2s ease;
 }
 
 .pride-masthead.compact .pride-brand-logo {
-  height: 32px;
+  height: 30px;
 }
 
 .pride-nav {
@@ -336,14 +343,14 @@ export const HEADER_CSS = `
 .menu-item-link, .dropdown-trigger {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   padding: 8px 12px;
   font-size: 15px;
-  color: #334155;
+  color: #2f3644;
   text-decoration: none;
   border: none;
   background: none;
-  border-radius: 6px;
+  border-radius: 4px;
   white-space: nowrap;
   line-height: 20px;
   cursor: pointer;
@@ -351,14 +358,14 @@ export const HEADER_CSS = `
 }
 
 .menu-item-link:hover, .dropdown-trigger:hover {
-  background: rgba(91, 192, 190, 0.15);
-  color: #0f172a;
+  background: rgba(91, 192, 190, 0.14);
+  color: #17233d;
 }
 
 /* Active Section Indicator */
 .pride-menu > li.active .menu-item-link,
 .pride-menu > li.active .dropdown-trigger {
-  color: #0f172a;
+  color: #17233d;
   font-weight: 600;
 }
 
@@ -367,7 +374,7 @@ export const HEADER_CSS = `
   position: absolute;
   left: 12px;
   right: 12px;
-  bottom: -4px;
+  bottom: 0;
   height: 3px;
   border-radius: 2px;
   background: #5bc0be;
@@ -378,13 +385,13 @@ export const HEADER_CSS = `
   position: absolute;
   top: 100%;
   left: 0;
-  margin-top: 6px;
+  margin-top: 5px;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-  padding: 6px;
-  min-width: 230px;
+  border: 1px solid #dcdee2;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  padding: 4px 0;
+  min-width: 220px;
   list-style: none;
   display: none;
   z-index: 1050;
@@ -394,55 +401,52 @@ export const HEADER_CSS = `
 .dropdown-menu::before {
   content: '';
   position: absolute;
-  top: -10px;
+  top: -8px;
   left: 0;
   right: 0;
-  height: 10px;
+  height: 8px;
 }
 
 .dropdown.is-open .dropdown-menu {
   display: block;
-  animation: fadeIn 0.15s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 .dropdown-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
-  color: #334155;
-  text-decoration: none;
-  border-radius: 6px;
+  padding: 9px 16px 9px 12px;
+  color: #515a6e;
   font-size: 14px;
-  transition: all 0.15s ease;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
   cursor: pointer;
   white-space: nowrap;
 }
 
 .dropdown-item:hover {
-  background: #f1f5f9;
-  color: #0284c7;
+  background: #f8f8f9;
+  color: #5bc0be;
 }
 
 .nav-new-pill {
-  background: #e0f2fe;
-  color: #0369a1;
+  display: inline-block;
+  background: #5bc0be;
+  color: #ffffff;
   font-size: 10px;
   font-weight: 700;
-  text-transform: uppercase;
-  padding: 2px 6px;
+  padding: 1px 6px;
   border-radius: 999px;
-  margin-left: 8px;
+  margin-left: 6px;
+  vertical-align: middle;
+  line-height: 1.3;
 }
 
 .ext-icon {
-  margin-left: 6px;
-  color: #94a3b8;
+  margin-left: 4px;
+  font-size: 12px;
+  color: #c5c8ce;
+  vertical-align: -1px;
 }
 
 /* Quick Search */
@@ -451,40 +455,42 @@ export const HEADER_CSS = `
   display: flex;
   align-items: center;
   background: #ffffff;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #dcdee2;
   border-radius: 999px;
-  padding: 0 12px;
-  height: 36px;
+  padding: 0 10px 0 12px;
+  height: 34px;
   width: 260px;
   max-width: 30vw;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .quick-search-form:focus-within {
   border-color: #5bc0be;
-  box-shadow: 0 0 0 3px rgba(91, 192, 190, 0.25);
+  box-shadow: 0 0 0 3px rgba(91, 192, 190, 0.2);
 }
 
 .search-icon {
-  color: #94a3b8;
-  margin-right: 8px;
+  color: #808695;
+  margin-right: 6px;
   display: flex;
   align-items: center;
 }
 
 .quick-search-input {
-  border: none;
+  border: none !important;
   outline: none;
-  background: transparent;
+  background: transparent !important;
   width: 100%;
   font-size: 13px;
-  color: #0f172a;
-  padding: 0;
+  color: #17233d;
+  height: 30px !important;
+  box-shadow: none !important;
   margin: 0;
+  padding: 0 !important;
 }
 
 .quick-search-input::placeholder {
-  color: #94a3b8;
+  color: #9aa0a8;
 }
 
 /* Account Section */
@@ -494,38 +500,45 @@ export const HEADER_CSS = `
   padding: 0;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   flex-shrink: 0;
 }
 
 .account-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px 14px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #334155;
+  gap: 3px;
+  padding: 8px 12px;
+  font-size: 15px;
+  color: #2f3644;
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: 4px;
   transition: all 0.15s ease;
   cursor: pointer;
+  white-space: nowrap;
+  line-height: 20px;
 }
 
 .account-link:hover {
-  background: #f1f5f9;
-  color: #0f172a;
+  background: rgba(91, 192, 190, 0.14);
+  color: #17233d;
 }
 
 .account-link.register {
   background: #5bc0be;
   color: #ffffff;
-  font-weight: 600;
+  margin-left: 4px;
 }
 
 .account-link.register:hover {
-  background: #48a6a4;
+  background: #4aa9a7;
   color: #ffffff;
+}
+
+.account-email {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .account-dropdown-menu {
@@ -539,14 +552,9 @@ export const HEADER_CSS = `
   background: none;
   border: none;
   cursor: pointer;
-  color: #334155;
+  color: #2f3644;
   margin-left: auto;
-  padding: 6px;
-  border-radius: 6px;
-}
-
-.menu-toggle:hover {
-  background: #f1f5f9;
+  padding: 4px;
 }
 
 /* Mobile Drawer */
@@ -614,52 +622,64 @@ export const HEADER_CSS = `
 }
 
 .drawer-body {
-  padding: 16px;
+  padding: 8px 12px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
-.drawer-group-title {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #94a3b8;
-  letter-spacing: 0.05em;
-  margin: 12px 0 6px 4px;
+.drawer-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.drawer-link {
+.drawer-menu li a {
   display: block;
-  padding: 9px 12px;
-  font-size: 14px;
-  color: #334155;
+  padding: 9px 8px;
+  color: #2f3644;
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
-.drawer-link:hover {
-  background: #f1f5f9;
-  color: #5bc0be;
+.drawer-menu li a:hover {
+  background: #f0f2f5;
+}
+
+.drawer-group {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: #808695;
+  padding: 14px 8px 4px;
+  list-style: none;
 }
 
 /* Responsive Breakpoints */
-@media (max-width: 1200px) {
+@media (max-width: 1279px) {
   .pride-menu .menu-item-link, .pride-menu .dropdown-trigger {
-    padding: 8px 8px;
+    padding: 8px 9px;
     font-size: 14px;
   }
   .quick-search-form {
-    width: 200px;
+    width: 190px;
+  }
+  .masthead-row {
+    gap: 14px;
+  }
+  .pride-brand-logo {
+    height: 40px;
   }
 }
 
-@media (max-width: 1040px) {
+@media (max-width: 1079px) {
   .pride-menu, .quick-search-form, .pride-account {
     display: none;
   }
   .menu-toggle {
     display: inline-flex;
+  }
+  .pride-brand-logo {
+    height: 44px;
   }
 }
 
@@ -671,4 +691,4 @@ export const HEADER_CSS = `
     padding: 10px 16px;
   }
 }
-`;
+`

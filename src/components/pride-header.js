@@ -1,10 +1,11 @@
 import { HEADER_CSS } from '../styles/header.css.js'
 import { ICONS } from '../assets/icons.js'
 import { PRIDE_LOGO_DATA_URI } from '../assets/logo.js'
+import { HERO_BANNER_DATA_URI } from '../assets/banner-image.js'
 
 export class PrideHeader extends HTMLElement {
   static get observedAttributes() {
-    return ['active-section', 'hide-search', 'base-url', 'banner-url', 'username', 'token']
+    return ['active-section', 'hide-search', 'base-url', 'banner-url', 'bg-image', 'username', 'token']
   }
 
   constructor() {
@@ -24,6 +25,10 @@ export class PrideHeader extends HTMLElement {
 
   get bannerUrl() {
     return this.getAttribute('banner-url') || `${this.baseUrl}/banner/index.txt`
+  }
+
+  get bgImage() {
+    return this.getAttribute('bg-image') || HERO_BANNER_DATA_URI
   }
 
   get activeSection() {
@@ -82,7 +87,6 @@ export class PrideHeader extends HTMLElement {
   }
 
   _onDocumentClick(e) {
-    // If click is outside the header, close all dropdowns
     if (!this.contains(e.target)) {
       this._closeAllDropdowns()
     }
@@ -139,15 +143,16 @@ export class PrideHeader extends HTMLElement {
       const res = await fetch(this.bannerUrl)
       if (!res.ok) return
       const text = await res.text()
-      // Remove HTML comments used for commenting out banner
-      const cleaned = text.replace(/<!--[\s\S]*?-->/g, '').trim()
+      const cleaned = (typeof text === 'string' ? text : '')
+        .replace(/<!--[\s\S]*?-->/g, '')
+        .trim()
       if (cleaned) {
         this._bannerContent = cleaned
-        const bannerEl = this.shadowRoot.querySelector('.pride-alert-banner')
-        const contentEl = this.shadowRoot.querySelector('.banner-text')
-        if (bannerEl && contentEl) {
+        const bannerWrap = this.shadowRoot.querySelector('.pride-banner-container')
+        const contentEl = this.shadowRoot.querySelector('.banner')
+        if (bannerWrap && contentEl) {
           contentEl.innerHTML = cleaned
-          bannerEl.classList.add('is-visible')
+          bannerWrap.style.display = 'block'
         }
       }
     } catch (e) {
@@ -281,19 +286,18 @@ export class PrideHeader extends HTMLElement {
         </div>
       </div>
 
-      <!-- 2. PRIDE Dynamic Announcement Banner -->
-      <div class="pride-alert-banner ${this._bannerContent ? 'is-visible' : ''}">
-        <div class="banner-content">
-          ${ICONS.alert}
-          <div class="banner-text">${this._bannerContent}</div>
+      <!-- 2. PRIDE Main Masthead & Navigation (with background image and announcement banner on top) -->
+      <header class="pride-masthead ${this._isCompact ? 'compact' : ''}" style="background-image: url('${this.bgImage}');">
+        <!-- Banner on top of header part -->
+        <div class="pride-banner-container" style="display: ${this._bannerContent ? 'block' : 'none'};">
+          <div class="pride-banner-inner">
+            <div class="banner">${this._bannerContent}</div>
+            <button type="button" class="banner-close" aria-label="Close notification">
+              ${ICONS.close}
+            </button>
+          </div>
         </div>
-        <button type="button" class="banner-close" aria-label="Close notification">
-          ${ICONS.close}
-        </button>
-      </div>
 
-      <!-- 3. PRIDE Main Masthead & Navigation -->
-      <header class="pride-masthead">
         <div class="masthead-row">
           <a href="${base}/" class="pride-brand" title="PRIDE Archive Home">
             <img src="${PRIDE_LOGO_DATA_URI}" alt="PRIDE" class="pride-brand-logo">
@@ -404,7 +408,7 @@ export class PrideHeader extends HTMLElement {
         </div>
       </header>
 
-      <!-- 4. Mobile Sliding Drawer -->
+      <!-- 3. Mobile Sliding Drawer -->
       <div class="drawer-backdrop"></div>
       <aside class="drawer-panel" aria-label="Mobile Navigation">
         <div class="drawer-header">
@@ -493,8 +497,9 @@ export class PrideHeader extends HTMLElement {
     const bannerClose = root.querySelector('.banner-close')
     if (bannerClose) {
       bannerClose.addEventListener('click', () => {
-        const bannerEl = root.querySelector('.pride-alert-banner')
-        if (bannerEl) bannerEl.classList.remove('is-visible')
+        this._bannerContent = ''
+        const bannerWrap = root.querySelector('.pride-banner-container')
+        if (bannerWrap) bannerWrap.style.display = 'none'
       })
     }
 
