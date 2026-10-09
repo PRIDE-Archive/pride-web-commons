@@ -680,22 +680,29 @@ ul#global-nav.menu li.search .show-for-small-only {
   display: block;
 }
 
+/* closed: slid fully off-canvas and hidden, so it adds no scroll width and its
+   links are not reachable by keyboard; visibility flips after the slide-out */
 .drawer-panel {
   position: fixed;
   top: 0;
-  right: -300px;
+  right: 0;
   width: 280px;
+  max-width: 85vw;
+  transform: translateX(100%);
+  visibility: hidden;
   height: 100%;
   background: #fff;
   z-index: 2001;
   box-shadow: -2px 0 8px rgba(0,0,0,0.15);
-  transition: right 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), visibility 0s linear 0.3s;
   display: flex;
   flex-direction: column;
 }
 
 .drawer-panel.is-open {
-  right: 0;
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), visibility 0s;
 }
 
 .drawer-header {
@@ -784,13 +791,34 @@ ul#global-nav.menu li.search .show-for-small-only {
   }
 }
 
-@media (max-width: 640px) {
-  .masthead-black-bar nav ul.menu li:not(.home):not(.embl-selector) {
+/* The full black bar needs ~725px. Below that it keeps EMBL-EBI home, the
+   campus selector and search; the selector needs the #global-nav id to
+   outrank the base "ul#global-nav.menu li" rule. */
+@media (max-width: 767px) {
+  ul#global-nav.menu li:not(.home):not(.embl-selector):not(.search) {
     display: none;
   }
   .embl-selector .button {
     padding-left: 90px;
     font-size: 11px;
+  }
+}
+
+@media (max-width: 479px) {
+  .masthead-row,
+  .compact .masthead-row {
+    padding-left: 16px;
+    padding-right: 16px;
+    gap: 12px;
+  }
+  .pride-brand {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+  .pride-brand-logo {
+    height: auto;
+    max-height: 40px;
+    max-width: 100%;
   }
 }
 `

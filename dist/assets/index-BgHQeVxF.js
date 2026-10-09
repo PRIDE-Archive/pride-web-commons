@@ -1,4 +1,4 @@
-(function(){const e=document.createElement("link").relList;if(e&&e.supports&&e.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))o(i);new MutationObserver(i=>{for(const r of i)if(r.type==="childList")for(const d of r.addedNodes)d.tagName==="LINK"&&d.rel==="modulepreload"&&o(d)}).observe(document,{childList:!0,subtree:!0});function t(i){const r={};return i.integrity&&(r.integrity=i.integrity),i.referrerPolicy&&(r.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?r.credentials="include":i.crossOrigin==="anonymous"?r.credentials="omit":r.credentials="same-origin",r}function o(i){if(i.ep)return;i.ep=!0;const r=t(i);fetch(i.href,r)}})();const g=`
+(function(){const e=document.createElement("link").relList;if(e&&e.supports&&e.supports("modulepreload"))return;for(const o of document.querySelectorAll('link[rel="modulepreload"]'))i(o);new MutationObserver(o=>{for(const r of o)if(r.type==="childList")for(const d of r.addedNodes)d.tagName==="LINK"&&d.rel==="modulepreload"&&i(d)}).observe(document,{childList:!0,subtree:!0});function t(o){const r={};return o.integrity&&(r.integrity=o.integrity),o.referrerPolicy&&(r.referrerPolicy=o.referrerPolicy),o.crossOrigin==="use-credentials"?r.credentials="include":o.crossOrigin==="anonymous"?r.credentials="omit":r.credentials="same-origin",r}function i(o){if(o.ep)return;o.ep=!0;const r=t(o);fetch(o.href,r)}})();const g=`
 :host {
   display: block;
   font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
@@ -680,22 +680,29 @@ ul#global-nav.menu li.search .show-for-small-only {
   display: block;
 }
 
+/* closed: slid fully off-canvas and hidden, so it adds no scroll width and its
+   links are not reachable by keyboard; visibility flips after the slide-out */
 .drawer-panel {
   position: fixed;
   top: 0;
-  right: -300px;
+  right: 0;
   width: 280px;
+  max-width: 85vw;
+  transform: translateX(100%);
+  visibility: hidden;
   height: 100%;
   background: #fff;
   z-index: 2001;
   box-shadow: -2px 0 8px rgba(0,0,0,0.15);
-  transition: right 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), visibility 0s linear 0.3s;
   display: flex;
   flex-direction: column;
 }
 
 .drawer-panel.is-open {
-  right: 0;
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), visibility 0s;
 }
 
 .drawer-header {
@@ -784,13 +791,34 @@ ul#global-nav.menu li.search .show-for-small-only {
   }
 }
 
-@media (max-width: 640px) {
-  .masthead-black-bar nav ul.menu li:not(.home):not(.embl-selector) {
+/* The full black bar needs ~725px. Below that it keeps EMBL-EBI home, the
+   campus selector and search; the selector needs the #global-nav id to
+   outrank the base "ul#global-nav.menu li" rule. */
+@media (max-width: 767px) {
+  ul#global-nav.menu li:not(.home):not(.embl-selector):not(.search) {
     display: none;
   }
   .embl-selector .button {
     padding-left: 90px;
     font-size: 11px;
+  }
+}
+
+@media (max-width: 479px) {
+  .masthead-row,
+  .compact .masthead-row {
+    padding-left: 16px;
+    padding-right: 16px;
+    gap: 12px;
+  }
+  .pride-brand {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+  .pride-brand-logo {
+    height: auto;
+    max-height: 40px;
+    max-width: 100%;
   }
 }
 `,f="pride-web-commons-icon-fonts",A="https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2",u=a=>`
@@ -832,7 +860,7 @@ ul#global-nav.menu li.search .show-for-small-only {
   </div>
 
 </div>
-`.trim();class p extends HTMLElement{static get observedAttributes(){return["active-section","hide-search","base-url","banner-url","bg-image","username","token"]}constructor(){super(),this.attachShadow({mode:"open"}),this._bannerContent=x,this._isCompact=!1,this._openDropdown=null,this._onScroll=this._onScroll.bind(this),this._onDocumentClick=this._onDocumentClick.bind(this),this._onKeyDown=this._onKeyDown.bind(this)}get baseUrl(){return this.getAttribute("base-url")||"https://www.ebi.ac.uk/pride"}set baseUrl(e){e?this.setAttribute("base-url",e):this.removeAttribute("base-url")}get bannerUrl(){return this.getAttribute("banner-url")||`${this.baseUrl}/banner/index.txt`}set bannerUrl(e){e?this.setAttribute("banner-url",e):this.removeAttribute("banner-url")}get bgImage(){return this.getAttribute("bg-image")||v}set bgImage(e){e?this.setAttribute("bg-image",e):this.removeAttribute("bg-image")}get activeSection(){return(this.getAttribute("active-section")||"").toLowerCase()}set activeSection(e){e?this.setAttribute("active-section",e):this.removeAttribute("active-section")}get hideSearch(){const e=this.getAttribute("hide-search");return e!==null&&e!=="false"}set hideSearch(e){e!=null&&e!==!1&&e!=="false"?this.setAttribute("hide-search","true"):this.removeAttribute("hide-search")}get username(){return this.getAttribute("username")||localStorage.getItem("username")||""}set username(e){e?this.setAttribute("username",e):this.removeAttribute("username")}get token(){return this.getAttribute("token")||localStorage.getItem("token")||""}set token(e){e?this.setAttribute("token",e):this.removeAttribute("token")}connectedCallback(){m(),this.render(),this.fetchBanner(),window.addEventListener("scroll",this._onScroll,{passive:!0}),document.addEventListener("click",this._onDocumentClick),document.addEventListener("keydown",this._onKeyDown)}disconnectedCallback(){window.removeEventListener("scroll",this._onScroll),document.removeEventListener("click",this._onDocumentClick),document.removeEventListener("keydown",this._onKeyDown)}attributeChangedCallback(e,t,o){t!==o&&this.shadowRoot&&this.shadowRoot.innerHTML&&(e==="active-section"?this._updateActiveSection():this.render())}_onScroll(){const e=window.pageYOffset||document.documentElement.scrollTop||0,t=this.shadowRoot.querySelector(".pride-masthead");t&&(!this._isCompact&&e>120?(this._isCompact=!0,t.classList.add("compact")):this._isCompact&&e<40&&(this._isCompact=!1,t.classList.remove("compact")))}_onDocumentClick(e){this.contains(e.target)||this._closeAllDropdowns()}_onKeyDown(e){e.key==="Escape"&&(this._closeAllDropdowns(),this._closeDrawer())}_closeAllDropdowns(){this.shadowRoot&&(this.shadowRoot.querySelectorAll(".dropdown.is-open, #embl-dropdown.is-open, #search-global-dropdown.is-open").forEach(e=>{e.classList.remove("is-open")}),this._openDropdown=null)}_toggleDropdown(e){const t=this.shadowRoot.getElementById(e);if(!t)return;const o=t.classList.contains("is-open");this._closeAllDropdowns(),o||(t.classList.add("is-open"),this._openDropdown=e)}_openDrawer(){const e=this.shadowRoot.querySelector(".drawer-backdrop"),t=this.shadowRoot.querySelector(".drawer-panel");e&&t&&(e.classList.add("is-open"),t.classList.add("is-open"))}_closeDrawer(){const e=this.shadowRoot.querySelector(".drawer-backdrop"),t=this.shadowRoot.querySelector(".drawer-panel");e&&t&&(e.classList.remove("is-open"),t.classList.remove("is-open"))}async fetchBanner(){try{const e=await fetch(this.bannerUrl);if(!e.ok)return;const t=await e.text(),o=(typeof t=="string"?t:"").replace(/<!--[\s\S]*?-->/g,"").trim();if(o){this._bannerContent=o;const i=this.shadowRoot.querySelector(".pride-banner-container"),r=this.shadowRoot.querySelector(".banner");i&&r&&(r.innerHTML=o,i.style.display="block")}}catch{}}_handleSearch(e){e.preventDefault();const t=this.shadowRoot.querySelector(".quick-search-input"),o=t?t.value.trim():"";if(!o)return;const i=new CustomEvent("pride-search",{bubbles:!0,composed:!0,cancelable:!0,detail:{query:o}});this.dispatchEvent(i)&&(/^(PXD|PRD|PAD|RPXD)\d+$/i.test(o)?window.location.href=`${this.baseUrl}/archive/projects/${o.toUpperCase()}`:window.location.href=`${this.baseUrl}/archive?keyword=${encodeURIComponent(o)}`)}_handleNavigate(e,t){const o=new CustomEvent("pride-navigate",{bubbles:!0,composed:!0,cancelable:!0,detail:{href:t}});this.dispatchEvent(o)||e.preventDefault()}_handleLogout(e){e.preventDefault(),localStorage.removeItem("username"),localStorage.removeItem("token"),localStorage.removeItem("logintype"),localStorage.removeItem("type");const t=new CustomEvent("pride-logout",{bubbles:!0,composed:!0,cancelable:!0});this.dispatchEvent(t)?window.location.href=`${this.baseUrl}/archive`:this.render()}_updateActiveSection(){const e=this.activeSection;this.shadowRoot.querySelectorAll(".pride-menu > li").forEach(t=>{t.getAttribute("data-section")===e?t.classList.add("active"):t.classList.remove("active")})}render(){const e=this.baseUrl,t=this.activeSection,o=this.username,i=!!(o&&this.token);this.shadowRoot.innerHTML=`
+`.trim();class p extends HTMLElement{static get observedAttributes(){return["active-section","hide-search","base-url","banner-url","bg-image","username","token"]}constructor(){super(),this.attachShadow({mode:"open"}),this._bannerContent=x,this._isCompact=!1,this._openDropdown=null,this._onScroll=this._onScroll.bind(this),this._onDocumentClick=this._onDocumentClick.bind(this),this._onKeyDown=this._onKeyDown.bind(this)}get baseUrl(){return this.getAttribute("base-url")||"https://www.ebi.ac.uk/pride"}set baseUrl(e){e?this.setAttribute("base-url",e):this.removeAttribute("base-url")}get bannerUrl(){return this.getAttribute("banner-url")||`${this.baseUrl}/banner/index.txt`}set bannerUrl(e){e?this.setAttribute("banner-url",e):this.removeAttribute("banner-url")}get bgImage(){return this.getAttribute("bg-image")||v}set bgImage(e){e?this.setAttribute("bg-image",e):this.removeAttribute("bg-image")}get activeSection(){return(this.getAttribute("active-section")||"").toLowerCase()}set activeSection(e){e?this.setAttribute("active-section",e):this.removeAttribute("active-section")}get hideSearch(){const e=this.getAttribute("hide-search");return e!==null&&e!=="false"}set hideSearch(e){e!=null&&e!==!1&&e!=="false"?this.setAttribute("hide-search","true"):this.removeAttribute("hide-search")}get username(){return this.getAttribute("username")||localStorage.getItem("username")||""}set username(e){e?this.setAttribute("username",e):this.removeAttribute("username")}get token(){return this.getAttribute("token")||localStorage.getItem("token")||""}set token(e){e?this.setAttribute("token",e):this.removeAttribute("token")}connectedCallback(){m(),this.render(),this.fetchBanner(),window.addEventListener("scroll",this._onScroll,{passive:!0}),document.addEventListener("click",this._onDocumentClick),document.addEventListener("keydown",this._onKeyDown)}disconnectedCallback(){window.removeEventListener("scroll",this._onScroll),document.removeEventListener("click",this._onDocumentClick),document.removeEventListener("keydown",this._onKeyDown)}attributeChangedCallback(e,t,i){t!==i&&this.shadowRoot&&this.shadowRoot.innerHTML&&(e==="active-section"?this._updateActiveSection():this.render())}_onScroll(){const e=window.pageYOffset||document.documentElement.scrollTop||0,t=this.shadowRoot.querySelector(".pride-masthead");t&&(!this._isCompact&&e>120?(this._isCompact=!0,t.classList.add("compact")):this._isCompact&&e<40&&(this._isCompact=!1,t.classList.remove("compact")))}_onDocumentClick(e){this.contains(e.target)||this._closeAllDropdowns()}_onKeyDown(e){e.key==="Escape"&&(this._closeAllDropdowns(),this._closeDrawer())}_closeAllDropdowns(){this.shadowRoot&&(this.shadowRoot.querySelectorAll(".dropdown.is-open, #embl-dropdown.is-open, #search-global-dropdown.is-open").forEach(e=>{e.classList.remove("is-open")}),this._openDropdown=null)}_toggleDropdown(e){const t=this.shadowRoot.getElementById(e);if(!t)return;const i=t.classList.contains("is-open");this._closeAllDropdowns(),i||(t.classList.add("is-open"),this._openDropdown=e)}_openDrawer(){const e=this.shadowRoot.querySelector(".drawer-backdrop"),t=this.shadowRoot.querySelector(".drawer-panel");e&&t&&(e.classList.add("is-open"),t.classList.add("is-open"))}_closeDrawer(){const e=this.shadowRoot.querySelector(".drawer-backdrop"),t=this.shadowRoot.querySelector(".drawer-panel");e&&t&&(e.classList.remove("is-open"),t.classList.remove("is-open"))}async fetchBanner(){try{const e=await fetch(this.bannerUrl);if(!e.ok)return;const t=await e.text(),i=(typeof t=="string"?t:"").replace(/<!--[\s\S]*?-->/g,"").trim();if(i){this._bannerContent=i;const o=this.shadowRoot.querySelector(".pride-banner-container"),r=this.shadowRoot.querySelector(".banner");o&&r&&(r.innerHTML=i,o.style.display="block")}}catch{}}_handleSearch(e){e.preventDefault();const t=this.shadowRoot.querySelector(".quick-search-input"),i=t?t.value.trim():"";if(!i)return;const o=new CustomEvent("pride-search",{bubbles:!0,composed:!0,cancelable:!0,detail:{query:i}});this.dispatchEvent(o)&&(/^(PXD|PRD|PAD|RPXD)\d+$/i.test(i)?window.location.href=`${this.baseUrl}/archive/projects/${i.toUpperCase()}`:window.location.href=`${this.baseUrl}/archive?keyword=${encodeURIComponent(i)}`)}_handleNavigate(e,t){const i=new CustomEvent("pride-navigate",{bubbles:!0,composed:!0,cancelable:!0,detail:{href:t}});this.dispatchEvent(i)||e.preventDefault()}_handleLogout(e){e.preventDefault(),localStorage.removeItem("username"),localStorage.removeItem("token"),localStorage.removeItem("logintype"),localStorage.removeItem("type");const t=new CustomEvent("pride-logout",{bubbles:!0,composed:!0,cancelable:!0});this.dispatchEvent(t)?window.location.href=`${this.baseUrl}/archive`:this.render()}_updateActiveSection(){const e=this.activeSection;this.shadowRoot.querySelectorAll(".pride-menu > li").forEach(t=>{t.getAttribute("data-section")===e?t.classList.add("active"):t.classList.remove("active")})}render(){const e=this.baseUrl,t=this.activeSection,i=this.username,o=!!(i&&this.token);this.shadowRoot.innerHTML=`
       <style>${g}</style>
 
       <!-- 1. EMBL-EBI Global Black Bar (DefaultNav.vue / ebi-global.css) -->
@@ -1008,13 +1036,13 @@ ul#global-nav.menu li.search .show-for-small-only {
 
             <!-- Account / User Menu -->
             <ul class="pride-account">
-              ${i?`
+              ${o?`
                 <li class="dropdown" id="menu-user">
                   <button type="button" class="dropdown-trigger" aria-haspopup="true">
-                    ${s.person} <span class="account-email">${o}</span> ${s.chevronDown}
+                    ${s.person} <span class="account-email">${i}</span> ${s.chevronDown}
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a href="${e}/profile/${encodeURIComponent(o.split("@")[0])}" class="dropdown-item">Profile</a></li>
+                    <li><a href="${e}/profile/${encodeURIComponent(i.split("@")[0])}" class="dropdown-item">Profile</a></li>
                     <li><a href="#" class="dropdown-item logout-link">Log out</a></li>
                   </ul>
                 </li>
@@ -1070,9 +1098,9 @@ ul#global-nav.menu li.search .show-for-small-only {
             <li><a href="${e}/markdownpage/contact">Contact</a></li>
 
             <li class="drawer-group">Account</li>
-            ${i?`
-              <li><a href="${e}/profile/${encodeURIComponent(o.split("@")[0])}">Profile</a></li>
-              <li><a href="#" class="logout-link">Log out (${o})</a></li>
+            ${o?`
+              <li><a href="${e}/profile/${encodeURIComponent(i.split("@")[0])}">Profile</a></li>
+              <li><a href="#" class="logout-link">Log out (${i})</a></li>
             `:`
               <li><a href="${e}/login">Log in</a></li>
               <li><a href="${e}/register">Register</a></li>
@@ -1080,7 +1108,7 @@ ul#global-nav.menu li.search .show-for-small-only {
           </ul>
         </div>
       </div>
-    `,this._attachEventListeners()}_attachEventListeners(){const e=this.shadowRoot,t=e.getElementById("blackbar-search-btn");t&&t.addEventListener("click",n=>{n.preventDefault(),this._toggleDropdown("search-global-dropdown")});const o=e.getElementById("blackbar-embl-btn");o&&o.addEventListener("click",n=>{n.preventDefault(),this._toggleDropdown("embl-dropdown")}),e.querySelectorAll(".dropdown-trigger").forEach(n=>{n.addEventListener("click",l=>{l.stopPropagation();const c=n.closest(".dropdown");c&&c.id&&this._toggleDropdown(c.id)})});const i=e.querySelector(".quick-search");i&&i.addEventListener("submit",n=>this._handleSearch(n));const r=e.querySelector(".menu-toggle");r&&r.addEventListener("click",()=>this._openDrawer());const d=e.querySelector(".drawer-close");d&&d.addEventListener("click",()=>this._closeDrawer());const b=e.querySelector(".drawer-backdrop");b&&b.addEventListener("click",()=>this._closeDrawer()),e.querySelectorAll(".logout-link").forEach(n=>{n.addEventListener("click",l=>this._handleLogout(l))}),e.querySelectorAll("a[href]").forEach(n=>{const l=n.getAttribute("href");!l||l==="#"||l.startsWith("javascript:")||n.hasAttribute("target")||n.addEventListener("click",c=>this._handleNavigate(c,l))})}}customElements.get("pride-header")||customElements.define("pride-header",p);const k=`
+    `,this._attachEventListeners()}_attachEventListeners(){const e=this.shadowRoot,t=e.getElementById("blackbar-search-btn");t&&t.addEventListener("click",n=>{n.preventDefault(),this._toggleDropdown("search-global-dropdown")});const i=e.getElementById("blackbar-embl-btn");i&&i.addEventListener("click",n=>{n.preventDefault(),this._toggleDropdown("embl-dropdown")}),e.querySelectorAll(".dropdown-trigger").forEach(n=>{n.addEventListener("click",l=>{l.stopPropagation();const c=n.closest(".dropdown");c&&c.id&&this._toggleDropdown(c.id)})});const o=e.querySelector(".quick-search");o&&o.addEventListener("submit",n=>this._handleSearch(n));const r=e.querySelector(".menu-toggle");r&&r.addEventListener("click",()=>this._openDrawer());const d=e.querySelector(".drawer-close");d&&d.addEventListener("click",()=>this._closeDrawer());const b=e.querySelector(".drawer-backdrop");b&&b.addEventListener("click",()=>this._closeDrawer()),e.querySelectorAll(".logout-link").forEach(n=>{n.addEventListener("click",l=>this._handleLogout(l))}),e.querySelectorAll("a[href]").forEach(n=>{const l=n.getAttribute("href");!l||l==="#"||l.startsWith("javascript:")||n.hasAttribute("target")||n.addEventListener("click",c=>this._handleNavigate(c,l))})}}customElements.get("pride-header")||customElements.define("pride-header",p);const k=`
 :host {
   display: block;
   font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;
@@ -1325,7 +1353,7 @@ ul#global-nav.menu li.search .show-for-small-only {
     margin-top: 4px;
   }
 }
-`;class h extends HTMLElement{static get observedAttributes(){return["show-elixir","show-ebi-footer"]}constructor(){super(),this.attachShadow({mode:"open"})}get showElixir(){return this.getAttribute("show-elixir")!=="false"}set showElixir(e){e===!1||e==="false"?this.setAttribute("show-elixir","false"):this.removeAttribute("show-elixir")}get showEbiFooter(){return this.getAttribute("show-ebi-footer")!=="false"}set showEbiFooter(e){e===!1||e==="false"?this.setAttribute("show-ebi-footer","false"):this.removeAttribute("show-ebi-footer")}connectedCallback(){this.render()}attributeChangedCallback(e,t,o){t!==o&&this.render()}render(){const e=new Date().getFullYear();this.shadowRoot.innerHTML=`
+`;class h extends HTMLElement{static get observedAttributes(){return["show-elixir","show-ebi-footer"]}constructor(){super(),this.attachShadow({mode:"open"})}get showElixir(){return this.getAttribute("show-elixir")!=="false"}set showElixir(e){e===!1||e==="false"?this.setAttribute("show-elixir","false"):this.removeAttribute("show-elixir")}get showEbiFooter(){return this.getAttribute("show-ebi-footer")!=="false"}set showEbiFooter(e){e===!1||e==="false"?this.setAttribute("show-ebi-footer","false"):this.removeAttribute("show-ebi-footer")}connectedCallback(){this.render()}attributeChangedCallback(e,t,i){t!==i&&this.render()}render(){const e=new Date().getFullYear();this.shadowRoot.innerHTML=`
       <style>${k}</style>
 
       ${this.showElixir?`
