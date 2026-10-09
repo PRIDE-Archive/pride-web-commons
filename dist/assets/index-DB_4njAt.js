@@ -969,7 +969,7 @@ ul#global-nav.menu li.search .show-for-small-only {
                 <ul class="dropdown-menu">
                   <li><a href="${e}/markdownpage/pridesubmissiontool" class="dropdown-item">Submission tool</a></li>
                   <li><a href="${e}/filesspecification" class="dropdown-item">Submission Files Requirements</a></li>
-                  <li><a href="${e}/archive/affinity-qc" class="dropdown-item">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
+                  <li><a href="${e}/archive/affinity-proteomics/qc-report" class="dropdown-item">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/services/pmultiqc/" class="dropdown-item" target="_blank" rel="noopener">pMultiQC <span class="ext">${n.externalLink}</span></a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/ws/archive/v3/webjars/swagger-ui/index.html" class="dropdown-item" target="_blank" rel="noopener">Web service API <span class="ext">${n.externalLink}</span></a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/services/sdrf-editor/" class="dropdown-item" target="_blank" rel="noopener">SDRF editor <span class="ext">${n.externalLink}</span></a></li>
@@ -1018,7 +1018,7 @@ ul#global-nav.menu li.search .show-for-small-only {
                     ${n.person} <span class="account-email">${t}</span> ${n.chevronDown}
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a href="${e}/profile" class="dropdown-item">Profile</a></li>
+                    <li><a href="${e}/profile/${encodeURIComponent(t.split("@")[0])}" class="dropdown-item">Profile</a></li>
                     <li><a href="#" class="dropdown-item logout-link">Log out</a></li>
                   </ul>
                 </li>
@@ -1057,7 +1057,7 @@ ul#global-nav.menu li.search .show-for-small-only {
             <li class="drawer-group">Tools</li>
             <li><a href="${e}/markdownpage/pridesubmissiontool">Submission tool</a></li>
             <li><a href="${e}/filesspecification">Submission Files Requirements</a></li>
-            <li><a href="${e}/archive/affinity-qc">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
+            <li><a href="${e}/archive/affinity-proteomics/qc-report">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
             <li><a href="https://www.ebi.ac.uk/pride/services/pmultiqc/" target="_blank" rel="noopener">pMultiQC</a></li>
             <li><a href="https://www.ebi.ac.uk/pride/ws/archive/v3/webjars/swagger-ui/index.html" target="_blank" rel="noopener">Web service API</a></li>
             <li><a href="https://www.ebi.ac.uk/pride/services/sdrf-editor/" target="_blank" rel="noopener">SDRF editor</a></li>
@@ -1075,7 +1075,7 @@ ul#global-nav.menu li.search .show-for-small-only {
 
             <li class="drawer-group">Account</li>
             ${i?`
-              <li><a href="${e}/profile">Profile</a></li>
+              <li><a href="${e}/profile/${encodeURIComponent(t.split("@")[0])}">Profile</a></li>
               <li><a href="#" class="logout-link">Log out (${t})</a></li>
             `:`
               <li><a href="${e}/login">Log in</a></li>

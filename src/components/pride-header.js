@@ -368,7 +368,7 @@ export class PrideHeader extends HTMLElement {
                 <ul class="dropdown-menu">
                   <li><a href="${base}/markdownpage/pridesubmissiontool" class="dropdown-item">Submission tool</a></li>
                   <li><a href="${base}/filesspecification" class="dropdown-item">Submission Files Requirements</a></li>
-                  <li><a href="${base}/archive/affinity-qc" class="dropdown-item">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
+                  <li><a href="${base}/archive/affinity-proteomics/qc-report" class="dropdown-item">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/services/pmultiqc/" class="dropdown-item" target="_blank" rel="noopener">pMultiQC <span class="ext">${ICONS.externalLink}</span></a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/ws/archive/v3/webjars/swagger-ui/index.html" class="dropdown-item" target="_blank" rel="noopener">Web service API <span class="ext">${ICONS.externalLink}</span></a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/services/sdrf-editor/" class="dropdown-item" target="_blank" rel="noopener">SDRF editor <span class="ext">${ICONS.externalLink}</span></a></li>
@@ -420,7 +420,7 @@ export class PrideHeader extends HTMLElement {
                     ${ICONS.person} <span class="account-email">${user}</span> ${ICONS.chevronDown}
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a href="${base}/profile" class="dropdown-item">Profile</a></li>
+                    <li><a href="${base}/profile/${encodeURIComponent(user.split('@')[0])}" class="dropdown-item">Profile</a></li>
                     <li><a href="#" class="dropdown-item logout-link">Log out</a></li>
                   </ul>
                 </li>
@@ -456,7 +456,7 @@ export class PrideHeader extends HTMLElement {
             <li class="drawer-group">Tools</li>
             <li><a href="${base}/markdownpage/pridesubmissiontool">Submission tool</a></li>
             <li><a href="${base}/filesspecification">Submission Files Requirements</a></li>
-            <li><a href="${base}/archive/affinity-qc">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
+            <li><a href="${base}/archive/affinity-proteomics/qc-report">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
             <li><a href="https://www.ebi.ac.uk/pride/services/pmultiqc/" target="_blank" rel="noopener">pMultiQC</a></li>
             <li><a href="https://www.ebi.ac.uk/pride/ws/archive/v3/webjars/swagger-ui/index.html" target="_blank" rel="noopener">Web service API</a></li>
             <li><a href="https://www.ebi.ac.uk/pride/services/sdrf-editor/" target="_blank" rel="noopener">SDRF editor</a></li>
@@ -477,7 +477,7 @@ export class PrideHeader extends HTMLElement {
               <li><a href="${base}/login">Log in</a></li>
               <li><a href="${base}/register">Register</a></li>
             ` : `
-              <li><a href="${base}/profile">Profile</a></li>
+              <li><a href="${base}/profile/${encodeURIComponent(user.split('@')[0])}">Profile</a></li>
               <li><a href="#" class="logout-link">Log out (${user})</a></li>
             `}
           </ul>
