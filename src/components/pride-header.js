@@ -5,9 +5,23 @@ import { PRIDE_LOGO_DATA_URI } from '../assets/logo.js'
 import { HERO_BANNER_DATA_URI } from '../assets/banner-image.js'
 import { DEFAULT_BANNER_CONTENT } from '../assets/banner-content.js'
 
+function getSessionStorage(key, fallback = null) {
+  try {
+    return sessionStorage.getItem(key) ?? fallback
+  } catch {
+    return fallback
+  }
+}
+
+function setSessionStorage(key, val) {
+  try {
+    sessionStorage.setItem(key, val)
+  } catch {}
+}
+
 export class PrideHeader extends HTMLElement {
   static get observedAttributes() {
-    return ['active-section', 'hide-search', 'base-url', 'banner-url', 'bg-image', 'username', 'token']
+    return ['active-section', 'hide-search', 'base-url', 'banner-url', 'bg-image', 'username', 'token', 'banner-collapsed']
   }
 
   constructor() {
@@ -15,6 +29,8 @@ export class PrideHeader extends HTMLElement {
     this.attachShadow({ mode: 'open' })
     // Pre-populate with bundled production banner so it renders immediately with 0 latency & no CORS dependency
     this._bannerContent = DEFAULT_BANNER_CONTENT
+    this._isBannerCollapsed = getSessionStorage('pride_banner_collapsed') === 'true'
+    this._isBannerDismissed = getSessionStorage('pride_banner_dismissed') === 'true'
     this._isCompact = false
     this._openDropdown = null
     this._onScroll = this._onScroll.bind(this)
@@ -89,6 +105,15 @@ export class PrideHeader extends HTMLElement {
     else this.removeAttribute('token')
   }
 
+  get bannerCollapsed() {
+    return this.hasAttribute('banner-collapsed') ? this.getAttribute('banner-collapsed') !== 'false' : this._isBannerCollapsed
+  }
+
+  set bannerCollapsed(val) {
+    if (val) this.setAttribute('banner-collapsed', '')
+    else this.removeAttribute('banner-collapsed')
+  }
+
   connectedCallback() {
     ensureIconFonts()
     this.render()
@@ -108,6 +133,9 @@ export class PrideHeader extends HTMLElement {
     if (oldValue !== newValue && this.shadowRoot && this.shadowRoot.innerHTML) {
       if (name === 'active-section') {
         this._updateActiveSection()
+      } else if (name === 'banner-collapsed') {
+        this._isBannerCollapsed = newValue !== null && newValue !== 'false'
+        this._updateBannerVisibility()
       } else {
         this.render()
       }
@@ -180,6 +208,50 @@ export class PrideHeader extends HTMLElement {
     }
   }
 
+  _toggleBannerCollapse() {
+    this._isBannerCollapsed = !this._isBannerCollapsed
+    setSessionStorage('pride_banner_collapsed', this._isBannerCollapsed ? 'true' : 'false')
+    this._updateBannerVisibility()
+    this.dispatchEvent(new CustomEvent('pride-banner-collapse', {
+      bubbles: true,
+      composed: true,
+      detail: { collapsed: this._isBannerCollapsed }
+    }))
+  }
+
+  _dismissBanner() {
+    this._isBannerDismissed = true
+    setSessionStorage('pride_banner_dismissed', 'true')
+    this._updateBannerVisibility()
+    this.dispatchEvent(new CustomEvent('pride-banner-dismiss', {
+      bubbles: true,
+      composed: true
+    }))
+  }
+
+  _updateBannerVisibility() {
+    if (!this.shadowRoot) return
+    const bannerContainer = this.shadowRoot.querySelector('.pride-banner-container')
+    if (!bannerContainer) return
+
+    if (!this._bannerContent || this._isBannerDismissed) {
+      bannerContainer.style.display = 'none'
+      return
+    }
+
+    bannerContainer.style.display = 'block'
+    const expandedEl = this.shadowRoot.querySelector('.banner-expanded-wrapper')
+    const collapsedEl = this.shadowRoot.querySelector('.banner-collapsed-bar')
+
+    if (this._isBannerCollapsed) {
+      if (expandedEl) expandedEl.style.display = 'none'
+      if (collapsedEl) collapsedEl.style.display = 'flex'
+    } else {
+      if (expandedEl) expandedEl.style.display = 'block'
+      if (collapsedEl) collapsedEl.style.display = 'none'
+    }
+  }
+
   async fetchBanner() {
     try {
       const res = await fetch(this.bannerUrl)
@@ -190,12 +262,11 @@ export class PrideHeader extends HTMLElement {
         .trim()
       if (cleaned) {
         this._bannerContent = cleaned
-        const bannerWrap = this.shadowRoot.querySelector('.pride-banner-container')
         const contentEl = this.shadowRoot.querySelector('.banner')
-        if (bannerWrap && contentEl) {
+        if (contentEl) {
           contentEl.innerHTML = cleaned
-          bannerWrap.style.display = 'block'
         }
+        this._updateBannerVisibility()
       }
     } catch (e) {
       // Keep bundled default banner content on network or CORS errors
@@ -359,9 +430,38 @@ export class PrideHeader extends HTMLElement {
       <!-- 2. PRIDE Main Masthead & Navigation (with background image and alert announcement banner) -->
       <header class="pride-masthead ${this._isCompact ? 'compact' : ''}" style="background-image: url('${this.bgImage}');">
         <!-- Banner on top of header part matching View UI Plus Alert warning -->
-        <div class="pride-banner-container" style="display: ${this._bannerContent ? 'block' : 'none'};">
-          <div class="ivu-alert ivu-alert-warning ivu-alert-with-banner">
-            <span class="banner">${this._bannerContent}</span>
+        <div class="pride-banner-container" style="display: ${this._bannerContent && !this._isBannerDismissed ? 'block' : 'none'};">
+          <div class="banner-expanded-wrapper" style="display: ${this._isBannerCollapsed ? 'none' : 'block'};">
+            <div class="ivu-alert ivu-alert-warning ivu-alert-with-banner">
+              <span class="banner">${this._bannerContent}</span>
+              <button type="button" class="banner-collapse-btn" id="banner-collapse-btn" title="Collapse banner" aria-label="Collapse banner">
+                <span>Collapse</span>
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="18 15 12 9 6 15"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="banner-collapsed-bar" style="display: ${this._isBannerCollapsed ? 'flex' : 'none'};">
+            <div class="banner-collapsed-info">
+              <span class="banner-collapsed-icon">⚠️</span>
+              <span class="banner-collapsed-title">System Announcements</span>
+            </div>
+            <div class="banner-collapsed-actions">
+              <button type="button" class="banner-expand-btn" id="banner-expand-btn" title="Expand banner" aria-label="Expand banner">
+                <span>Expand</span>
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <button type="button" class="banner-dismiss-btn" id="banner-dismiss-btn" title="Dismiss banner" aria-label="Dismiss banner">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -530,6 +630,31 @@ export class PrideHeader extends HTMLElement {
 
   _attachEventListeners() {
     const root = this.shadowRoot
+
+    // Banner collapse, expand & dismiss buttons
+    const collapseBtn = root.getElementById('banner-collapse-btn')
+    if (collapseBtn) {
+      collapseBtn.addEventListener('click', (e) => {
+        e.preventDefault()
+        this._toggleBannerCollapse()
+      })
+    }
+
+    const expandBtn = root.getElementById('banner-expand-btn')
+    if (expandBtn) {
+      expandBtn.addEventListener('click', (e) => {
+        e.preventDefault()
+        this._toggleBannerCollapse()
+      })
+    }
+
+    const dismissBtn = root.getElementById('banner-dismiss-btn')
+    if (dismissBtn) {
+      dismissBtn.addEventListener('click', (e) => {
+        e.preventDefault()
+        this._dismissBanner()
+      })
+    }
 
     // Black bar search dropdown
     const blackbarSearchBtn = root.getElementById('blackbar-search-btn')
