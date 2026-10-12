@@ -1130,7 +1130,6 @@ ul#global-nav.menu li.search .show-for-small-only {
                 </button>
                 <ul class="dropdown-menu">
                   <li><a href="${e}/markdownpage/pridesubmissiontool" class="dropdown-item">Submission tool</a></li>
-                  <li><a href="${e}/filesspecification" class="dropdown-item">Submission Files Requirements</a></li>
                   <li><a href="${e}/archive/affinity-proteomics/qc-report" class="dropdown-item">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/services/pmultiqc/" class="dropdown-item" target="_blank" rel="noopener">pMultiQC <span class="ext">${n.externalLink}</span></a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/ws/archive/v3/webjars/swagger-ui/index.html" class="dropdown-item" target="_blank" rel="noopener">Web service API <span class="ext">${n.externalLink}</span></a></li>
@@ -1147,6 +1146,7 @@ ul#global-nav.menu li.search .show-for-small-only {
                 <ul class="dropdown-menu">
                   <li><a href="${e}/markdownpage/documentationpage" class="dropdown-item">Documentation</a></li>
                   <li><a href="${e}/markdownpage/controlledaccess" class="dropdown-item">Controlled-access submissions</a></li>
+                  <li><a href="${e}/filesspecification" class="dropdown-item">Submission Files Requirements</a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/chatbot" class="dropdown-item" target="_blank" rel="noopener">PRIDE Assistant <span class="ext">${n.externalLink}</span></a></li>
                 </ul>
               </li>
@@ -1218,7 +1218,6 @@ ul#global-nav.menu li.search .show-for-small-only {
 
             <li class="drawer-group">Tools</li>
             <li><a href="${e}/markdownpage/pridesubmissiontool">Submission tool</a></li>
-            <li><a href="${e}/filesspecification">Submission Files Requirements</a></li>
             <li><a href="${e}/archive/affinity-proteomics/qc-report">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
             <li><a href="https://www.ebi.ac.uk/pride/services/pmultiqc/" target="_blank" rel="noopener">pMultiQC</a></li>
             <li><a href="https://www.ebi.ac.uk/pride/ws/archive/v3/webjars/swagger-ui/index.html" target="_blank" rel="noopener">Web service API</a></li>
@@ -1228,6 +1227,7 @@ ul#global-nav.menu li.search .show-for-small-only {
             <li class="drawer-group">Help</li>
             <li><a href="${e}/markdownpage/documentationpage">Documentation</a></li>
             <li><a href="${e}/markdownpage/controlledaccess">Controlled-access submissions</a></li>
+            <li><a href="${e}/filesspecification">Submission Files Requirements</a></li>
             <li><a href="https://www.ebi.ac.uk/pride/chatbot" target="_blank" rel="noopener">PRIDE Assistant</a></li>
 
             <li class="drawer-group">About</li>
