@@ -565,7 +565,8 @@ ul#global-nav.menu li.search .show-for-small-only {
   align-items: center;
 }
 
-.pride-menu > li {
+.pride-menu > li,
+.dropdown {
   position: relative;
 }
 
@@ -731,6 +732,11 @@ ul#global-nav.menu li.search .show-for-small-only {
 /* Account items */
 .pride-account {
   flex-shrink: 0;
+}
+
+.pride-account .dropdown-menu {
+  left: auto;
+  right: 0;
 }
 
 .pride-account a.register {
