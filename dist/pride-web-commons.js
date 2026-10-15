@@ -1017,7 +1017,7 @@ class c extends HTMLElement {
     e ? this.setAttribute("base-url", e) : this.removeAttribute("base-url");
   }
   get bannerUrl() {
-    return this.getAttribute("banner-url") || `${this.baseUrl}/banner/index.txt`;
+    return this.getAttribute("banner-url") || "https://pride-archive.github.io/pride-web-commons/banner/index.txt";
   }
   set bannerUrl(e) {
     e ? this.setAttribute("banner-url", e) : this.removeAttribute("banner-url");
