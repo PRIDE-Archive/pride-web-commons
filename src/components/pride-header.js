@@ -3,7 +3,9 @@ import { ensureIconFonts } from '../styles/fonts.js'
 import { ICONS } from '../assets/icons.js'
 import { PRIDE_LOGO_DATA_URI } from '../assets/logo.js'
 import { HERO_BANNER_DATA_URI } from '../assets/banner-image.js'
-import { DEFAULT_BANNER_CONTENT } from '../assets/banner-content.js'
+import RAW_BANNER_CONTENT from '../../banner/index.txt?raw'
+
+const DEFAULT_BANNER_CONTENT = (RAW_BANNER_CONTENT || '').replace(/<!--[\s\S]*?-->/g, '').trim()
 
 function getSessionStorage(key, fallback = null) {
   try {
@@ -276,7 +278,9 @@ export class PrideHeader extends HTMLElement {
     const bannerContainer = this.shadowRoot.querySelector('.pride-banner-container')
     if (!bannerContainer) return
 
-    if (!this._bannerContent) {
+    const hasContent = !!(this._bannerContent && this._bannerContent.replace(/<[^>]*>/g, '').trim().length > 0)
+
+    if (!hasContent) {
       bannerContainer.style.display = 'none'
       return
     }
@@ -302,14 +306,12 @@ export class PrideHeader extends HTMLElement {
       const cleaned = (typeof text === 'string' ? text : '')
         .replace(/<!--[\s\S]*?-->/g, '')
         .trim()
-      if (cleaned) {
-        this._bannerContent = cleaned
-        const contentEl = this.shadowRoot.querySelector('.banner')
-        if (contentEl) {
-          contentEl.innerHTML = cleaned
-        }
-        this._updateBannerVisibility()
+      this._bannerContent = cleaned
+      const contentEl = this.shadowRoot.querySelector('.banner')
+      if (contentEl) {
+        contentEl.innerHTML = cleaned
       }
+      this._updateBannerVisibility()
     } catch (e) {
       // Keep bundled default banner content on network or CORS errors
     }
@@ -472,7 +474,7 @@ export class PrideHeader extends HTMLElement {
       <!-- 2. PRIDE Main Masthead & Navigation (with background image and alert announcement banner) -->
       <header class="pride-masthead ${this._isCompact ? 'compact' : ''}" style="background-image: url('${this.bgImage}');">
         <!-- Banner on top of header part matching View UI Plus Alert warning -->
-        <div class="pride-banner-container" style="display: ${this._bannerContent ? 'block' : 'none'};">
+        <div class="pride-banner-container" style="display: ${(this._bannerContent && this._bannerContent.replace(/<[^>]*>/g, '').trim().length > 0) ? 'block' : 'none'};">
           <div class="banner-expanded-wrapper" style="display: ${this._isBannerCollapsed ? 'none' : 'block'};">
             <div class="ivu-alert ivu-alert-warning ivu-alert-with-banner">
               <span class="banner">${this._bannerContent}</span>
