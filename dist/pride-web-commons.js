@@ -1153,7 +1153,10 @@ class c extends HTMLElement {
     try {
       const e = await fetch(this.bannerUrl);
       if (!e.ok) return;
-      const t = await e.text(), i = (typeof t == "string" ? t : "").replace(/<!--[\s\S]*?-->/g, "").trim();
+      const t = await e.text();
+      if (!t || t.includes("<!DOCTYPE") || t.includes("<html") || t.includes('id="app"'))
+        return;
+      const i = (typeof t == "string" ? t : "").replace(/<!--[\s\S]*?-->/g, "").trim();
       this._bannerContent = i;
       const o = this.shadowRoot.querySelector(".banner");
       o && (o.innerHTML = i), this._updateBannerVisibility();
@@ -1496,10 +1499,10 @@ class c extends HTMLElement {
     });
     const f = e.querySelector(".quick-search");
     f && f.addEventListener("submit", (n) => this._handleSearch(n));
-    const A = e.querySelector(".menu-toggle");
-    A && A.addEventListener("click", () => this._openDrawer());
-    const u = e.querySelector(".drawer-close");
-    u && u.addEventListener("click", () => this._closeDrawer());
+    const u = e.querySelector(".menu-toggle");
+    u && u.addEventListener("click", () => this._openDrawer());
+    const A = e.querySelector(".drawer-close");
+    A && A.addEventListener("click", () => this._closeDrawer());
     const g = e.querySelector(".drawer-backdrop");
     g && g.addEventListener("click", () => this._closeDrawer()), e.querySelectorAll(".logout-link").forEach((n) => {
       n.addEventListener("click", (l) => this._handleLogout(l));

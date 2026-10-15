@@ -303,6 +303,9 @@ export class PrideHeader extends HTMLElement {
       const res = await fetch(this.bannerUrl)
       if (!res.ok) return
       const text = await res.text()
+      if (!text || text.includes('<!DOCTYPE') || text.includes('<html') || text.includes('id="app"')) {
+        return
+      }
       const cleaned = (typeof text === 'string' ? text : '')
         .replace(/<!--[\s\S]*?-->/g, '')
         .trim()
