@@ -565,7 +565,8 @@ ul#global-nav.menu li.search .show-for-small-only {
   align-items: center;
 }
 
-.pride-menu > li {
+.pride-menu > li,
+.dropdown {
   position: relative;
 }
 
@@ -731,6 +732,11 @@ ul#global-nav.menu li.search .show-for-small-only {
 /* Account items */
 .pride-account {
   flex-shrink: 0;
+}
+
+.pride-account .dropdown-menu {
+  left: auto;
+  right: 0;
 }
 
 .pride-account a.register {
@@ -968,7 +974,7 @@ ul#global-nav.menu li.search .show-for-small-only {
       <div>
         <p style="font-size: 16px; font-weight: 600; margin: 4px 0;">
           <strong>A new beta version of the PRIDE Submission Tool is now available!</strong>
-          You can <a href="https://github.com/PRIDE-Archive/px-submission-tool/releases/download/v0.1.2-beta-javafx/px-submission-tool-javafx-latest.zip" target="_blank" style="text-decoration: underline;">download it here</a> and test it.
+          You can <a href="https://github.com/PRIDE-Archive/px-submission-tool/releases/download/v0.1.3-beta-javafx/px-submission-tool-javafx-latest.zip" target="_blank" style="text-decoration: underline;">download it here</a> and test it.
           See the <a href="https://www.ebi.ac.uk/pride/markdownpage/pridesubmissiontooljavafx" target="_blank" style="text-decoration: underline;">step-by-step guide</a> for details.
         </p>
       </div>
@@ -1131,6 +1137,7 @@ ul#global-nav.menu li.search .show-for-small-only {
                 </button>
                 <ul class="dropdown-menu">
                   <li><a href="${e}/markdownpage/pridesubmissiontool" class="dropdown-item">Submission tool</a></li>
+                  <li><a href="${e}/submissions" class="dropdown-item">Web Submissions <span class="nav-new-pill">New</span></a></li>
                   <li><a href="${e}/archive/affinity-proteomics/qc-report" class="dropdown-item">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/services/pmultiqc/" class="dropdown-item" target="_blank" rel="noopener">pMultiQC <span class="ext">${r.externalLink}</span></a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/ws/archive/v3/webjars/swagger-ui/index.html" class="dropdown-item" target="_blank" rel="noopener">Web service API <span class="ext">${r.externalLink}</span></a></li>
@@ -1247,7 +1254,7 @@ ul#global-nav.menu li.search .show-for-small-only {
           </ul>
         </div>
       </div>
-    `,this._attachEventListeners()}_attachEventListeners(){const e=this.shadowRoot,t=e.getElementById("banner-collapse-btn");t&&t.addEventListener("click",n=>{n.preventDefault(),this._toggleBannerCollapse()});const i=e.getElementById("banner-expand-btn");i&&i.addEventListener("click",n=>{n.preventDefault(),this._toggleBannerCollapse()});const o=e.getElementById("blackbar-search-btn");o&&o.addEventListener("click",n=>{n.preventDefault(),this._toggleDropdown("search-global-dropdown")});const l=e.getElementById("blackbar-embl-btn");l&&l.addEventListener("click",n=>{n.preventDefault(),this._toggleDropdown("embl-dropdown")}),e.querySelectorAll(".dropdown-trigger").forEach(n=>{n.addEventListener("click",d=>{d.stopPropagation();const b=n.closest(".dropdown");b&&b.id&&this._toggleDropdown(b.id)})});const v=e.querySelector(".quick-search");v&&v.addEventListener("submit",n=>this._handleSearch(n));const w=e.querySelector(".menu-toggle");w&&w.addEventListener("click",()=>this._openDrawer());const x=e.querySelector(".drawer-close");x&&x.addEventListener("click",()=>this._closeDrawer());const y=e.querySelector(".drawer-backdrop");y&&y.addEventListener("click",()=>this._closeDrawer()),e.querySelectorAll(".logout-link").forEach(n=>{n.addEventListener("click",d=>this._handleLogout(d))}),e.querySelectorAll("a[href]").forEach(n=>{const d=n.getAttribute("href");!d||d==="#"||d.startsWith("javascript:")||n.hasAttribute("target")||n.addEventListener("click",b=>this._handleNavigate(b,d))})}}customElements.get("pride-header")||customElements.define("pride-header",c);const P=`
+    `,this._attachEventListeners()}_attachEventListeners(){const e=this.shadowRoot,t=e.getElementById("banner-collapse-btn");t&&t.addEventListener("click",n=>{n.preventDefault(),this._toggleBannerCollapse()});const i=e.getElementById("banner-expand-btn");i&&i.addEventListener("click",n=>{n.preventDefault(),this._toggleBannerCollapse()});const o=e.getElementById("blackbar-search-btn");o&&o.addEventListener("click",n=>{n.preventDefault(),this._toggleDropdown("search-global-dropdown")});const l=e.getElementById("blackbar-embl-btn");l&&l.addEventListener("click",n=>{n.preventDefault(),this._toggleDropdown("embl-dropdown")}),e.querySelectorAll(".dropdown-trigger").forEach(n=>{n.addEventListener("click",d=>{d.stopPropagation();const b=n.closest(".dropdown");b&&b.id&&this._toggleDropdown(b.id)})});const w=e.querySelector(".quick-search");w&&w.addEventListener("submit",n=>this._handleSearch(n));const v=e.querySelector(".menu-toggle");v&&v.addEventListener("click",()=>this._openDrawer());const x=e.querySelector(".drawer-close");x&&x.addEventListener("click",()=>this._closeDrawer());const y=e.querySelector(".drawer-backdrop");y&&y.addEventListener("click",()=>this._closeDrawer()),e.querySelectorAll(".logout-link").forEach(n=>{n.addEventListener("click",d=>this._handleLogout(d))}),e.querySelectorAll("a[href]").forEach(n=>{const d=n.getAttribute("href");!d||d==="#"||d.startsWith("javascript:")||n.hasAttribute("target")||n.addEventListener("click",b=>this._handleNavigate(b,d))})}}customElements.get("pride-header")||customElements.define("pride-header",c);const P=`
 :host {
   display: block;
   font-family: Helvetica, Arial, FreeSans, "Liberation Sans", sans-serif;

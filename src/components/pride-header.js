@@ -548,6 +548,7 @@ export class PrideHeader extends HTMLElement {
                 </button>
                 <ul class="dropdown-menu">
                   <li><a href="${base}/markdownpage/pridesubmissiontool" class="dropdown-item">Submission tool</a></li>
+                  <li><a href="${base}/submissions" class="dropdown-item">Web Submissions <span class="nav-new-pill">New</span></a></li>
                   <li><a href="${base}/archive/affinity-proteomics/qc-report" class="dropdown-item">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/services/pmultiqc/" class="dropdown-item" target="_blank" rel="noopener">pMultiQC <span class="ext">${ICONS.externalLink}</span></a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/ws/archive/v3/webjars/swagger-ui/index.html" class="dropdown-item" target="_blank" rel="noopener">Web service API <span class="ext">${ICONS.externalLink}</span></a></li>

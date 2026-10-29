@@ -565,7 +565,8 @@ ul#global-nav.menu li.search .show-for-small-only {
   align-items: center;
 }
 
-.pride-menu > li {
+.pride-menu > li,
+.dropdown {
   position: relative;
 }
 
@@ -731,6 +732,11 @@ ul#global-nav.menu li.search .show-for-small-only {
 /* Account items */
 .pride-account {
   flex-shrink: 0;
+}
+
+.pride-account .dropdown-menu {
+  left: auto;
+  right: 0;
 }
 
 .pride-account a.register {
@@ -936,7 +942,7 @@ ul#global-nav.menu li.search .show-for-small-only {
     max-width: 100%;
   }
 }
-`, m = "pride-web-commons-icon-fonts", p = "https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2", v = (a) => `
+`, m = "pride-web-commons-icon-fonts", p = "https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.2", w = (a) => `
 @font-face {
   font-family: '${a}';
   src: url('${p}/${a}/fonts/${a}.woff2') format('woff2'),
@@ -949,7 +955,7 @@ ul#global-nav.menu li.search .show-for-small-only {
 function y() {
   if (typeof document > "u" || document.getElementById(m)) return;
   const a = document.createElement("style");
-  a.id = m, a.textContent = v("EBI-Generic") + v("EBI-Functional"), document.head.appendChild(a);
+  a.id = m, a.textContent = w("EBI-Generic") + w("EBI-Functional"), document.head.appendChild(a);
 }
 const r = {
   search: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
@@ -981,7 +987,7 @@ const r = {
       <div>
         <p style="font-size: 16px; font-weight: 600; margin: 4px 0;">
           <strong>A new beta version of the PRIDE Submission Tool is now available!</strong>
-          You can <a href="https://github.com/PRIDE-Archive/px-submission-tool/releases/download/v0.1.2-beta-javafx/px-submission-tool-javafx-latest.zip" target="_blank" style="text-decoration: underline;">download it here</a> and test it.
+          You can <a href="https://github.com/PRIDE-Archive/px-submission-tool/releases/download/v0.1.3-beta-javafx/px-submission-tool-javafx-latest.zip" target="_blank" style="text-decoration: underline;">download it here</a> and test it.
           See the <a href="https://www.ebi.ac.uk/pride/markdownpage/pridesubmissiontooljavafx" target="_blank" style="text-decoration: underline;">step-by-step guide</a> for details.
         </p>
       </div>
@@ -1356,6 +1362,7 @@ class c extends HTMLElement {
                 </button>
                 <ul class="dropdown-menu">
                   <li><a href="${e}/markdownpage/pridesubmissiontool" class="dropdown-item">Submission tool</a></li>
+                  <li><a href="${e}/submissions" class="dropdown-item">Web Submissions <span class="nav-new-pill">New</span></a></li>
                   <li><a href="${e}/archive/affinity-proteomics/qc-report" class="dropdown-item">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/services/pmultiqc/" class="dropdown-item" target="_blank" rel="noopener">pMultiQC <span class="ext">${r.externalLink}</span></a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/ws/archive/v3/webjars/swagger-ui/index.html" class="dropdown-item" target="_blank" rel="noopener">Web service API <span class="ext">${r.externalLink}</span></a></li>
@@ -2134,24 +2141,24 @@ class h extends HTMLElement {
     }), this._isOpen && this._ensureIframe();
   }
 }
-function w() {
+function v() {
   typeof window < "u" && "customElements" in window && (customElements.get("pride-header") || customElements.define("pride-header", c), customElements.get("pride-footer") || customElements.define("pride-footer", b), customElements.get("pride-chat") || customElements.define("pride-chat", h), customElements.get("pride-navbar") || customElements.define("pride-navbar", class extends c {
   }), customElements.get("pride-web-header") || customElements.define("pride-web-header", class extends c {
   }), customElements.get("pride-web-footer") || customElements.define("pride-web-footer", class extends b {
   }), customElements.get("pride-chatbot") || customElements.define("pride-chatbot", class extends h {
   }));
 }
-w();
+v();
 const D = {
   PrideHeader: c,
   PrideFooter: b,
   PrideChat: h,
-  register: w
+  register: v
 };
 export {
   h as PrideChat,
   b as PrideFooter,
   c as PrideHeader,
   D as default,
-  w as registerPrideWebCommons
+  v as registerPrideWebCommons
 };
