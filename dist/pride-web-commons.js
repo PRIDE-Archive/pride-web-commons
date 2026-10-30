@@ -986,7 +986,7 @@ const r = {
       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#084298" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 3px; flex-shrink: 0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
       <div>
         <p style="font-size: 16px; font-weight: 600; margin: 4px 0;">
-          <strong>A new beta version of the PRIDE Submission Tool is now available!</strong>
+          <strong>123A new beta version of the PRIDE Submission Tool is now available!</strong>
           You can <a href="https://github.com/PRIDE-Archive/px-submission-tool/releases/download/v0.1.3-beta-javafx/px-submission-tool-javafx-latest.zip" target="_blank" style="text-decoration: underline;">download it here</a> and test it.
           See the <a href="https://www.ebi.ac.uk/pride/markdownpage/pridesubmissiontooljavafx" target="_blank" style="text-decoration: underline;">step-by-step guide</a> for details.
         </p>
@@ -1145,7 +1145,7 @@ class c extends HTMLElement {
   }
   _updateBannerVisibility() {
     if (!this.shadowRoot) return;
-    const e = this.shadowRoot.querySelector(".pride-banner-container");
+    const e = this.shadowRoot.querySelector(".wepride-banner-container");
     if (!e) return;
     if (!!!(this._bannerContent && this._bannerContent.replace(/<[^>]*>/g, "").trim().length > 0)) {
       e.style.display = "none";
@@ -1291,7 +1291,7 @@ class c extends HTMLElement {
       <!-- 2. PRIDE Main Masthead & Navigation (with background image and alert announcement banner) -->
       <header class="pride-masthead ${this._isCompact ? "compact" : ""}" style="background-image: url('${this.bgImage}');">
         <!-- Banner on top of header part matching View UI Plus Alert warning -->
-        <div class="pride-banner-container" style="display: ${this._bannerContent && this._bannerContent.replace(/<[^>]*>/g, "").trim().length > 0 ? "block" : "none"};">
+        <div class="123pride-banner-container" style="display: ${this._bannerContent && this._bannerContent.replace(/<[^>]*>/g, "").trim().length > 0 ? "block" : "none"};">
           <div class="banner-expanded-wrapper" style="display: ${this._isBannerCollapsed ? "none" : "block"};">
             <div class="ivu-alert ivu-alert-warning ivu-alert-with-banner">
               <span class="banner">${this._bannerContent}</span>
