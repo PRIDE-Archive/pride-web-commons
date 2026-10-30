@@ -20,8 +20,8 @@
       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#084298" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 3px; flex-shrink: 0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
       <div>
         <p style="font-size: 16px; font-weight: 600; margin: 4px 0;">
-          <strong>A new beta version of the PRIDE Submission Tool is now available!</strong>
-          You can <a href="https://github.com/PRIDE-Archive/px-submission-tool/releases/download/v0.1.2-beta-javafx/px-submission-tool-javafx-latest.zip" target="_blank" style="text-decoration: underline;">download it here</a> and test it.
+          <strong>123A new beta version of the PRIDE Submission Tool is now available!</strong>
+          You can <a href="https://github.com/PRIDE-Archive/px-submission-tool/releases/download/v0.1.3-beta-javafx/px-submission-tool-javafx-latest.zip" target="_blank" style="text-decoration: underline;">download it here</a> and test it.
           See the <a href="https://www.ebi.ac.uk/pride/markdownpage/pridesubmissiontooljavafx" target="_blank" style="text-decoration: underline;">step-by-step guide</a> for details.
         </p>
       </div>
