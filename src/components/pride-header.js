@@ -5,7 +5,26 @@ import { PRIDE_LOGO_DATA_URI } from '../assets/logo.js'
 import { HERO_BANNER_DATA_URI } from '../assets/banner-image.js'
 import RAW_BANNER_CONTENT from '../../banner/index.txt?raw'
 
-const DEFAULT_BANNER_CONTENT = (RAW_BANNER_CONTENT || '').replace(/<!--[\s\S]*?-->/g, '').trim()
+const DEFAULT_BANNER_CONTENT = (RAW_BANNER_CONTENT || '')
+  .replace(/<!--[\s\S]*?-->/g, '')
+  .replace(/\/(?:markdownpage|markdown)(?=\/|$)/g, '/help')
+  .trim()
+
+export function redirectLegacyMarkdownUrl() {
+  if (typeof window === 'undefined' || !window.location) return false
+  const { pathname, search, hash } = window.location
+  if (/\/(?:markdownpage|markdown)(\/|$)/.test(pathname)) {
+    const newPathname = pathname.replace(/\/(?:markdownpage|markdown)(?=\/|$)/, '/help')
+    window.location.replace(`${newPathname}${search || ''}${hash || ''}`)
+    return true
+  }
+  if (hash && /#\/(?:markdownpage|markdown)(\/|$)/.test(hash)) {
+    const newHash = hash.replace(/#\/(?:markdownpage|markdown)(?=\/|$)/, '#/help')
+    window.location.replace(`${pathname}${search || ''}${newHash}`)
+    return true
+  }
+  return false
+}
 
 function getSessionStorage(key, fallback = null) {
   try {
@@ -138,17 +157,22 @@ export class PrideHeader extends HTMLElement {
   }
 
   connectedCallback() {
+    if (redirectLegacyMarkdownUrl()) return
     ensureIconFonts()
     this.render()
     this.fetchBanner()
     this._setupChatWidget()
     window.addEventListener('scroll', this._onScroll, { passive: true })
+    window.addEventListener('popstate', redirectLegacyMarkdownUrl)
+    window.addEventListener('hashchange', redirectLegacyMarkdownUrl)
     document.addEventListener('click', this._onDocumentClick)
     document.addEventListener('keydown', this._onKeyDown)
   }
 
   disconnectedCallback() {
     window.removeEventListener('scroll', this._onScroll)
+    window.removeEventListener('popstate', redirectLegacyMarkdownUrl)
+    window.removeEventListener('hashchange', redirectLegacyMarkdownUrl)
     document.removeEventListener('click', this._onDocumentClick)
     document.removeEventListener('keydown', this._onKeyDown)
   }
@@ -308,6 +332,7 @@ export class PrideHeader extends HTMLElement {
       }
       const cleaned = (typeof text === 'string' ? text : '')
         .replace(/<!--[\s\S]*?-->/g, '')
+        .replace(/\/(?:markdownpage|markdown)(?=\/|$)/g, '/help')
         .trim()
       this._bannerContent = cleaned
       const contentEl = this.shadowRoot.querySelector('.banner')
@@ -344,11 +369,15 @@ export class PrideHeader extends HTMLElement {
   }
 
   _handleNavigate(e, href) {
+    const resolvedHref = href.replace(/\/(?:markdownpage|markdown)(?=\/|$)/, '/help')
+    if (resolvedHref !== href && e.currentTarget && e.currentTarget.setAttribute) {
+      e.currentTarget.setAttribute('href', resolvedHref)
+    }
     const event = new CustomEvent('pride-navigate', {
       bubbles: true,
       composed: true,
       cancelable: true,
-      detail: { href }
+      detail: { href: resolvedHref }
     })
     const notPrevented = this.dispatchEvent(event)
     if (!notPrevented) {
@@ -547,7 +576,7 @@ export class PrideHeader extends HTMLElement {
                   Tools ${ICONS.chevronDown}
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a href="${base}/markdownpage/pridesubmissiontool" class="dropdown-item">Submission tool</a></li>
+                  <li><a href="${base}/help/pridesubmissiontool" class="dropdown-item">Submission tool</a></li>
                   <li><a href="${base}/submissions" class="dropdown-item">Web Submissions <span class="nav-new-pill">New</span></a></li>
                   <li><a href="${base}/archive/affinity-proteomics/qc-report" class="dropdown-item">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/services/pmultiqc/" class="dropdown-item" target="_blank" rel="noopener">pMultiQC <span class="ext">${ICONS.externalLink}</span></a></li>
@@ -563,8 +592,8 @@ export class PrideHeader extends HTMLElement {
                   Help ${ICONS.chevronDown}
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a href="${base}/markdownpage/documentationpage" class="dropdown-item">Documentation</a></li>
-                  <li><a href="${base}/markdownpage/controlledaccess" class="dropdown-item">Controlled-access submissions</a></li>
+                  <li><a href="${base}/help/documentationpage" class="dropdown-item">Documentation</a></li>
+                  <li><a href="${base}/help/controlledaccess" class="dropdown-item">Controlled-access submissions</a></li>
                   <li><a href="${base}/filesspecification" class="dropdown-item">Submission Files Requirements</a></li>
                   <li><a href="https://www.ebi.ac.uk/pride/chatbot" class="dropdown-item" target="_blank" rel="noopener">PRIDE Assistant <span class="ext">${ICONS.externalLink}</span></a></li>
                 </ul>
@@ -576,9 +605,9 @@ export class PrideHeader extends HTMLElement {
                   About ${ICONS.chevronDown}
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a href="${base}/markdownpage/citationpage" class="dropdown-item">About PRIDE</a></li>
-                  <li><a href="${base}/markdownpage/license" class="dropdown-item">License</a></li>
-                  <li><a href="${base}/markdownpage/contact" class="dropdown-item">Contact</a></li>
+                  <li><a href="${base}/help/citationpage" class="dropdown-item">About PRIDE</a></li>
+                  <li><a href="${base}/help/license" class="dropdown-item">License</a></li>
+                  <li><a href="${base}/help/contact" class="dropdown-item">Contact</a></li>
                 </ul>
               </li>
             </ul>
@@ -636,7 +665,7 @@ export class PrideHeader extends HTMLElement {
             <li><a href="${base}/archive/usi">USI</a></li>
 
             <li class="drawer-group">Tools</li>
-            <li><a href="${base}/markdownpage/pridesubmissiontool">Submission tool</a></li>
+            <li><a href="${base}/help/pridesubmissiontool">Submission tool</a></li>
             <li><a href="${base}/archive/affinity-proteomics/qc-report">Affinity QC Report Generator <span class="nav-new-pill">New</span></a></li>
             <li><a href="https://www.ebi.ac.uk/pride/services/pmultiqc/" target="_blank" rel="noopener">pMultiQC</a></li>
             <li><a href="https://www.ebi.ac.uk/pride/ws/archive/v3/webjars/swagger-ui/index.html" target="_blank" rel="noopener">Web service API</a></li>
@@ -644,15 +673,15 @@ export class PrideHeader extends HTMLElement {
             <li><a href="https://www.ebi.ac.uk/pride/services/sdrf-validator" target="_blank" rel="noopener">SDRF validator</a></li>
 
             <li class="drawer-group">Help</li>
-            <li><a href="${base}/markdownpage/documentationpage">Documentation</a></li>
-            <li><a href="${base}/markdownpage/controlledaccess">Controlled-access submissions</a></li>
+            <li><a href="${base}/help/documentationpage">Documentation</a></li>
+            <li><a href="${base}/help/controlledaccess">Controlled-access submissions</a></li>
             <li><a href="${base}/filesspecification">Submission Files Requirements</a></li>
             <li><a href="https://www.ebi.ac.uk/pride/chatbot" target="_blank" rel="noopener">PRIDE Assistant</a></li>
 
             <li class="drawer-group">About</li>
-            <li><a href="${base}/markdownpage/citationpage">About PRIDE</a></li>
-            <li><a href="${base}/markdownpage/license">License</a></li>
-            <li><a href="${base}/markdownpage/contact">Contact</a></li>
+            <li><a href="${base}/help/citationpage">About PRIDE</a></li>
+            <li><a href="${base}/help/license">License</a></li>
+            <li><a href="${base}/help/contact">Contact</a></li>
 
             <li class="drawer-group">Account</li>
             ${!isLoggedIn ? `

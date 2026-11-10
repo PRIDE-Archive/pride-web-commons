@@ -1,14 +1,15 @@
-import { PrideHeader } from './components/pride-header.js'
+import { PrideHeader, redirectLegacyMarkdownUrl } from './components/pride-header.js'
 import { PrideFooter } from './components/pride-footer.js'
 import { PrideChat } from './components/pride-chat.js'
 
-export { PrideHeader, PrideFooter, PrideChat }
+export { PrideHeader, PrideFooter, PrideChat, redirectLegacyMarkdownUrl }
 
 /**
  * Automatically register the Web Components if running in browser
  */
 export function registerPrideWebCommons() {
   if (typeof window !== 'undefined' && 'customElements' in window) {
+    redirectLegacyMarkdownUrl()
     if (!customElements.get('pride-header')) {
       customElements.define('pride-header', PrideHeader)
     }
