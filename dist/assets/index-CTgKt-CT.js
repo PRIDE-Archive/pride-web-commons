@@ -974,7 +974,7 @@ ul#global-nav.menu li.search .show-for-small-only {
       <div>
         <p style="font-size: 16px; font-weight: 600; margin: 4px 0;">
           <strong>A new beta version of the PRIDE Submission Tool is now available!</strong>
-          You can <a href="https://github.com/PRIDE-Archive/px-submission-tool/releases/download/v0.1.4-beta-javafx/px-submission-tool-javafx-latest.zip" target="_blank" style="text-decoration: underline;">download it here</a> and test it.
+          You can <a href="https://github.com/PRIDE-Archive/px-submission-tool/releases/download/v0.1.5-beta-javafx/px-submission-tool-javafx-latest.zip" target="_blank" style="text-decoration: underline;">download it here</a> and test it.
           See the <a href="https://www.ebi.ac.uk/pride/help/pridesubmissiontooljavafx" target="_blank" style="text-decoration: underline;">step-by-step guide</a> for details.
         </p>
       </div>
