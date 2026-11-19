@@ -556,7 +556,7 @@ export class PrideHeader extends HTMLElement {
                   <li><a href="${base}/archive" class="dropdown-item">Datasets</a></li>
                   <li><a href="${base}/archive/affinity-proteomics" class="dropdown-item">Affinity proteomics</a></li>
                   <li><a href="${base}/archive/crosslinking" class="dropdown-item">Crosslinking</a></li>
-                  <li><a href="${base}/archive/SingleCellProteomics" class="dropdown-item">Single-cell Proteomics</a></li>
+                  <li><a href="${base}/archive/single-cell-proteomics" class="dropdown-item">Single-cell Proteomics</a></li>
                   <li><a href="${base}/spectrumlibrary" class="dropdown-item">Spectral libraries</a></li>
                 </ul>
               </li>
