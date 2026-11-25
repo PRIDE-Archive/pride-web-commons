@@ -26,6 +26,15 @@ export function redirectLegacyMarkdownUrl() {
   return false
 }
 
+function escapeHtml(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
 function getSessionStorage(key, fallback = null) {
   try {
     return sessionStorage.getItem(key) ?? fallback
@@ -417,9 +426,11 @@ export class PrideHeader extends HTMLElement {
   }
 
   render() {
-    const base = this.baseUrl
+    const base = escapeHtml(this.baseUrl)
     const sec = this.activeSection
     const user = this.username
+    const safeUser = escapeHtml(user)
+    const safeBgImage = escapeHtml(this.bgImage)
     const isLoggedIn = !!(user && this.token)
 
     this.shadowRoot.innerHTML = `
@@ -504,7 +515,7 @@ export class PrideHeader extends HTMLElement {
       </div>
 
       <!-- 2. PRIDE Main Masthead & Navigation (with background image and alert announcement banner) -->
-      <header class="pride-masthead ${this._isCompact ? 'compact' : ''}" style="background-image: url('${this.bgImage}');">
+      <header class="pride-masthead ${this._isCompact ? 'compact' : ''}" style="background-image: url('${safeBgImage}');">
         <!-- Banner on top of header part matching View UI Plus Alert warning -->
         <div class="pride-banner-container" style="display: ${(this._bannerContent && this._bannerContent.replace(/<[^>]*>/g, '').trim().length > 0) ? 'block' : 'none'};">
           <div class="banner-expanded-wrapper" style="display: ${this._isBannerCollapsed ? 'none' : 'block'};">
@@ -629,7 +640,7 @@ export class PrideHeader extends HTMLElement {
               ` : `
                 <li class="dropdown" id="menu-user">
                   <button type="button" class="dropdown-trigger" aria-haspopup="true">
-                    ${ICONS.person} <span class="account-email">${user}</span> ${ICONS.chevronDown}
+                    ${ICONS.person} <span class="account-email">${safeUser}</span> ${ICONS.chevronDown}
                   </button>
                   <ul class="dropdown-menu">
                     <li><a href="${base}/profile/${encodeURIComponent(user.split('@')[0])}" class="dropdown-item">Profile</a></li>
@@ -690,7 +701,7 @@ export class PrideHeader extends HTMLElement {
               <li><a href="${base}/register">Register</a></li>
             ` : `
               <li><a href="${base}/profile/${encodeURIComponent(user.split('@')[0])}">Profile</a></li>
-              <li><a href="#" class="logout-link">Log out (${user})</a></li>
+              <li><a href="#" class="logout-link">Log out (${safeUser})</a></li>
             `}
           </ul>
         </div>

@@ -21,6 +21,21 @@ const CLOSE_ICON_SVG = `
   </svg>
 `
 
+const DEFAULT_BASE_URL = 'https://www.ebi.ac.uk/pride'
+
+function normalizeHttpUrl(rawUrl, fallback) {
+  if (!rawUrl || typeof rawUrl !== 'string') return fallback
+  try {
+    const parsed = new URL(rawUrl, DEFAULT_BASE_URL)
+    if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+      return parsed.href.replace(/\/+$/, '')
+    }
+  } catch {
+    // Fall through to fallback
+  }
+  return fallback
+}
+
 export class PrideChat extends HTMLElement {
   static get observedAttributes() {
     return ['type', 'base-url', 'src', 'open']
@@ -45,7 +60,7 @@ export class PrideChat extends HTMLElement {
   }
 
   get baseUrl() {
-    return (this.getAttribute('base-url') || 'https://www.ebi.ac.uk/pride').replace(/\/+$/, '')
+    return normalizeHttpUrl(this.getAttribute('base-url'), DEFAULT_BASE_URL)
   }
 
   set baseUrl(val) {
@@ -54,10 +69,11 @@ export class PrideChat extends HTMLElement {
   }
 
   get src() {
+    const fallback = `${this.baseUrl}/chatbot/popup?type=${encodeURIComponent(this.type)}`
     if (this.hasAttribute('src')) {
-      return this.getAttribute('src')
+      return normalizeHttpUrl(this.getAttribute('src'), fallback)
     }
-    return `${this.baseUrl}/chatbot/popup?type=${encodeURIComponent(this.type)}`
+    return fallback
   }
 
   set src(val) {
@@ -155,6 +171,34 @@ export class PrideChat extends HTMLElement {
     }
   }
 
+  _sanitizeHtml(html) {
+    if (typeof document === 'undefined') return ''
+    const template = document.createElement('template')
+    template.innerHTML = html
+    const blockedTags = new Set(['script', 'iframe', 'object', 'embed', 'style', 'link', 'meta', 'base'])
+    const walker = document.createTreeWalker(template.content, NodeFilter.SHOW_ELEMENT)
+    const toRemove = []
+    let node = walker.nextNode()
+    while (node) {
+      if (blockedTags.has(node.tagName.toLowerCase())) {
+        toRemove.push(node)
+      } else {
+        for (const attr of Array.from(node.attributes)) {
+          const name = attr.name.toLowerCase()
+          const val = attr.value.trim().toLowerCase()
+          if (name.startsWith('on') || ((name === 'href' || name === 'src' || name === 'xlink:href') && (val.startsWith('javascript:') || val.startsWith('data:text/html')))) {
+            node.removeAttribute(attr.name)
+          }
+        }
+      }
+      node = walker.nextNode()
+    }
+    for (const el of toRemove) {
+      el.remove()
+    }
+    return template.innerHTML
+  }
+
   _onMessage(e) {
     if (!this._iframeEl) return
     let allowedOrigin = ''
@@ -166,12 +210,12 @@ export class PrideChat extends HTMLElement {
     if (e.origin !== allowedOrigin || e.source !== this._iframeEl.contentWindow) return
     if (!e.data || typeof e.data !== 'object' || e.data.type !== 'relevant' || typeof e.data.content !== 'string') return
     try {
-      localStorage.setItem('content', e.data.content)
+      localStorage.setItem('content', this._sanitizeHtml(e.data.content))
     } catch (err) {
       console.warn('PRIDE Chat: Could not store relevant document content', err)
     }
     const relevantUrl = `${this.baseUrl}/relevant`
-    window.open(relevantUrl, '_blank')
+    window.open(relevantUrl, '_blank', 'noopener')
   }
 
   render() {
